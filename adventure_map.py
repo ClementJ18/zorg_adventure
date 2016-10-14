@@ -6,17 +6,17 @@ import random
 desc13='A small sign hanging above a building made of bricks as opposed to wooden house besides it. \nOne can barely makes out the writing on the sign to read \"Stella\'s potion store\" \nInside there\'s a counter similar to a bar but instead of liquor on the shelf, \nit is filled with numerous bottles of coloured liquids. \n\nBehind the counter stood one girl...'
 player = {'hp':100,'mp':100,'inventory':['900'],'gold':10000}      
 world = {'12':{'type':'1','name':'town'},#type 1 objects are accesible areas
-         '11':{'type':'1','name':'lower town'},
-         '10':{'type':'1','name':'tavern'},
-         '00':{'type':'1','name':'null'},
+         '11':{'type':'1','name':'tavern'},
+         '10':{'type':'1','name':'counter'},
+         '01':{'type':'1','name':'dark tavern corner'},
          '20':{'type':'1','name':'null'},
          '13':{'type':'2','name':'Stella\'s potion store','keeper':'Stella','desc':desc13}, #type 2 objects are shop areas. Key 'inventory' refers to another list of items that store owns
          '02':{'type':'1','name':'null'},
-         '22':{'type':'1','name':'town exit'},
-         '21':{'type':'0','name':'null'},#type 0 objects dubbed 'wall' are inaccesible areas and will bounce player back to previous area
-         '01':{'type':'0','name':'null'},
-         '03':{'type':'0','name':'null'},
-         '23':{'type':'0','name':'null'},
+         '00':{'type':'0','name':'null'},
+         '30':{'type':'0','name':'null'},
+         '31':{'type':'0','name':'null'},
+         '03':{'type':'0','name':'null'},#type 0 objects dubbed 'wall' are inaccesible areas and will bounce player back to previous area
+
          #------------------------town zone----------------------------------
          '32':{'type':'1','name':'plains'},
          '31':{'type':'1','name':'plains-lake intersection'},
@@ -27,6 +27,7 @@ items = {'000':{'type':'0','name':'HPPotion','cost':100,'fx':'000','pow':'1'},#t
          '001':{'type':'0','name':'MPPotion','cost':100,'fx':'001','pow':'1'},
          '100':{'type':'1','name':'Poisoned Dagger','cost':1250,'fx':'100'},#type 1 items are equippable
          '900':{'type':'9','name':'Adventurer\'s license','cost':0}#type 9 items are quest
+         
          }
 shopkeeper = {'Stella':{'intro':'Welcome to Stella\'s potion store ! How may I help you', 'inventory':['000','000','000']}}
 
@@ -72,10 +73,10 @@ def shop(loc):
 
 
 while True:
-    is_valid_direction = False
-    while is_valid_direction == False:
+    is_valid_direction = False# set this to false
+    while is_valid_direction == False:#WHILE it is false
         command=input('go :')#ask what direction
-        is_valid_direction = True
+        is_valid_direction = True #Unless the condition falls into 
         if command == 'north':
             y=int(y)+1
         elif command == 'south':#change coordiante corresponding to the direction you are walking
@@ -86,7 +87,7 @@ while True:
             x=int(x)-1
         else:
             print('invalid direction')
-            is_valid_direction = False
+            is_valid_direction = False 
         newloc=str(x)+str(y)#new location is a string return from move function
     if world[newloc]['type'] == '1':#if type is 1 print location
         print('you are at :',world[newloc]['name'])
@@ -103,6 +104,9 @@ while True:
         y=oldloc[1]
         print('you are back at',world[oldloc]['name'])
     oldloc=str(x)+str(y)#old location
-    
+
+#add ability to move around
+#add the new room types which are only open or close when certain conditions are met
+#add some form of map key which changes depends on the items you have.
     
         
