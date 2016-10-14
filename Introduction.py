@@ -33,6 +33,7 @@ def pick_player_class():
     elif player_class == "game master":
         player_input =input("? ")
         if player_input == "Gandalf":
+            print("Welcome, Game Master.")
             player_inventory.append("Grond, Hammer of the Underworld")
             player_inventory.append("Black Armor of Morgoth")
             player_stats_show()
