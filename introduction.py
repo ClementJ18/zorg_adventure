@@ -8,6 +8,7 @@ def pick_player_class():
         player_inventory.append("Light Armor")
         player_stats["health"]=150
         player_stats["class"]="warrior"
+        player_stats["rage"]=0
         player_stats["mana"]=15
         player_stats["evasion"]=10
         player_stats["level"]=0
@@ -34,7 +35,7 @@ def pick_player_class():
         player_input =input("? ")
         if player_input == "Gandalf":
             print("Welcome, Game Master.")
-            player_inventory.append("Grond, Hammer of the Underworld")
+            player_inventory.append("Grond the Hammer of the Underworld")
             player_inventory.append("Black Armor of Morgoth")
             player_stats_show()
         else:
