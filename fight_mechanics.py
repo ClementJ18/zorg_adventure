@@ -45,7 +45,12 @@ def fight_enemy_goblin():
         damage_dealt = damage_deal()
         current_enemy["health"] = current_enemy["health"] - damage_dealt
         print(damage_dealt)
-        fight_enemy_goblin()
+        if current_enemy["health"] <= 0:
+            print("Well done, you defeated the Golbin.")
+            player_stats["experience"]= player_stats["experience"] + 50
+        else:
+            goblin_counter()
+            fight_enemy_goblin()
         
 
 player_input = input("What enemy? ")
