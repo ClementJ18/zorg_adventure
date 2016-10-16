@@ -1,7 +1,6 @@
 from player import *
 
 def counter_dialogue():
-
 	print("You're at the counter of the Prancing Pony Tavern. The barman asks, 'Can I get you a drink? It'll cost you 2 copper.'")
 	print()
 
@@ -27,12 +26,12 @@ def counter_dialogue():
 				# only charge the player if their health OR mana is depleted
 				# otherwise, print error message
 
-				if player_stats["health"] < max_health or player_stats["mana"] < max_mana:
+				if player_stats["health"] < player_stats["max_health"] or player_stats["mana"] < player_stats["max_mana"]:
 
 					player_stats["money"] = player_stats["money"] - 2
 
-					player_stats["health"] = max_health
-					player_stats["mana"] = max_mana
+					player_stats["health"] = player_stats["max_health"]
+					player_stats["mana"] = player_stats["max_mana"]
 
 					print("You pay 2 copper for a drink. Your health and mana have been fully restored!")
 					print()
@@ -66,3 +65,4 @@ def counter_dialogue():
 			print()
 
 	# return to the Prancing Pony Tavern
+counter_dialogue()
