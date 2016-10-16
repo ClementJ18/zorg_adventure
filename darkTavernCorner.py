@@ -10,7 +10,7 @@ def player_quest1_menu():
     elif player_input == "talk":
         #begin quest 1
         questCounter = questCounter +1
-        print("Welcome",player_stats["name"])
+        print("Welcome",player_stats["name"],". I have been waiting for you. We have much to discuss, seat down the fate of the world depends on you. A great evil has taken control of the land, it is spreading destruction and death through the land but I fear that it's true intent are yet to be revealed. You must help us. Here is some money, you must go to the shop to prepare for battle, an invasion of Golbins has been spotted and it will swarm over the village any time. the men of the village are brave but their hearts waver and their arms are weak.")
     elif player_input == "steal":
         #insta-defeat
         print("\"YOU FOOL!\" Yells the old man, \"You are not worthy of being a hero, die now and curse in vain!\" And with that he melts the flesh off your bones and sends you to meet your maker.")
