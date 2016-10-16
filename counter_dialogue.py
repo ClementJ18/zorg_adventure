@@ -65,4 +65,3 @@ def counter_dialogue():
 			print()
 
 	# return to the Prancing Pony Tavern
-counter_dialogue()
