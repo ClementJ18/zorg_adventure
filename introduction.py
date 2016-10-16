@@ -28,6 +28,7 @@ def pick_player_class():
         player_stats["class"]="rogue"
         player_stats["mana"]=15
         player_stats["evasion"]=40
+        player_stats["arrows"]=2
         player_stats["level"]=0
         player_stats_show()
     elif player_class == "game master":
@@ -51,6 +52,8 @@ def player_stats_show():
     print("You have",player_stats["mana"],"mana points remaining.")
     print("You have",player_stats["experience"],"experience points.")
     print("You have", ', '.join(player_inventory))
+    if player_stats["class"] == "rogue":
+        print("You have",player_stats["arrows"],"arrows remaining.")
     player_ready()
 
 def player_ready():
@@ -85,3 +88,4 @@ print()
 
 
 pick_player_class()
+from plainsRandomEvent import *
