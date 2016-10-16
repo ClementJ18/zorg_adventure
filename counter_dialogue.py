@@ -1,7 +1,7 @@
 from player import *
 
 def counter_dialogue():
-	print("You're at the counter of the Prancing Pony Tavern. The barman asks, 'Can I get you a drink? It'll cost you 2 copper.'")
+	print("You're at the counter of the Prancing Pony Tavern. 'Can I get you a drink?' the barkeeper asks. 'It'll cost you 2 copper.'")
 	print()
 
 	# while conversation is active, conversation_over is False
