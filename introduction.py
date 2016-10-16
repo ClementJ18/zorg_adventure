@@ -6,9 +6,11 @@ def pick_player_class():
         player_inventory.append("Sword of Azeroth")
         player_inventory.append("Light Armor")
         player_stats["health"]=150
+        player_stats["max_health"]=150
         player_stats["class"]="warrior"
         player_stats["rage"]=0
         player_stats["mana"]=15
+        player_stats["max_mana"]=15
         player_stats["evasion"]=10
         player_stats["level"]=0
         player_stats_show()
@@ -16,6 +18,7 @@ def pick_player_class():
         player_inventory.append("Magic Staff of Varda")
         player_inventory.append("Robe of Valinor")
         player_stats["health"]=100
+        player_stats["max_health"]=100
         player_stats["class"]="mage"
         player_stats["mana"]=50
         player_stats["evasion"]=10
@@ -25,8 +28,10 @@ def pick_player_class():
         player_inventory.append("Bow of the Galadhrim")
         player_inventory.append("Ranger Cloak")
         player_stats["health"]=100
+        player_stats["max_health"]=100
         player_stats["class"]="rogue"
         player_stats["mana"]=15
+        player_stats["max_mana"]=15
         player_stats["evasion"]=40
         player_stats["arrows"]=2
         player_stats["level"]=0
@@ -76,16 +81,15 @@ player_stats["name"] = input("My name is: ").strip()
 
 print(player_stats["name"],"? That is a name filled with promise of heroic deeds.")
 print("You can pick one of the three classes available. There is:")
-print("NAME                     WARRIOR                  MAGE                  ROGUE")
-print("Specificity              Increased Health         Increased Mana        Evasion")
-print("Weapon                   Sword                    Staff                 Dagger")
-print("Secondary Weapon         Shield                   Magic                 Bow")
-print("Ability                  Damage Boost             Self-Heal             Ranged Attack")
-print("Fuel for Abilities       Rage (dealing and        Mana (potions and     Arrows (looting and")
-print("                         taking damage)           leveling up           buying at shop")
+print("NAME                 |    WARRIOR              |    MAGE               |   ROGUE")
+print("Specificity          |    Increased Health     |    Increased Mana     |   Evasion")
+print("Weapon               |    Sword                |    Staff              |   Dagger")
+print("Secondary Weapon     |    Shield               |    Magic              |   Bow")
+print("Ability              |    Damage Boost         |    Self-Heal          |   Ranged Attack")
+print("Fuel for Abilities   |    Rage (dealing and    |    Mana (potions and  |   Arrows (looting and")
+print("                     |    taking damage)       |    leveling up        |   buying at shop")
 print()
 
 
 pick_player_class()
 player_ready()
-from plainsRandomEvent import *
