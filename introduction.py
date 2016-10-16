@@ -1,5 +1,4 @@
-player_inventory=[]
-player_stats={"name":"Zorg", "class":"Dark Lord of Dorath", "health":500, "mana":200, "experience":0, "level":20, "money":0, "evasion":70}
+from player import *
 
 def pick_player_class():
     player_class = input("I want to be a: ").strip().lower()
