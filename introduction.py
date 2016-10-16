@@ -54,7 +54,6 @@ def player_stats_show():
     print("You have", ', '.join(player_inventory))
     if player_stats["class"] == "rogue":
         print("You have",player_stats["arrows"],"arrows remaining.")
-    player_ready()
 
 def player_ready():
 
@@ -88,4 +87,5 @@ print()
 
 
 pick_player_class()
+player_ready()
 from plainsRandomEvent import *

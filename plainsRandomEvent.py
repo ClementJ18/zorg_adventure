@@ -19,11 +19,13 @@ def player_choice():
         #return to plains 2
     elif player_input == "attack":
         print("You kill the man and loot his box... You monster")
+        print("You gain a health potion and 25 coins.")
         karmaCounter = karmaCounter - 1
         player_stats["money"]= player_stats["money"] +25
         player_inventory.append("health_potion")
         if player_stats["class"] == "rogue":
             player_stats["arrows"] = player_stats["arrows"] + 2
+            print("You gained 2 arrows.")
         #return to plains 2
     else:
         print("Sorry, what?")
