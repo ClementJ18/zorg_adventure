@@ -14,6 +14,7 @@ def player_choice():
         else:
             print("You don't have any potions")
             player_choice()
+            #return to plains 2
     elif player_input == "leave":
         pass
         #return to plains 2
@@ -39,5 +40,3 @@ print(">GIVE the man a potion and bandage his wounds.")
 print(">LEAVE the man be and return west.")
 print(">ATTACK the man and take the loot you see in the box.")
 player_choice()
-print(player_inventory)
-print(player_stats)

@@ -75,21 +75,22 @@ def player_ready():
         print("Sorry, what?")
         player_ready()
 
-print("Welcome to Group 20's text adventure. This is a test of skill, wit and strenght through the land of country_name. You are  young adventurer and have just arrived in this country, you have nothing but your courage and brains and will have to battle monsters, rescue citizens in distress and oppose all evil. But be weary, for evil breeds evil and deeds unworthy of heroes will be punished.")
+print("Welcome to Group 20's text adventure. This is a test of skill, wit and strenght through the land of country_name. You are young adventurer and have just arrived in this country, you have nothing but your courage and brains and will, to battle monsters, rescue citizens in distress and oppose all evil. But be weary, for evil breeds evil and deeds unworthy of heroes will be punished.")
 print("Before we start, what's your name mighty hero?")
 player_stats["name"] = input("My name is: ").strip()
 
 print(player_stats["name"],"? That is a name filled with promise of heroic deeds.")
 print("You can pick one of the three classes available. There is:")
-print("NAME                 |    WARRIOR              |    MAGE               |   ROGUE")
-print("Specificity          |    Increased Health     |    Increased Mana     |   Evasion")
-print("Weapon               |    Sword                |    Staff              |   Dagger")
-print("Secondary Weapon     |    Shield               |    Magic              |   Bow")
-print("Ability              |    Damage Boost         |    Self-Heal          |   Ranged Attack")
-print("Fuel for Abilities   |    Rage (dealing and    |    Mana (potions and  |   Arrows (looting and")
-print("                     |    taking damage)       |    leveling up        |   buying at shop")
+print("NAME                 |    WARRIOR              |    MAGE                |   ROGUE")
+print("Specificity          |    Increased Health     |    Increased Mana      |   Evasion")
+print("Weapon               |    Sword                |    Staff               |   Dagger")
+print("Secondary Weapon     |    Shield               |    Magic               |   Bow")
+print("Ability              |    Damage Boost         |    Self-Heal, Fireball |   Ranged Attack")
+print("Fuel for Abilities   |    Rage (dealing and    |    Mana (potions and   |   Arrows (looting and")
+print("                     |    taking damage)       |    leveling up)        |   buying at shop)")
 print()
 
 
 pick_player_class()
 player_ready()
+from adventure_map import *
