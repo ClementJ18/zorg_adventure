@@ -1,7 +1,6 @@
 from player import *
 
 def re_forest_encounter_1():
-
 	print("""
 	You come across an old man sat at the base of a tree. Noticing your presence, he slowly turns his head and looks up at you, \
 	but his gaze appears unfocused. 'My boy,' he says. I've been lost in these woods for days and I'm parched. Won't you go to \
@@ -10,7 +9,6 @@ def re_forest_encounter_1():
 	print()
 
 	while True:
-
 		print("You can:")
 		print("AGREE to help the old man")
 		print("REFUSE to help the old man")
@@ -18,13 +16,11 @@ def re_forest_encounter_1():
 		player_input = input(">").strip().lower()
 
 		if player_input == "AGREE":
-
 			sidequestCounter = 1
 
 			# transport player back to Eryn Vanwë
 
 		elif player_input == "DECLINE":
-
 			karmaCounter = karmaCounter - 1
 
 			print("You turn your back on the old man and start to walk away. 'Please,' he wheezes, but you are already out of sight.")
@@ -37,12 +33,10 @@ def re_forest_encounter_1():
 			print("Sorry, what?")
 
 def re_forest_encounter_2():
-
 	print("The old man leans against the tree with closed eyes, breathing weakly.")
 	print()
 
 	while True:
-
 		print("You can:")
 		if pail in player_inventory:
 			print("OFFER the old man water")
@@ -51,7 +45,6 @@ def re_forest_encounter_2():
 		player_input = input(">").strip().lower()
 
 		if player_input == "offer" and pail in player_inventory:
-
 			player_inventory.remove(pail)
 
 			karmaCounter = karmaCounter + 1
@@ -82,7 +75,7 @@ def re_forest_encounter_2():
 
 		player_inventory.append(pail)
 
-	# return player to 
+	# print available exits (and farm description?) again
 
 
 """
