@@ -156,14 +156,16 @@ while True:
         y=oldloc[1]
         print('you are back at',world[oldloc]['name'])
         
-    elif world[newloc]['type'] == '3':
+    elif world[newloc]['type'] == '3': #type 3 areas are areas which events MAY happen
         print('you are at :',world[newloc]['name'])
-        if world[newloc]['event'] == True:
+        if world[newloc]['event'] == True:#type 3 area will triggers the event at its location IF the event key is true
             event(newloc)
         else:
-            print('Apart from that there is nothing out of ordinary. Perhaps come back later ?')
-    
-    elif world[newloc]['type'] == '4':
+            print('Apart from that there is nothing out of ordinary. Perhaps come back later ?') #Else, it give you a hint that something could happen here.
+#note that the fuction event() may also be modified to allow movement in previously forbidden direction to create a "gate" that will open
+#after certain condition are met which is probably important for random events although I have a simpler solution to that...
+
+    elif world[newloc]['type'] == '4':#future expansion...? 
 
         pass
             
