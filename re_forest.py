@@ -71,6 +71,21 @@ def re_forest_encounter_2():
 		else:
 			print("Sorry, what?")
 
+"""
+
+	if sidequestCounter == 1:
+		print("You see a well. An empty metal bucket sits beside it.")
+
+		print("FILL the bucket")
+
+	if player_input == "FILL" and sidequestCounter == 1:
+
+		player_inventory.append(pail)
+
+	# return player to 
+
+
+"""
 
 
 
