@@ -93,4 +93,7 @@ print()
 
 pick_player_class()
 player_ready()
+
+print("===TOWN===")
+print("The Town is embellished with cobbled and paved streets, there are also a number of natural baths. There are a mixture of victorian townhouses and there are a mix of semi-detached and detached houses. The shop is located in the North, the Plains of Lithlad in the East and the Tavern in the South. What would you like to do?")
 from adventure_map import *
