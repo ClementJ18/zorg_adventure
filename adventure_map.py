@@ -12,35 +12,35 @@ import random
 
 desc={'13':'A small sign hanging above a building made of bricks as opposed to wooden house besides it. \nOne can barely makes out the writing on the sign to read \"Stella\'s potion store\" \nInside there\'s a counter similar to a bar but instead of liquor on the shelf, \nit is filled with numerous bottles of coloured liquids. \n\nBehind the counter stood one girl...',
      '11':'You are in the Prancing Pony Tavern. The atmosphere is what you\'d expect; loud, lively and with a sense of familiarity. You observe the area and see people drinking in one corner. In another area there are a couple of men who look as if they\'re about to fight. You see a picture of creature on the wall, it appears the townfolk want it dead as its eating their cattle. You see the barman south of you at the counter having a drink himself. You notice a dark corner west of you, where there is a hooded figure with his head down.  What would you like to do?',
-     '12':'The Town is embellished with cobbled and paved streets, there are also a number of natural baths. There are a mixture of victorian townhouses and there are a mix of semi-detached and detached houses. The shop is located in the North, the Plains of Lithlad in the East and the Tavern in the South.',
+     '12':'The Town is embellished with cobbled and paved streets, there are also a number of natural baths. There are a mixture of victorian townhouses and there are a mix of semi-detached and detached houses. The shop is located in the North, the Plains of Lithlad in the East and the Tavern in the South. What would you like to do?',
      '10':'You stand in front of the table where the hooded figures is looking upon an ancient book. He doesn’t seem to have noticed you. What would you like to do?',
      '22':'You arrive upon a grassy plain, before you miles of grass can be seen waving in the mild breeze that gently flows eastward. The sun shines timidly bathing the plains in light and in the distance you can see a lake reflecting it. Behind you the town stands, a bit of black smoke rising it from it due to the recent goblin invasion. Further north you can see that the flat plain becomes slightly hilly. What would you like to do?',
      '23':'A grassy valley spreads out in front of you, bushes grow around the prominent rocks and small animals scurry all around the place. In the north you can see the valley rising and melding into mountains covered in forest with a farm at its base. Towards the east a terrible black gate blocks the way, patrolled by goblin archers and trolls. In the south the plains flatten down and becomes a vast land of grass. What would you like to do?',
      '21':'You arrive at the Ancient Lake. The lake is very beautiful in the sunlight, large and full of water\'s edge creatures. You can hear the sound of gushing water and presume it\'s the waterfall connected to the lake which is towards the east. The sound is quite odd however, as there is a strange echo. A glistening light catches your gaze, you notice something in the lake. Towards the north, you see luscious grass,  it can only be the Plains of Lithlad. What would you like to do?',
-     '31':'The Cave is particularly large and has humid conditions. The water falls at a fast pace and the water is murky. At the end of the room you can see a magical pendant radiating with power and lighting the room with multicolored beams. As you approach an apparition appears in front of you, challenging to a fight.',
+     '31':'The Cave is particularly large and has humid conditions. The water falls at a fast pace and the water is murky. At the end of the room you can see a magical pendant radiating with power and lighting the room with multicolored beams. As you approach an apparition appears in front of you, challenging to a fight. What would you like to do?',
      '24':'You arrive on a destroyed farm, it has been burnt to the ground and the stones that held the roof have been thrown down. Nothing but ruins remain, the lifeless bodies of the parents are nowhere in sight, either they fled or were devoured.',
-     '14':'You are standing in the forest of Eryn Vanwë. Bars of light pierce the canopy of oak and beech, illuminating the glossy leaves of the shrubs below. The odours of damp earth and wild garlic mingle with the smell of the burning farm to the EAST. A dirt trail leads to the NORTH, deeper into the woods and towards a cluster of shabby huts and tents.',
-     '15':'You have found the goblin lair. The goblins’ primitive shelters are in poor shape, with rotting wooden frames covered in brightly-coloured fungi. Inside the huts, you see mouldy blankets, crude blackthorn cudgels, and the carcasses of the farmer’s livestock. A blackened, unplucked chicken burns over a campfire. The forest trail leads SOUTH, out of the lair.',
+     '14':'You are standing in the forest of Eryn Vanwë. Bars of light pierce the canopy of oak and beech, illuminating the glossy leaves of the shrubs below. The odours of damp earth and wild garlic mingle with the smell of the burning farm to the EAST. A dirt trail leads to the NORTH, deeper into the woods and towards a cluster of shabby huts and tents. What would you like to do?',
+     '15':'You have found the goblin lair. The goblins’ primitive shelters are in poor shape, with rotting wooden frames covered in brightly-coloured fungi. Inside the huts, you see mouldy blankets, crude blackthorn cudgels, and the carcasses of the farmer’s livestock. A blackened, unplucked chicken burns over a campfire. The forest trail leads SOUTH, out of the lair. What would you like to do?',
      }
 player = {'inventory':['900','000'],'gold':10000}      
-world = {'01':{'type':'3','name':'Tavern : Dark corner','FD':['west','south','north'],'event':True},         
-         '10':{'type':'4','name':'Tavern : Counter','FD':['east','south','west']},         
-         '11':{'type':'1','name':'The prancing pony tavern','FD':['east']},
-         '12':{'type':'1','name':'Town','FD':[''],'desc':''},
-         '13':{'type':'2','name':'Stella\'s potion store','keeper':'Stella', 'FD':['east','north','west']},
+world = {'01':{'type':'3','name':'DARK TAVERN CORNER','FD':['west','south','north'],'event':True},         
+         '10':{'type':'4','name':'TAVERN COUNTER','FD':['east','south','west']},         
+         '11':{'type':'1','name':'THE PRANCING PONY TAVERN','FD':['east']},
+         '12':{'type':'1','name':'TOWN CENTER','FD':[''],'desc':''},
+         '13':{'type':'2','name':'STELLA\'S POTION SHOP','keeper':'Stella', 'FD':['east','north','west']},
          '00':{'type':'0','name':''},
          '02':{'type':'0','name':''},
          '03':{'type':'0','name':''},
          #------------------------town zone----------------------------------
-         '21':{'type':'1','name':'lake','FD':['west']},
-         '22':{'type':'3','name':'plains','FD':[''],'desc':'','event':False},
-         '23':{'type':'1','name':'moors','FD':['west'],'desc':''},
-         '31':{'type':'1','name':'Artifact room','FD':['east','north','south']},
+         '21':{'type':'1','name':'THE ANCIENT LAKE','FD':['west']},
+         '22':{'type':'3','name':'PLAINS OF LITHLAD','FD':[''],'desc':'','event':False},
+         '23':{'type':'1','name':'MOORS OF THE NIBIN-NOEG','FD':['west'],'desc':''},
+         '31':{'type':'1','name':'ARTIFACT CHAMBER','FD':['east','north','south']},
          '30':{'type':'0','name':''},
          #------------------------plains zone--------------------------------
-         '24':{'type':'3','name':'Ruined Farm','FD':['east','north'],'event':True},
-         '14':{'type':'1','name':'Forest','FD':['south']},
-         '15':{'type':'1','name':'goblin\'s lair','FD':['west','east','north']}
+         '24':{'type':'3','name':'RUINED FARM','FD':['east','north'],'event':True},
+         '14':{'type':'1','name':'ERYN VANWË','FD':['south']},
+         '15':{'type':'1','name':'GOBLIN LAIR','FD':['west','east','north']}
          #------------------------Goblin's territory-------------------------
          }
 #type 0 objects dubbed 'wall' are inaccesible areas and will bounce player back to previous area
@@ -141,20 +141,20 @@ while True:
 #determining the new location^
 #determining actions after reaching new location v        
     if world[newloc]['type'] == '1':#if type is 1 print location
-        print('you are at :',world[newloc]['name'])
+        print("===",world[newloc]['name'],"===")
         print(desc[newloc])        
     elif world[newloc]['type'] == '0':#if type is 0 revert back to old location
         print('You cannot go that way!!')
         x=oldloc[0]
         y=oldloc[1]        
     elif world[newloc]['type'] == '2': #if type is 2 initiate shop subroutine and go back
-        print('you are at2 :',world[newloc]['name'])
+        print("===",world[newloc]['name'],"===")
         shop(newloc)
         x=oldloc[0]
         y=oldloc[1]
-        print('you are back at',world[oldloc]['name'])        
+        print("===",world[newloc]['name'],"===")        
     elif world[newloc]['type'] == '3':
-        print('you are at :',world[newloc]['name'])
+        print("===",world[newloc]['name'],"===")
         if world[newloc]['event'] == True:
             event(newloc)
         else:
