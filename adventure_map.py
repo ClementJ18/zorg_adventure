@@ -1,3 +1,6 @@
+from counter_dialogue import counter_dialogue
+from player import *
+
 x=1
 y=2
 oldloc='12'
@@ -6,24 +9,35 @@ newloc='12'
 event = False
 import random
 
-desc13='A small sign hanging above a building made of bricks as opposed to wooden house besides it. \nOne can barely makes out the writing on the sign to read \"Stella\'s potion store\" \nInside there\'s a counter similar to a bar but instead of liquor on the shelf, \nit is filled with numerous bottles of coloured liquids. \n\nBehind the counter stood one girl...'
+desc={'13':'A small sign hanging above a building made of bricks as opposed to wooden house besides it. \nOne can barely makes out the writing on the sign to read \"Stella\'s potion store\" \nInside there\'s a counter similar to a bar but instead of liquor on the shelf, \nit is filled with numerous bottles of coloured liquids. \n\nBehind the counter stood one girl...',
+     '11':'You are in the Prancing Pony Tavern. The atmosphere is what you\'d expect; loud, lively and with a sense of familiarity. You observe the area and see people drinking in one corner. In another area there are a couple of men who look as if they\'re about to fight. You see a picture of creature on the wall, it appears the townfolk want it dead as its eating their cattle. You see the barman south of you at the counter having a drink himself. You notice a dark corner west of you, where there is a hooded figure with his head down.  What would you like to do?',
+     '12':'The Town is embellished with cobbled and paved streets, there are also a number of natural baths. There are a mixture of victorian townhouses and there are a mix of semi-detached and detached houses. The shop is located in the North, the Plains of Lithlad in the East and the Tavern in the South.',
+     '10':'You stand in front of the table where the hooded figures is looking upon an ancient book. He doesn’t seem to have noticed you. What would you like to do?',
+     '22':'You arrive upon a grassy plain, before you miles of grass can be seen waving in the mild breeze that gently flows eastward. The sun shines timidly bathing the plains in light and in the distance you can see a lake reflecting it. Behind you the town stands, a bit of black smoke rising it from it due to the recent goblin invasion. Further north you can see that the flat plain becomes slightly hilly. What would you like to do?',
+     '23':'A grassy valley spreads out in front of you, bushes grow around the prominent rocks and small animals scurry all around the place. In the north you can see the valley rising and melding into mountains covered in forest with a farm at it’s base. Towards the east a terrible black gate blocks the way, patrolled by goblin archers and trolls. In the south the plains flatten down and becomes a vast land of grass. What would you like to do?',
+     '21':'You arrive at the Ancient Lake. The lake is very beautiful in the sunlight, large and full of water\'s edge creatures. You can hear the sound of gushing water and presume it\'s the waterfall connected to the lake which is towards the east. The sound is quite odd however, as there is a strange echo. A glistening light catches your gaze, you notice something in the lake. Towards the north, you see luscious grass,  it can only be the Plains of Lithlad. What would you like to do?',
+     '31':'The Cave is particularly large and has humid conditions. The water falls at a fast pace and the water is murky. At the end of the room you can see a magical pendant radiating with power and lighting the room with multicolored beams. As you approach an apparition appears in front of you, challenging to a fight.',
+     '24':'You arrive on a destroyed farm, it has been burnt to the ground and the stones that held the roof have been thrown down. Nothing but ruins remain, the lifeless bodies of the parents are nowhere in sight, either they fled or were devoured.',
+     '14':'You are standing in the forest of Eryn Vanwë. Bars of light pierce the canopy of oak and beech, illuminating the glossy leaves of the shrubs below. The odours of damp earth and wild garlic mingle with the smell of the burning farm to the EAST. A dirt trail leads to the NORTH, deeper into the woods and towards a cluster of shabby huts and tents.',
+     '15':'You have found the goblin lair. The goblins’ primitive shelters are in poor shape, with rotting wooden frames covered in brightly-coloured fungi. Inside the huts, you see mouldy blankets, crude blackthorn cudgels, and the carcasses of the farmer’s livestock. A blackened, unplucked chicken burns over a campfire. The forest trail leads SOUTH, out of the lair.',
+     }
 player = {'inventory':['900','000'],'gold':10000}      
-world = {'01':{'type':'3','name':'Tavern : Dark corner','FD':['west','south','north'],'event':True},
-         '10':{'type':'1','name':'Tavern : Counter','FD':['east','south','west']},
+world = {'01':{'type':'3','name':'Tavern : Dark corner','FD':['west','south','north'],'event':True},         
+         '10':{'type':'4','name':'Tavern : Counter','FD':['east','south','west']},         
          '11':{'type':'1','name':'The prancing pony tavern','FD':['east']},
-         '12':{'type':'1','name':'Town','FD':['']},
-         '13':{'type':'2','name':'Stella\'s potion store','keeper':'Stella','desc':desc13, 'FD':['east','north','west']},
+         '12':{'type':'1','name':'Town','FD':[''],'desc':''},
+         '13':{'type':'2','name':'Stella\'s potion store','keeper':'Stella', 'FD':['east','north','west']},
          '00':{'type':'0','name':''},
          '02':{'type':'0','name':''},
          '03':{'type':'0','name':''},
          #------------------------town zone----------------------------------
          '21':{'type':'1','name':'lake','FD':['west']},
-         '22':{'type':'3','name':'plains','FD':[''],'event':False},
-         '23':{'type':'1','name':'moors','FD':['west']},
+         '22':{'type':'3','name':'plains','FD':[''],'desc':'','event':False},
+         '23':{'type':'1','name':'moors','FD':['west'],'desc':''},
          '31':{'type':'1','name':'Artifact room','FD':['east','north','south']},
          '30':{'type':'0','name':''},
          #------------------------plains zone--------------------------------
-         '24':{'type':'1','name':'Ruined Farm','FD':['east','north']},
+         '24':{'type':'3','name':'Ruined Farm','FD':['east','north'],'event':True},
          '14':{'type':'1','name':'Forest','FD':['south']},
          '15':{'type':'1','name':'goblin\'s lair','FD':['west','east','north']}
          #------------------------Goblin's territory-------------------------
@@ -34,16 +48,13 @@ world = {'01':{'type':'3','name':'Tavern : Dark corner','FD':['west','south','no
 items = {'000':{'id':'000','type':'0','name':'HPPotion','cost':100,'fx':'000','pow':'1'},#type 0 items are potions
          '001':{'id':'001','type':'0','name':'MPPotion','cost':100,'fx':'001','pow':'1'},
          '100':{'type':'1','name':'Poisoned Dagger','cost':1250,'fx':'100'},#type 1 items are equippable
-         '900':{'type':'9','name':'Adventurer\'s license','cost':0}#type 9 items are quest
-         
+         '900':{'type':'9','name':'Adventurer\'s license','cost':0}#type 9 items are quest         
          }
 shopkeeper = {'Stella':{'intro':'Welcome to Stella\'s potion store ! How may I help you', 'inventory':['000','000','000']}}
-
-
 def shop(loc):
     keeper = world[loc]['keeper'] #The shopkeeper variable contains the keeper of that shop
     print('owner :',keeper)
-    print(world[loc]['desc'])
+    print(desc[loc])
     print('')
     print(keeper,':',shopkeeper[keeper]['intro']) #Print the intro of that shopkeeper
     print('Here\'s a list of avaliable items :')
@@ -55,14 +66,13 @@ def shop(loc):
     is_valid_transaction = False
     print('you have',player['gold'],'remaining')
     print()
-    while is_valid_transaction == False: #Loop until is_valid_transaction is true
-        
+    while is_valid_transaction == False: #Loop until is_valid_transaction is true        
         print('type item name to buy')
         buy = input('buy')
         if buy not in shopkeeper[keeper]['inventory']:
             print('item not in stock')
         elif buy in shopkeeper[keeper]['inventory']:
-            player['inventory'].append(shopkeeper[keeper]['inventory'].pop(shopkeeper[keeper]['inventory'].index(buy)))
+            player_inventory.append(shopkeeper[keeper]['inventory'].pop(shopkeeper[keeper]['inventory'].index(buy)))
             # x.appends() adds item to list x.pop(i) removes items of index i from list and return that value x.index returns the index of that item in list
             player['gold'] = player['gold'] - items[buy]['cost']
             print(player['gold'])
@@ -74,11 +84,7 @@ def shop(loc):
             is_valid_transaction = False
         elif player_input == 'no':
             is_valid_transaction = True
- 
-            
-            
-            
-     
+                                          
 def event(loc):
     #This is literally a sample set of event to demonstrate how you can manipulates event triggers by having some action ( like accessing some place ) triggers the other event so it could happen when otherwise nothing will
     #Delete this shit later
@@ -87,9 +93,9 @@ def event(loc):
         print('He states that he is very sick and want a healing potion')
         print('Will you \'GIVE\' the potion to him or \'REFUSE\' to aid him')
         action = input('>')
-        if action == 'GIVE' and player['inventory'].count('000') >= 1:
+        if action == 'GIVE' and player_inventory.count('000') >= 1:
             print('god bless your kind heart')
-            player['inventory'].remove('000')
+            player_inventory.remove('000')
             print('healing potion removed')
             player['gold'] += 50
             print('recieve gold from the old man')
@@ -100,27 +106,23 @@ def event(loc):
         print('You overheard a conversation about an old man stranded outside east of the town')
         print('you thought it is a good idea to go there... perhaps with a healing potion')
         world['22']['event'] = True
+   
+    elif loc == '24':
+        print('ur very angrey at the destroyed farm and wants to fukin kill all de goblin')
     world[loc]['event'] = False #This kills the event trigger so that an event may only happen once unless made happen again.
-        
-        
-        
-    
+            
 while True:
     is_valid_direction = False# set this to false
     if event == True:
         is_valid_direction = True
         
     while is_valid_direction == False:
-        print('you are at1 :',world[str(x)+str(y)]['name'])
         command=input('go :')#ask what direction
         is_valid_direction = True
         if command in world[oldloc]['FD']:
             is_valid_direction = False
-            print(command in world[oldloc]['FD'])
-            print('wrong direction motherfucker')
-            
+            print('wrong direction motherfucker')         
         else:
-        
             if command == 'north':
                 y=int(y)+1
             elif command == 'south':#change coordiante corresponding to the direction you are walking
@@ -134,46 +136,33 @@ while True:
             else:
                 is_valid_direction = False
                 print('invalid direction')
-        print(x,y)
-
         newloc=str(x)+str(y)#newloc is the same as x and y but are just strings
 #determining the new location^
-#determining actions after reaching new location v
-        
+#determining actions after reaching new location v        
     if world[newloc]['type'] == '1':#if type is 1 print location
         print('you are at :',world[newloc]['name'])
-
-        
+        print(desc[newloc])        
     elif world[newloc]['type'] == '0':#if type is 0 revert back to old location
         print('You cannot go that way!!')
         x=oldloc[0]
-        y=oldloc[1]
-        
+        y=oldloc[1]        
     elif world[newloc]['type'] == '2': #if type is 2 initiate shop subroutine and go back
         print('you are at2 :',world[newloc]['name'])
         shop(newloc)
         x=oldloc[0]
         y=oldloc[1]
-        print('you are back at',world[oldloc]['name'])
-        
+        print('you are back at',world[oldloc]['name'])        
     elif world[newloc]['type'] == '3':
         print('you are at :',world[newloc]['name'])
         if world[newloc]['event'] == True:
             event(newloc)
         else:
-            print('Apart from that there is nothing out of ordinary. Perhaps come back later ?')
-    
+            print(desc[newloc])
+            print('Apart from that there is nothing out of ordinary now.')    
     elif world[newloc]['type'] == '4':
-
-        pass
-            
-    
-    
-        
+        counter_dialogue()                            
     oldloc=str(x)+str(y)#old location
-
-#add ability to move around
 #add the new room types which are only open or close when certain conditions are met
-#add some form of map key which changes depends on the items you have.
+
     
         
