@@ -4,11 +4,7 @@ def counter_dialogue():
 	print("You're at the counter of the Prancing Pony Tavern. 'Can I get you a drink?' the barkeeper asks. 'It'll cost you 2 copper.'")
 	print()
 
-	# while conversation is active, conversation_over is False
-	# conversation loops until valid input is provided
-	conversation_over = False
-
-	while conversation_over == False:
+	while True:
 
 		print("You can:")
 		print("BUY a drink to fully restore your health and mana")
@@ -46,7 +42,7 @@ def counter_dialogue():
 				print("'You don't have enough copper! Come back once you have more.'")
 				print()
 
-			conversation_over = True
+			break
 
 		elif player_input == "decline":
 
@@ -55,7 +51,7 @@ def counter_dialogue():
 			print("You politely decline a drink.")
 			print()
 		
-			conversation_over = True
+			break
 
 		else:
 
