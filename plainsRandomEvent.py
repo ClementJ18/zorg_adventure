@@ -32,7 +32,7 @@ def player_choice():
         print("Sorry, what?")
         player_choice()
 
-print("===Plains of Karma===")
+print("===PLAINS OF KARMA==")
 print("You see a caravan that has been attacked, around it lay many dead bodies both goblins and bodies of men. One man still lives, he is resting against a box, his sword lay by him and his back turned to you. You can see arrows, potions and money in the boxes.")
 print()
 print("You can:")
