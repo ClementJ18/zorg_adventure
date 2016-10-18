@@ -11,7 +11,7 @@ newloc='12'
 event = False
 import random
 
-desc={'13':'A small sign hanging above a building made of bricks as opposed to wooden house besides it. \nOne can barely makes out the writing on the sign to read \"Stella\'s potion store\" \nInside there\'s a counter similar to a bar but instead of liquor on the shelf, \nit is filled with numerous bottles of coloured liquids. \n\nBehind the counter stood one girl...',
+desc={'13':'A small sign hanging above a building made of bricks as opposed to wooden house besides it. \nOne can barely makes out the writing on the sign to read \"Stella\'s potion store\" \nInside there\'s a counter similar to a bar but instead of liquor on the shelf, \nit is filled with numerous bottles of coloured liquids. \n\nBehind the counter stood one girl... ',
      '11':'You are in the Prancing Pony Tavern. The atmosphere is what you\'d expect; loud, lively and with a sense of familiarity. You observe the area and see people drinking in one corner. In another area there are a couple of men who look as if they\'re about to fight. You see a picture of creature on the wall, it appears the townfolk want it dead as its eating their cattle. You see the barman south of you at the counter having a drink himself. You notice a dark corner west of you, where there is a hooded figure with his head down.  What would you like to do?',
      '12':'The Town is embellished with cobbled and paved streets, there are also a number of natural baths. There are a mixture of victorian townhouses and there are a mix of semi-detached and detached houses. The shop is located in the North, the Plains of Lithlad in the East and the Tavern in the South. What would you like to do?',
      '10':'You stand in front of the table where the hooded figures is looking upon an ancient book. He doesn’t seem to have noticed you. What would you like to do?',
@@ -41,7 +41,7 @@ world = {'01':{'type':'3','name':'DARK TAVERN CORNER','FD':['west','south','nort
          '30':{'type':'0','name':''},
          #------------------------plains zone--------------------------------
          '24':{'type':'3','name':'RUINED FARM','FD':['east','north'],'event':True},
-         '14':{'type':'1','name':'ERYN VANWË','FD':['south']},
+         '14':{'type':'1','name':'ERYN VANWË','FD':['south','west']},
          '15':{'type':'1','name':'GOBLIN LAIR','FD':['west','east','north']}
          #------------------------Goblin's territory-------------------------
          }
@@ -53,7 +53,10 @@ items = {'000':{'id':'000','type':'0','name':'HPPotion','cost':100,'fx':'000','p
          '100':{'type':'1','name':'Poisoned Dagger','cost':1250,'fx':'100'},#type 1 items are equippable
          '900':{'type':'9','name':'Adventurer\'s license','cost':0}#type 9 items are quest         
          }
-shopkeeper = {'Stella':{'intro':'Welcome to Stella\'s potion store ! How may I help you', 'inventory':['000','000','000']}}
+shopkeeper = {'Stella':{'intro':'Welcome to Stella\'s potion store ! How may I help you \nI can get you a list of item in stock you could \'buy\' or can I help you with something\'else\'.',
+                        'inventory':['000','000','000']},
+                        'else':'beep boop im a robot'
+                       }
 def compass(loc): #some form of debugging tool (maybe have this in the game as well ?)which shows where are the exits because SCREW the exit dictionary i mean holy shit i'm not gonna spend hours filling out the exit dictionary like the game template that thing is confusing.
     print(loc)
     cx = int(loc[0])
@@ -77,15 +80,21 @@ def shop(loc):
     print(desc[loc])
     print('')
     print(keeper,':',shopkeeper[keeper]['intro']) #Print the intro of that shopkeeper
-    print('Here\'s a list of avaliable items :')
-    print()
-    for items_on_sale in shopkeeper[keeper]['inventory']: #Iterate through all items in the shopkeeper's inventory
-        print(items_on_sale)
-    print('what do you want to buy ?')
-    print()
-    is_valid_transaction = False
-    print('you have',player['gold'],'remaining')
-    print()
+
+    act = input('')
+    if act == 'yes':
+        is_valid_transaction = False
+        print('Here\'s a list of avaliable items :')
+        print()
+        for items_on_sale in shopkeeper[keeper]['inventory']: #Iterate through all items in the shopkeeper's inventory
+            print(items_on_sale)
+        print('what do you want to buy ?')
+        print()
+        print('you have',player['gold'],'remaining')
+        print()
+    elif act == 'else':
+        is_valid_transaction = True
+    
     while is_valid_transaction == False: #Loop until is_valid_transaction is true        
         print('type item name to buy')
         buy = input('buy')
