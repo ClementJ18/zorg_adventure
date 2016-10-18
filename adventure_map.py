@@ -3,6 +3,7 @@ from counter_dialogue import counter_dialogue
 from player import *
 from introduction import *
 from LakeRandomEvent import lakeRandomEvent
+from plainsRandomEvent import plainsRandomEvent
 
 
 x=1
@@ -121,30 +122,19 @@ def event(loc):
     #This is literally a sample set of event to demonstrate how you can manipulates event triggers by having some action ( like accessing some place ) triggers the other event so it could happen when otherwise nothing will
     #Delete this shit later
     if loc == '22': #accessing plains after visiting the dark tavern corner will made the old man showed up
-        print('You have encountered an old man')
-        print('He states that he is very sick and want a healing potion')
-        print('Will you \'GIVE\' the potion to him or \'REFUSE\' to aid him')
-        action = input('>')
-        if action == 'GIVE' and player_inventory.count('000') >= 1:
-            print('god bless your kind heart')
-            player_inventory.remove('000')
-            print('healing potion removed')
-            player['gold'] += 50
-            print('recieve gold from the old man')
-            print(player['gold'])
-        elif action == 'REFUSE':
-            print('the old man simply walks away')
-    elif loc == '01': #accessing dark tavern corner first time triggers the event at plains so the old man appears
-        print('You overheard a conversation about an old man stranded outside east of the town')
-        print('you thought it is a good idea to go there... perhaps with a healing potion')
-        world['22']['event'] = True
+    
+        plainsRandomEvent()
    
     elif loc == '24':
         print('ur very angrey at the destroyed farm and wants to fukin kill all de goblin')
     
     elif loc == '21': #ancient lake trigger
         lakeRandomEvent()
+    
+    elif loc == '14':
+        re_forest_encounter_1()
     world[loc]['event'] = False #This kills the event trigger so that an event may only happen once unless made happen again.
+
         
 while True:
     is_valid_direction = False# set this to false
