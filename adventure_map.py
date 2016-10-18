@@ -130,7 +130,11 @@ def event(loc):
     
     elif loc == '21': #ancient lake trigger
         lakeRandomEvent()
+    
+    elif loc == '14':
+        re_forest_encounter_1()
     world[loc]['event'] = False #This kills the event trigger so that an event may only happen once unless made happen again.
+
         
 while True:
     is_valid_direction = False# set this to false
