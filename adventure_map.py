@@ -129,7 +129,7 @@ def event(loc):
         world['22']['event'] = True
    
     elif loc == '24':
-        print('ur very angrey at the destroyed farm and wants to fukin kill all de goblin')
+        print('As you approach the farm you see it was destoryed and burnt by a golbin raid, anger takes control of your mind and you swear upon the old and the new gods to destroy the golbin lair situated north-west of the farm.')
     world[loc]['event'] = False #This kills the event trigger so that an event may only happen once unless made happen again.
             
 while True:
