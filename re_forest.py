@@ -1,6 +1,7 @@
 from player import *
 
 def re_forest_encounter_1():
+        global forestCounter
 	print("""
 	You come across an old man sat at the base of a tree. Noticing your presence, he slowly turns his head and looks up at you, \
 	but his gaze appears unfocused. 'My boy,' he says. I've been lost in these woods for days and I'm parched. Won't you go to \
@@ -17,12 +18,12 @@ def re_forest_encounter_1():
 
 		if player_input == "AGREE":
 			forestCounter = 1
-
+                        break
 			# transport player back to Eryn Vanwë
 
 		elif player_input == "DECLINE":
 			karmaCounter = karmaCounter - 1
-
+                        forestCounter = 2
 			print("You turn your back on the old man and start to walk away. 'Please,' he wheezes, but you are already out of sight.")
 
 			# transport player back to Eryn Vanwë
@@ -35,7 +36,7 @@ def re_forest_encounter_1():
 def re_forest_encounter_2():
 	print("The old man leans against the tree with closed eyes, breathing weakly.")
 	print()
-
+        global forestCounter
 	while True:
 		print("You can:")
 		if pail in player_inventory:

@@ -1,4 +1,5 @@
 from player import *
+
 def plainsRandomEvent():
     def player_choice():
         global karmaCounter
@@ -17,6 +18,7 @@ def plainsRandomEvent():
             #return to plains 2
         elif player_input == "leave":
             pass
+            
         #return to plains 2
         elif player_input == "attack":
             print("You kill the man and loot his box... You monster")
@@ -37,6 +39,6 @@ def plainsRandomEvent():
     print()
     print("You can:")
     print(">GIVE the man a potion and bandage his wounds.")
-    print(">LEAVE the man be and return west.")
+    print(">LEAVE the man be.")
     print(">ATTACK the man and take the loot you see in the box.")
     player_choice()

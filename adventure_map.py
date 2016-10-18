@@ -4,6 +4,7 @@ from player import *
 from introduction import *
 from LakeRandomEvent import lakeRandomEvent
 from plainsRandomEvent import plainsRandomEvent
+from gameparser import *
 
 
 x=1
@@ -33,12 +34,12 @@ world = {'01':{'type':'3','name':'DARK TAVERN CORNER','FD':['west','south','nort
          '11':{'type':'1','name':'THE PRANCING PONY TAVERN','FD':['east']},
          '12':{'type':'1','name':'TOWN CENTER','FD':[''],'desc':''},
          '13':{'type':'2','name':'STELLA\'S POTION SHOP','keeper':'Stella', 'FD':['east','north','west']},
-         '00':{'type':'0','name':''},
-         '02':{'type':'0','name':''},
-         '03':{'type':'0','name':''},
+         '00':{'type':'0','name':'Guard wall'},
+         '02':{'type':'0','name':'Guard wall'},
+         '03':{'type':'0','name':'Guard wall'},
          #------------------------town zone----------------------------------
          '21':{'type':'3','name':'THE ANCIENT LAKE','FD':['west','south'],'event':False},
-         '22':{'type':'3','name':'PLAINS OF LITHLAD','FD':[''],'desc':'','event':False},
+         '22':{'type':'3','name':'PLAINS OF LITHLAD','FD':['east'],'desc':'','event':False},
          '23':{'type':'1','name':'MOORS OF THE NIBIN-NOEG','FD':['west'],'desc':''},
          '31':{'type':'1','name':'ARTIFACT CHAMBER','FD':['east','north','south']},
          '30':{'type':'0','name':''},
@@ -61,22 +62,22 @@ shopkeeper = {'Stella':{'intro':'Welcome to Stella\'s potion store ! How may I h
                         'else':'beep boop im a robot'
                        }
 def compass(loc): #some form of debugging tool (maybe have this in the game as well ?)
-    print(loc)
+
     cx = int(loc[0])
     cy = int(loc[1])
     north = str(cx)+str(cy+1)
     south = str(cx)+str(cy-1)
     east = str(cx+1)+str(cy)
     west =str(cx-1)+str(cy)
-    print(north,south,east,west,cx,cy) #don't forget to remove all the pr
+
     if north in world and 'north' not in world[loc]['FD']:
-        print('to north:',world[north]['name'])
+        print('GO NORTH to',world[north]['name'])
     if south in world and 'south' not in world[loc]['FD']:#basically asking if the room in certain direction are EXISTS and accesible or not. 
-        print('to south:',world[south]['name'])
+        print('GO SOUTH to',world[south]['name'])
     if east in world and 'east' not in world[loc]['FD']:
-        print('to east:',world[east]['name'])
+        print('GO EAST to',world[east]['name'])
     if west in world and 'west' not in world[loc]['FD']:
-        print('to west:',world[west]['name'])
+        print('GO WEST to',world[west]['name'])
 def shop(loc):
     keeper = world[loc]['keeper'] #The shopkeeper variable contains the keeper of that shop
     print('owner :',keeper)
@@ -128,8 +129,11 @@ def event(loc):
         if plainCounter == 0:
             plainsRandomEvent()
             plainCounter = 1
+            print('=== THE PLAINS OF LITHLAD ===')
+            print(desc['22'])
         else:
-            pass
+            
+            print(desc['22'])
    
     elif loc == '24':
         print('ur very angrey at the destroyed farm and wants to fukin kill all de goblin')
@@ -149,39 +153,45 @@ def event(loc):
 
         
 while True:
-    is_valid_direction = False# set this to false
+    is_valid_command = False# set this to false
     if event == True:
-        is_valid_direction = True
+        is_valid_command = True
         
-    while is_valid_direction == False:
-        command=input('go :')#ask what direction
-        is_valid_direction = True
-        if command in world[oldloc]['FD']:
-            is_valid_direction = False
-            print('wrong direction motherfucker')         
-        else:
-            if command == 'north':
-                y=int(y)+1
-            elif command == 'south':#change coordiante corresponding to the direction you are walking
-                y=int(y)-1
-            elif command == 'east':
-                x=int(x)+1
-            elif command == 'west':
-                x=int(x)-1
-            elif command == 'where am i':
-                print('at',world[str(x)+str(y)]['name'])
-                is_valid_direction = False
-            elif command == 'compass':
-                compass(str(x)+str(y))
-                is_valid_direction = False
+    while is_valid_command == False:
+        command=normalise_input(input('> '))#ask what direction
+        print(command)
+        is_valid_command = True
+        if len(command) > 1:
+            if command[0] == 'go' and command[1] in world[oldloc]['FD']:
+                is_valid_command = False
+                print('Sorry, wrong direction')         
             else:
-                is_valid_direction = False
+                if command[1] == 'north':
+                    y=int(y)+1
+                elif command[1] == 'south':#change coordiante corresponding to the direction you are walking
+                    y=int(y)-1
+                elif command[1] == 'east':
+                    x=int(x)+1
+                elif command[1] == 'west':
+                    x=int(x)-1
+                elif command == ['where','am','i']:
+                    print('at',world[str(x)+str(y)]['name'])
+                    is_valid_command = False
+                else:
+                    is_valid_command = False
+        else:
+            if command[0] == 'compass':
+                compass(str(x)+str(y))
+                is_valid_command = False
+            else:
+                is_valid_command = False
                 print('invalid direction')
-        newloc=str(x)+str(y)#newloc is the same as x and y but are just strings
+                
+    newloc=str(x)+str(y)#newloc is the same as x and y but are just strings
 #determining the new location^
 #determining actions after reaching new location v
     
-        
+    
     if world[newloc]['type'] == '1':#if type is 1 print location
         print("===",world[newloc]['name'],"===")
         print(desc[newloc])        
@@ -209,6 +219,7 @@ while True:
         x=oldloc[0]
         y=oldloc[1]#OH look, you're back at the tavern ! MAGIC 
         print('you are back at',world[oldloc]['name'])
+    compass(newloc)
         
     oldloc=str(x)+str(y)#old location
 #add the new room types which are only open or close when certain conditions are met
