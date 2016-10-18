@@ -17,7 +17,7 @@ def lakeRandomEvent():
             karmaCounter = karmaCounter - 1
             #Return to Lake
         elif player_input == "do nothing":
-            #return to lake
+            print('you simply ignored it')
         else:
             print("Sorry, what?")
             player_choice2()
@@ -30,7 +30,7 @@ def lakeRandomEvent():
     print(">Do Nothing.")
     player_choice2()
 
-lakeRandomEvent()
+
 
 
 
