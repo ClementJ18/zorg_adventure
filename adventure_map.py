@@ -34,7 +34,7 @@ world = {'01':{'type':'3','name':'DARK TAVERN CORNER','FD':['west','south','nort
          '10':{'type':'4','name':'TAVERN COUNTER','FD':['east','south','west']},         
          '11':{'type':'1','name':'THE PRANCING PONY TAVERN','FD':['east']},
          '12':{'type':'1','name':'TOWN CENTER','FD':[''],'desc':''},
-         '13':{'type':'2','name':'STELLA\'S POTION SHOP','keeper':'Stella', 'FD':['east','north','west']},
+         '13':{'type':'2','name':'STELLA\'S SHOP', 'FD':['east','north','west']},
          '00':{'type':'0','name':'Guard wall'},
          '02':{'type':'0','name':'Guard wall'},
          '03':{'type':'0','name':'Guard wall'},
@@ -76,45 +76,47 @@ def compass(loc): #some form of debugging tool (maybe have this in the game as w
         print('GO EAST to',world[east]['name'])
     if west in world and 'west' not in world[loc]['FD']:
         print('GO WEST to',world[west]['name'])
-def shop(loc):
-    keeper = world[loc]['keeper'] #The shopkeeper variable contains the keeper of that shop
-    print('owner :',keeper)
-    print(desc[loc])
-    print('')
-    print(keeper,':',shopkeeper[keeper]['intro']) #Print the intro of that shopkeeper
 
-    act = input('')
-    if act == 'yes':
-        is_valid_transaction = False
-        print('Here\'s a list of avaliable items :')
-        print()
-        for items_on_sale in shopkeeper[keeper]['inventory']: #Iterate through all items in the shopkeeper's inventory
-            print(items_on_sale)
-        print('what do you want to buy ?')
-        print()
-        print('you have',player['gold'],'remaining')
-        print()
-    elif act == 'else':
-        is_valid_transaction = True
-    
-    while is_valid_transaction == False: #Loop until is_valid_transaction is true        
-        print('type item name to buy')
-        buy = input('buy')
-        if buy not in shopkeeper[keeper]['inventory']:
-            print('item not in stock')
-        elif buy in shopkeeper[keeper]['inventory']:
-            player_inventory.append((index(buy)))
-            # x.appends() adds item to list x.pop(i) removes items of index i from list and return that value x.index returns the index of that item in list
-            player['gold'] = player['gold'] - items[buy]['cost']
-            print(player['gold'])
-        elif buy == 'nothing':
-            print('well that sucks... now get out of my store')
-        print('Would you like to buy some other stuff ? just say \'yes\' or \'no\'')
-        player_input = input('>')
-        if player_input == 'yes':
-            is_valid_transaction = False
-        elif player_input == 'no':
-            is_valid_transaction = True
+def shop():
+
+    print("As you enter the shop owner greets you: \"Welcome to my shop traveller, what can I do for you?\" You look around, on the shelves you can see many items for daily life and food. You can also see many phials of different color but only a couple items truly catch your eye.")
+
+    while True:
+        if player_stats["class"] == "rogue":
+            print("You can:")
+            print("BUY a health potion for 15 coins or an arrow for 5 coins.")
+            print("GO SOUTH to the town.")
+        if player_stats["class"] == "warrior":
+            print("You can:")
+            print("BUY a health potion for 15 coins.")
+            print("GO SOUTH to the town.")
+        if player_stats["class"] == "mage":
+            print("You can:")
+            print("BUY a health potion for 15 coins or a mana potion for 25 coins.")
+            print("GO SOUTH to the town.")
+        else:
+            pass
+        player_input = input(">").lower().strip()
+        if player_input in ["arrow", "buy an arrow", "buy arrow", "an arrow"] and player_stats["class"] == "rogue" and player_stats["money"] >= 3:
+            player_stats["money"] = player_stats["money"] - 3
+            player_stats["arrows"] = player_stats["arrows"] + 1
+            print("Bought an arrow.")
+            print("Would you like to buy anything else?")
+        elif player_input in ["mana", "mana potion", "buy mana potion", "a mana potion"] and player_stats["class"] == "mage" and player_stats["money"] >= 25:
+            player_stats["money"] = player_stats["money"] - 25
+            player_inventory.append("mana_potion")
+            print("Bought a mana potion")
+            print("Would you like to buy anything else?")
+        elif player_input in ["health", "health potion", "buy health potion", "a health potion", "buy a health potion"] and player_stats["money"] >= 15:
+            player_stats["money"] = player_stats["money"] - 15
+            player_inventory.append("health_potion")
+            print("Bought a health potion")
+            print("Would you like to buy anything else?")
+        elif player_input == "go south":
+            break
+        else:
+            print("Either you don't have enough money or the command was not recognized.")
+            shop_input()
 
                                           
 def event(loc):
@@ -144,7 +146,6 @@ def event(loc):
             pass
     
     elif loc == '14':#EVENT 14 ==================================================================
-        print(player_stats["forestCounter"])
         if player_stats["forestCounter"] == 0:
             re_forest_encounter_1()
             
@@ -170,7 +171,6 @@ while True:
         
     while is_valid_command == False:
         command=normalise_input(input('> '))#ask what direction
-        print(command)
         is_valid_command = True
         if len(command) > 1:
             if command[0] == 'go' and command[1] in world[oldloc]['FD']:
@@ -212,10 +212,12 @@ while True:
         y=oldloc[1]        
     elif world[newloc]['type'] == '2': #if type is 2 initiate shop subroutine and go back
         print("===",world[newloc]['name'],"===")
-        shop(newloc)
-        x=oldloc[0]
-        y=oldloc[1]
-        print("===",world[newloc]['name'],"===")        
+        shop() 
+        print("=== TOWN ===")
+        print(desc["12"])
+        newloc='12'
+        x = 1
+        y = 2 
     elif world[newloc]['type'] == '3':
         if random.randint(0,10) < 8:
             world[newloc]['event'] = True
@@ -230,6 +232,16 @@ while True:
         x=oldloc[0]
         y=oldloc[1]#OH look, you're back at the tavern ! MAGIC 
         print('you are back at',world[oldloc]['name'])
+"""    elif world[newloc]['type'] == '5':
+        print name
+        if quest counter = 2:
+            u mad
+            add 1 to quest counter
+        elif forestcounter = 1:
+            pail
+            add 1 to forest counter
+        else 
+            print desc """
     compass(newloc)
         
     oldloc=str(x)+str(y)#old location
