@@ -16,7 +16,7 @@ def re_forest_encounter_1():
 		player_input = input(">").strip().lower()
 
 		if player_input == "AGREE":
-			sidequestCounter = 1
+			forestCounter = 1
 
 			# transport player back to Eryn Vanwë
 
@@ -66,12 +66,12 @@ def re_forest_encounter_2():
 
 """
 
-	if sidequestCounter == 1:
+	if forestCounter == 1:
 		print("You see a well. An empty metal bucket sits beside it.")
 
 		print("FILL the bucket")
 
-	if player_input == "FILL" and sidequestCounter == 1:
+	if player_input == "FILL" and forestCounter == 1:
 
 		player_inventory.append(pail)
 

@@ -119,20 +119,32 @@ def shop(loc):
 
                                           
 def event(loc):
+    global plainCounter
+    global lakeCounter
+    global forestCounter
     #This is literally a sample set of event to demonstrate how you can manipulates event triggers by having some action ( like accessing some place ) triggers the other event so it could happen when otherwise nothing will
     #Delete this shit later
     if loc == '22': #accessing plains after visiting the dark tavern corner will made the old man showed up
-    
-        plainsRandomEvent()
+        if plainCounter == 0:
+            plainsRandomEvent()
+            plainCounter = 1
+        else:
+            pass
    
     elif loc == '24':
         print('ur very angrey at the destroyed farm and wants to fukin kill all de goblin')
     
     elif loc == '21': #ancient lake trigger
-        lakeRandomEvent()
+        if lakeCounter == 0:
+            lakeRandomEvent()
+            lakeCounter = 1
+        else:
+            pass
     
     elif loc == '14':
         re_forest_encounter_1()
+    else:
+        pass
     world[loc]['event'] = False #This kills the event trigger so that an event may only happen once unless made happen again.
 
         
@@ -184,7 +196,7 @@ while True:
         y=oldloc[1]
         print("===",world[newloc]['name'],"===")        
     elif world[newloc]['type'] == '3':
-        if random.randint(0,10) < 7:
+        if random.randint(0,10) < 8:
             world[newloc]['event'] = True
         print("===",world[newloc]['name'],"===")
         if world[newloc]['event'] == True:

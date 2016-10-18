@@ -62,7 +62,7 @@ def player_stats_show():
 
 def player_ready():
 
-    player_input = input("Are you ready, brave warrior? You are about to enter a world of adventure. ").strip().lower()
+    player_input = input("You are about to enter a world of adventure. Are you ready, brave warrior? ").strip().lower()
     if player_input == "yes":
         print("Well then, onwards. --- INITIATING ADVENTURE ---")
         #move to town
