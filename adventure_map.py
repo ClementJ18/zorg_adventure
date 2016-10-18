@@ -9,7 +9,8 @@ newloc='12'
 event = False
 import random
 
-desc={'13':'A small sign hanging above a building made of bricks as opposed to wooden house besides it. \nOne can barely makes out the writing on the sign to read \"Stella\'s potion store\" \nInside there\'s a counter similar to a bar but instead of liquor on the shelf, \nit is filled with numerous bottles of coloured liquids. \n\nBehind the counter stood one girl...',
+desc={'01':'You stand in front of the table where the hooded figures is looking upon an ancient book. He doesn’t seem to have noticed you. What would you like to do?',
+     '13':'A small sign hanging above a building made of bricks as opposed to wooden house besides it. \nOne can barely makes out the writing on the sign to read \"Stella\'s potion store\" \nInside there\'s a counter similar to a bar but instead of liquor on the shelf, \nit is filled with numerous bottles of coloured liquids. \n\nBehind the counter stood one girl...',
      '11':'You are in the Prancing Pony Tavern. The atmosphere is what you\'d expect; loud, lively and with a sense of familiarity. You observe the area and see people drinking in one corner. In another area there are a couple of men who look as if they\'re about to fight. You see a picture of creature on the wall, it appears the townfolk want it dead as its eating their cattle. You see the barman south of you at the counter having a drink himself. You notice a dark corner west of you, where there is a hooded figure with his head down.  What would you like to do?',
      '12':'The Town is embellished with cobbled and paved streets, there are also a number of natural baths. There are a mixture of victorian townhouses and there are a mix of semi-detached and detached houses. The shop is located in the North, the Plains of Lithlad in the East and the Tavern in the South.',
      '10':'You stand in front of the table where the hooded figures is looking upon an ancient book. He doesn’t seem to have noticed you. What would you like to do?',
@@ -27,15 +28,15 @@ world = {'01':{'type':'3','name':'Tavern : Dark corner','FD':['west','south','no
          '11':{'type':'1','name':'The prancing pony tavern','FD':['east']},
          '12':{'type':'1','name':'Town','FD':[''],'desc':''},
          '13':{'type':'2','name':'Stella\'s potion store','keeper':'Stella', 'FD':['east','north','west']},
-         '00':{'type':'0','name':''},
-         '02':{'type':'0','name':''},
-         '03':{'type':'0','name':''},
+         '00':{'type':'0','name':'Guard wall'},
+         '02':{'type':'0','name':'Guard wall'},
+         '03':{'type':'0','name':'Guard wall'},
          #------------------------town zone----------------------------------
          '21':{'type':'1','name':'lake','FD':['west']},
          '22':{'type':'3','name':'plains','FD':[''],'desc':'','event':False},
          '23':{'type':'1','name':'moors','FD':['west'],'desc':''},
          '31':{'type':'1','name':'Artifact room','FD':['east','north','south']},
-         '30':{'type':'0','name':''},
+         '30':{'type':'0','name':'Large cliff'},
          #------------------------plains zone--------------------------------
          '24':{'type':'3','name':'Ruined Farm','FD':['east','north'],'event':True},
          '14':{'type':'1','name':'Forest','FD':['south']},
@@ -45,12 +46,31 @@ world = {'01':{'type':'3','name':'Tavern : Dark corner','FD':['west','south','no
 #type 0 objects dubbed 'wall' are inaccesible areas and will bounce player back to previous area
 #type 1 objects are accesible areas
 #type 2 objects are shop areas. Key 'inventory' refers to another list of items that store owns
+#type 3 rooms are events related areas which interactions with the room may change. please see function event()
 items = {'000':{'id':'000','type':'0','name':'HPPotion','cost':100,'fx':'000','pow':'1'},#type 0 items are potions
          '001':{'id':'001','type':'0','name':'MPPotion','cost':100,'fx':'001','pow':'1'},
          '100':{'type':'1','name':'Poisoned Dagger','cost':1250,'fx':'100'},#type 1 items are equippable
          '900':{'type':'9','name':'Adventurer\'s license','cost':0}#type 9 items are quest         
          }
 shopkeeper = {'Stella':{'intro':'Welcome to Stella\'s potion store ! How may I help you', 'inventory':['000','000','000']}}
+def compass(loc): #some form of debugging tool (maybe have this in the game as well ?)which shows where are the exits because SCREW the exit dictionary i mean holy shit i'm not gonna spend hours filling out the exit dictionary like the game template that thing is confusing.
+    print(loc)
+    cx = int(loc[0])
+    cy = int(loc[1])
+    north = str(cx)+str(cy+1)
+    south = str(cx)+str(cy-1)
+    east = str(cx+1)+str(cy)
+    west =str(cx-1)+str(cy)
+    print(north,south,east,west,cx,cy) #don't forget to remove all the pr
+    if north in world and 'north' not in world[loc]['FD']:
+        print('to north:',world[north]['name'])
+    if south in world and 'south' not in world[loc]['FD']:#basically asking if the room in certain direction are EXISTS and accesible or not. 
+        print('to south:',world[south]['name'])
+    if east in world and 'east' not in world[loc]['FD']:
+        print('to east:',world[east]['name'])
+    if west in world and 'west' not in world[loc]['FD']:
+        print('to west:',world[west]['name'])
+        
 def shop(loc):
     keeper = world[loc]['keeper'] #The shopkeeper variable contains the keeper of that shop
     print('owner :',keeper)
@@ -107,8 +127,8 @@ def event(loc):
         print('you thought it is a good idea to go there... perhaps with a healing potion')
         world['22']['event'] = True
    
-    elif loc == '24':
-        print('ur very angrey at the destroyed farm and wants to fukin kill all de goblin')
+    elif loc == '24':#First time desc in farm when player discovered it was destroyed and wants to kill the goblin who caused it
+        print('ur very angrey at the destroyed farm and wants to fukin kill all de goblin') 
     world[loc]['event'] = False #This kills the event trigger so that an event may only happen once unless made happen again.
             
 while True:
@@ -131,8 +151,11 @@ while True:
                 x=int(x)+1
             elif command == 'west':
                 x=int(x)-1
+            elif command == 'compass':
+                compass(str(x)+str(y))
             elif command == 'where am i':
                 print('at',world[str(x)+str(y)]['name'])
+                is_valid_direction = False
             else:
                 is_valid_direction = False
                 print('invalid direction')
@@ -141,7 +164,7 @@ while True:
 #determining actions after reaching new location v        
     if world[newloc]['type'] == '1':#if type is 1 print location
         print('you are at :',world[newloc]['name'])
-        print(desc[newloc])        
+        print(desc[newloc])
     elif world[newloc]['type'] == '0':#if type is 0 revert back to old location
         print('You cannot go that way!!')
         x=oldloc[0]
@@ -160,7 +183,10 @@ while True:
             print(desc[newloc])
             print('Apart from that there is nothing out of ordinary now.')    
     elif world[newloc]['type'] == '4':
-        counter_dialogue()                            
+        counter_dialogue() #go to counter, get some drink bla bla bla 
+        x=oldloc[0]
+        y=oldloc[1]#OH look, you're back at the tavern ! MAGIC 
+        print('you are back at',world[oldloc]['name'])
     oldloc=str(x)+str(y)#old location
 #add the new room types which are only open or close when certain conditions are met
 
