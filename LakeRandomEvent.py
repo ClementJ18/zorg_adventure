@@ -30,7 +30,10 @@ def lakeRandomEvent():
     print(">Do Nothing.")
     player_choice2()
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> 06ec6e9e2f9f13cca7849b2f4609fbd86d303832
 
