@@ -30,7 +30,7 @@ desc={'13':'A small sign hanging above a building made of bricks as opposed to w
      '15':'You have found the goblin lair. The goblins\' primitive shelters are in poor shape, with rotting wooden frames covered in brightly-coloured fungi. Inside the huts, you see mouldy blankets, crude blackthorn cudgels, and the carcasses of the farmer\'s livestock. A blackened, unplucked chicken burns over a campfire. The forest trail leads SOUTH, out of the lair. What would you like to do?',
      }
 
-world = {'01':{'type':'3','name':'DARK TAVERN CORNER','FD':['west','south','north'],'event':True},         
+world = {'01':{'type':'7','name':'DARK TAVERN CORNER','FD':['west','south','north'],'event':True},         
          '10':{'type':'4','name':'TAVERN COUNTER','FD':['east','south','west']},         
          '11':{'type':'1','name':'THE PRANCING PONY TAVERN','FD':['east']},
          '12':{'type':'1','name':'TOWN CENTER','FD':['west'],'desc':''},
@@ -194,6 +194,13 @@ while True:
             if command[0] == 'compass':
                 compass(str(x)+str(y))
                 is_valid_command = False
+            elif command[0] == 'talk' and x == 0 and y == 1 and questCounter == 0:
+                print("Before you even open your mouth, the hooded figure looks up. 'I have been waiting for you,' he says. 'And we have much to discuss. But first, you must slay the evil that threatens this land. Here is some money. Make for the Plains of Lithlad to the EAST.")
+                player_stats["money"] = 50
+                questCounter = 1
+                newloc = "11"
+                x = 1
+                y = 1
             elif command[0] == 'fill' and x == 2 and y == 4 and player_stats["forestCounter"] == 1:
                 print("You fill the bucket.")
                 player_inventory.append("pail")
@@ -243,8 +250,8 @@ while True:
         newloc = "11"
         x = 1
         y = 1
-        print("=== THE PRANCING PONY TAVERN ===")
-        print(desc["11"])
+        print("===",world[newloc]['name'],"===")
+        print(desc[newloc])
     elif world[newloc]['type'] == '5':
         print("=== RUINED FARM ===")
         print(desc["24"])
@@ -261,6 +268,14 @@ while True:
         print(desc[newloc]) 
         if questCounter == 4:
             print("TAKE the artifact")
+    elif world[newloc]['type'] == '7':
+        print("===",world[newloc]['name'],"===")
+        if questCounter == 0:
+            print("You stand in front of the table where the hooded figure is looking upon an ancient book. He doesn't seem to have noticed you. What would you like to do?")
+            print("TALK to the figure")
+            print("STEAL his book")
+        else:
+            print(desc[newloc])
     compass(newloc)
         
     oldloc=str(x)+str(y)#old location
