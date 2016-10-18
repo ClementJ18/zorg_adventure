@@ -36,7 +36,7 @@ world = {'01':{'type':'3','name':'DARK TAVERN CORNER','FD':['west','south','nort
          '02':{'type':'0','name':''},
          '03':{'type':'0','name':''},
          #------------------------town zone----------------------------------
-         '21':{'type':'3','name':'THE ANCIENT LAKE','FD':['west'],'event':False},
+         '21':{'type':'3','name':'THE ANCIENT LAKE','FD':['west','south'],'event':False},
          '22':{'type':'3','name':'PLAINS OF LITHLAD','FD':[''],'desc':'','event':False},
          '23':{'type':'1','name':'MOORS OF THE NIBIN-NOEG','FD':['west'],'desc':''},
          '31':{'type':'1','name':'ARTIFACT CHAMBER','FD':['east','north','south']},
@@ -143,7 +143,6 @@ def event(loc):
         print('ur very angrey at the destroyed farm and wants to fukin kill all de goblin')
     
     elif loc == '21': #ancient lake trigger
-        print('faint light appear in the distance')
         lakeRandomEvent()
     world[loc]['event'] = False #This kills the event trigger so that an event may only happen once unless made happen again.
         
@@ -195,7 +194,7 @@ while True:
         y=oldloc[1]
         print("===",world[newloc]['name'],"===")        
     elif world[newloc]['type'] == '3':
-        if random.randint(0,10) < 3:
+        if random.randint(0,10) < 7:
             world[newloc]['event'] = True
         print("===",world[newloc]['name'],"===")
         if world[newloc]['event'] == True:
