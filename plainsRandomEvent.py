@@ -17,7 +17,7 @@ def plainsRandomEvent():
                 player_choice()
             #return to plains 2
         elif player_input == "leave":
-            print(desc['22'])
+            pass
             
         #return to plains 2
         elif player_input == "attack":

@@ -62,14 +62,14 @@ shopkeeper = {'Stella':{'intro':'Welcome to Stella\'s potion store ! How may I h
                         'else':'beep boop im a robot'
                        }
 def compass(loc): #some form of debugging tool (maybe have this in the game as well ?)
-    print(loc)
+
     cx = int(loc[0])
     cy = int(loc[1])
     north = str(cx)+str(cy+1)
     south = str(cx)+str(cy-1)
     east = str(cx+1)+str(cy)
     west =str(cx-1)+str(cy)
-    print(north,south,east,west,cx,cy) #don't forget to remove all the pr
+
     if north in world and 'north' not in world[loc]['FD']:
         print('GO NORTH to',world[north]['name'])
     if south in world and 'south' not in world[loc]['FD']:#basically asking if the room in certain direction are EXISTS and accesible or not. 
@@ -129,6 +129,8 @@ def event(loc):
         if plainCounter == 0:
             plainsRandomEvent()
             plainCounter = 1
+            print('=== THE PLAINS OF LITHLAD ===')
+            print(desc['22'])
         else:
             
             print(desc['22'])
@@ -189,7 +191,7 @@ while True:
 #determining the new location^
 #determining actions after reaching new location v
     
-        
+    
     if world[newloc]['type'] == '1':#if type is 1 print location
         print("===",world[newloc]['name'],"===")
         print(desc[newloc])        
@@ -217,6 +219,7 @@ while True:
         x=oldloc[0]
         y=oldloc[1]#OH look, you're back at the tavern ! MAGIC 
         print('you are back at',world[oldloc]['name'])
+    compass(newloc)
         
     oldloc=str(x)+str(y)#old location
 #add the new room types which are only open or close when certain conditions are met
