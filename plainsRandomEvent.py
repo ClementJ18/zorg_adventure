@@ -33,12 +33,13 @@ def plainsRandomEvent():
         else:
             print("Sorry, what?")
             player_choice()
+        print()
 
     print("===PLAINS OF KARMA==")
     print("You see a caravan that has been attacked, around it lay many dead bodies both goblins and bodies of men. One man still lives, he is resting against a box, his sword lay by him and his back turned to you. You can see arrows, potions and money in the boxes.")
     print()
     print("You can:")
-    print(">GIVE the man a potion and bandage his wounds.")
-    print(">LEAVE the man be.")
-    print(">ATTACK the man and take the loot you see in the box.")
+    print("GIVE the man a potion and bandage his wounds.")
+    print("LEAVE the man be.")
+    print("ATTACK the man and take the loot you see in the box.")
     player_choice()

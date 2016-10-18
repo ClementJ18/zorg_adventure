@@ -10,6 +10,7 @@ def counter_dialogue():
 		print("DECLINE the offer and leave the counter")
 
 		player_input = input(">").strip().lower()
+		print()
 
 		if player_input == "buy":
 			# restore the player's health and mana if they have enough money

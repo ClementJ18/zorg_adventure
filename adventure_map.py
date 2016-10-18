@@ -27,13 +27,13 @@ desc={'13':'A small sign hanging above a building made of bricks as opposed to w
      '31':'The Cave is particularly large and has humid conditions. The water falls at a fast pace and the water is murky. At the end of the room you can see a magical pendant radiating with power and lighting the room with multicolored beams. As you approach an apparition appears in front of you, challenging to a fight. What would you like to do?',
      '24':'You arrive on a destroyed farm, it has been burnt to the ground and the stones that held the roof have been thrown down. Nothing but ruins remain, the lifeless bodies of the parents are nowhere in sight, either they fled or were devoured.',
      '14':'You are standing in the forest of Eryn Vanwë. Bars of light pierce the canopy of oak and beech, illuminating the glossy leaves of the shrubs below. The odours of damp earth and wild garlic mingle with the smell of the burning farm to the EAST. A dirt trail leads to the NORTH, deeper into the woods and towards a cluster of shabby huts and tents. What would you like to do?',
-     '15':'You have found the goblin lair. The goblins’ primitive shelters are in poor shape, with rotting wooden frames covered in brightly-coloured fungi. Inside the huts, you see mouldy blankets, crude blackthorn cudgels, and the carcasses of the farmer’s livestock. A blackened, unplucked chicken burns over a campfire. The forest trail leads SOUTH, out of the lair. What would you like to do?',
+     '15':'You have found the goblin lair. The goblins\' primitive shelters are in poor shape, with rotting wooden frames covered in brightly-coloured fungi. Inside the huts, you see mouldy blankets, crude blackthorn cudgels, and the carcasses of the farmer\'s livestock. A blackened, unplucked chicken burns over a campfire. The forest trail leads SOUTH, out of the lair. What would you like to do?',
      }
-player = {'inventory':['900','000'],'gold':10000}      
-world = {'01':{'type':'3','name':'DARK TAVERN CORNER','FD':['west','south','north'],'event':True},         
+
+world = {'01':{'type':'7','name':'DARK TAVERN CORNER','FD':['west','south','north'],'event':True},         
          '10':{'type':'4','name':'TAVERN COUNTER','FD':['east','south','west']},         
          '11':{'type':'1','name':'THE PRANCING PONY TAVERN','FD':['east']},
-         '12':{'type':'1','name':'TOWN CENTER','FD':[''],'desc':''},
+         '12':{'type':'1','name':'TOWN CENTER','FD':['west'],'desc':''},
          '13':{'type':'2','name':'STELLA\'S SHOP', 'FD':['east','north','west']},
          '00':{'type':'0','name':'Guard wall'},
          '02':{'type':'0','name':'Guard wall'},
@@ -41,11 +41,11 @@ world = {'01':{'type':'3','name':'DARK TAVERN CORNER','FD':['west','south','nort
          #------------------------town zone----------------------------------
          '21':{'type':'3','name':'THE ANCIENT LAKE','FD':['west','south'],'event':False},
          '22':{'type':'3','name':'PLAINS OF LITHLAD','FD':['east'],'desc':'','event':False},
-         '23':{'type':'1','name':'MOORS OF THE NIBIN-NOEG','FD':['west'],'desc':''},
-         '31':{'type':'1','name':'ARTIFACT CHAMBER','FD':['east','north','south']},
+         '23':{'type':'1','name':'MOORS OF THE NIBIN-NOEG','FD':['west', 'east'],'desc':''},
+         '31':{'type':'6','name':'ARTIFACT CHAMBER','FD':['east','north','south']},
          '30':{'type':'0','name':''},
          #------------------------plains zone--------------------------------
-         '24':{'type':'3','name':'RUINED FARM','FD':['east','north'],'event':True},
+         '24':{'type':'5','name':'RUINED FARM','FD':['east','north'],'event':True},
          '14':{'type':'3','name':'ERYN VANWË','FD':['south','west'],'event':False},
          '15':{'type':'1','name':'GOBLIN LAIR','FD':['west','east','north']}
          #------------------------Goblin's territory-------------------------
@@ -134,9 +134,6 @@ def event(loc):
         else:
             
             print(desc['22'])
-   
-    elif loc == '24':
-        print('ur very angrey at the destroyed farm and wants to fukin kill all de goblin')
     
     elif loc == '21': #ancient lake trigger
         if lakeCounter == 0:
@@ -154,8 +151,6 @@ def event(loc):
                 re_forest_encounter_2()
             else:
                 print("The old man leans against the tree with closed eyes, breathing weakly. You should get him that water soon.")
-        elif player_stats["forestCounter"] == 2:
-            pass
         else:
             pass
         
@@ -188,21 +183,44 @@ while True:
                 elif command == ['where','am','i']:
                     print('at',world[str(x)+str(y)]['name'])
                     is_valid_command = False
+                elif 'take' in command and x == 3 and y == 1 and questCounter == 4:
+                    print("You take the artifact.")
+                    player_inventory.append("artifact")
+                    questCounter = 5
                 else:
                     is_valid_command = False
+                    print('invalid command')
         else:
             if command[0] == 'compass':
                 compass(str(x)+str(y))
                 is_valid_command = False
+            elif command[0] == 'talk' and x == 0 and y == 1 and questCounter == 0:
+                print("Before you even open your mouth, the hooded figure looks up. 'I have been waiting for you,' he says. 'And we have much to discuss. But first, you must slay the evil that threatens this land. Here is some money. Make for the Plains of Lithlad to the EAST.")
+                player_stats["money"] = 50
+                questCounter = 1
+                newloc = "11"
+                x = 1
+                y = 1
+            elif command[0] == 'fill' and x == 2 and y == 4 and player_stats["forestCounter"] == 1:
+                print("You fill the bucket.")
+                player_inventory.append("pail")
+            elif command[0] == 'take' and x == 3 and y == 1 and questCounter == 4:
+                print("You take the artifact.")
+                player_inventory.append("artifact")
+                questCounter = 5
+            elif command[0] == 'inventory':
+                print(player_inventory)
+            elif command[0] == 'stats':
+                print(player_stats)
             else:
                 is_valid_command = False
-                print('invalid direction')
+                print('invalid command')
                 
     newloc=str(x)+str(y)#newloc is the same as x and y but are just strings
 #determining the new location^
 #determining actions after reaching new location v
     
-    
+    print()
     if world[newloc]['type'] == '1':#if type is 1 print location
         print("===",world[newloc]['name'],"===")
         print(desc[newloc])        
@@ -222,26 +240,42 @@ while True:
         if random.randint(0,10) < 8:
             world[newloc]['event'] = True
         print("===",world[newloc]['name'],"===")
+        print(desc[newloc])
         if world[newloc]['event'] == True:
             event(newloc)
         else:
-            print(desc[newloc])
             print('Apart from that there is nothing out of ordinary now.')    
     elif world[newloc]['type'] == '4':
-        counter_dialogue() #go to counter, get some drink bla bla bla 
-        x=oldloc[0]
-        y=oldloc[1]#OH look, you're back at the tavern ! MAGIC 
-        print('you are back at',world[oldloc]['name'])
-"""    elif world[newloc]['type'] == '5':
-        print name
-        if quest counter = 2:
-            u mad
-            add 1 to quest counter
-        elif forestcounter = 1:
-            pail
-            add 1 to forest counter
-        else 
-            print desc """
+        counter_dialogue() #go to counter, get some drink bla bla bla
+        newloc = "11"
+        x = 1
+        y = 1
+        print("===",world[newloc]['name'],"===")
+        print(desc[newloc])
+    elif world[newloc]['type'] == '5':
+        print("=== RUINED FARM ===")
+        print(desc["24"])
+        if questCounter == 2:
+            print("You are filled with rage and swear to make the goblins pay for their cruelty. You have heard of a lair in the forest to the West.")
+            questCounter = 3
+        elif player_stats["forestCounter"] == 1 and "pail" not in player_inventory:
+            print("You see a well. An empty metal bucket sits beside it.")
+            print("FILL the bucket")
+        else:
+            pass
+    elif world[newloc]['type'] == '6':
+        print("===",world[newloc]['name'],"===")
+        print(desc[newloc]) 
+        if questCounter == 4:
+            print("TAKE the artifact")
+    elif world[newloc]['type'] == '7':
+        print("===",world[newloc]['name'],"===")
+        if questCounter == 0:
+            print("You stand in front of the table where the hooded figure is looking upon an ancient book. He doesn't seem to have noticed you. What would you like to do?")
+            print("TALK to the figure")
+            print("STEAL his book")
+        else:
+            print(desc[newloc])
     compass(newloc)
         
     oldloc=str(x)+str(y)#old location
