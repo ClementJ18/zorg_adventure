@@ -2,6 +2,8 @@
 from counter_dialogue import counter_dialogue
 from player import *
 from introduction import *
+from LakeRandomEvent impo
+
 
 x=1
 y=2
@@ -22,7 +24,7 @@ desc={'13':'A small sign hanging above a building made of bricks as opposed to w
      '31':'The Cave is particularly large and has humid conditions. The water falls at a fast pace and the water is murky. At the end of the room you can see a magical pendant radiating with power and lighting the room with multicolored beams. As you approach an apparition appears in front of you, challenging to a fight. What would you like to do?',
      '24':'You arrive on a destroyed farm, it has been burnt to the ground and the stones that held the roof have been thrown down. Nothing but ruins remain, the lifeless bodies of the parents are nowhere in sight, either they fled or were devoured.',
      '14':'You are standing in the forest of Eryn Vanwë. Bars of light pierce the canopy of oak and beech, illuminating the glossy leaves of the shrubs below. The odours of damp earth and wild garlic mingle with the smell of the burning farm to the EAST. A dirt trail leads to the NORTH, deeper into the woods and towards a cluster of shabby huts and tents. What would you like to do?',
-     '15':'You have found the goblin lair. The goblins\'s primitive shelters are in poor shape, with rotting wooden frames covered in brightly-coloured fungi. Inside the huts, you see mouldy blankets, crude blackthorn cudgels, and the carcasses of the farmer\'s livestock. A blackened, unplucked chicken burns over a campfire. The forest trail leads SOUTH, out of the lair. What would you like to do?',
+     '15':'You have found the goblin lair. The goblins’ primitive shelters are in poor shape, with rotting wooden frames covered in brightly-coloured fungi. Inside the huts, you see mouldy blankets, crude blackthorn cudgels, and the carcasses of the farmer’s livestock. A blackened, unplucked chicken burns over a campfire. The forest trail leads SOUTH, out of the lair. What would you like to do?',
      }
 player = {'inventory':['900','000'],'gold':10000}      
 world = {'01':{'type':'3','name':'DARK TAVERN CORNER','FD':['west','south','north'],'event':True},         
@@ -57,7 +59,7 @@ shopkeeper = {'Stella':{'intro':'Welcome to Stella\'s potion store ! How may I h
                         'inventory':['000','000','000']},
                         'else':'beep boop im a robot'
                        }
-def compass(loc): #some form of debugging tool (maybe have this in the game as well ?)which shows where are the exits because SCREW the exit dictionary i mean holy shit i'm not gonna spend hours filling out the exit dictionary like the game template that thing is confusing.
+def compass(loc): #some form of debugging tool (maybe have this in the game as well ?)
     print(loc)
     cx = int(loc[0])
     cy = int(loc[1])
@@ -138,7 +140,7 @@ def event(loc):
         world['22']['event'] = True
    
     elif loc == '24':
-        print('As you approach the farm you see it was destroyed and burnt by a golbin raid, anger takes control of your mind and you swear upon the old and the new gods to destroy the golbin lair situated north-west of the farm.')
+        print('ur very angrey at the destroyed farm and wants to fukin kill all de goblin')
     world[loc]['event'] = False #This kills the event trigger so that an event may only happen once unless made happen again.
             
 while True:
@@ -151,7 +153,7 @@ while True:
         is_valid_direction = True
         if command in world[oldloc]['FD']:
             is_valid_direction = False
-            print('Sorry, what?')         
+            print('wrong direction motherfucker')         
         else:
             if command == 'north':
                 y=int(y)+1
