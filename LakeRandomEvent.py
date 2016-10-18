@@ -30,7 +30,4 @@ def lakeRandomEvent():
     print(">Do Nothing.")
     player_choice2()
 
-lakeRandomEvent()
-
-
 

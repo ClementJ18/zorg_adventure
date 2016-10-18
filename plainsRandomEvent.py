@@ -1,6 +1,6 @@
 from player import *
-
-def player_choice():
+def plainsRandomEvent():
+    def player_choice():
     global karmaCounter
     potion = "health_potion"
     player_input = input(">").strip().lower()
@@ -32,11 +32,11 @@ def player_choice():
         print("Sorry, what?")
         player_choice()
 
-print("===PLAINS OF KARMA==")
-print("You see a caravan that has been attacked, around it lay many dead bodies both goblins and bodies of men. One man still lives, he is resting against a box, his sword lay by him and his back turned to you. You can see arrows, potions and money in the boxes.")
-print()
-print("You can:")
-print(">GIVE the man a potion and bandage his wounds.")
-print(">LEAVE the man be and return west.")
-print(">ATTACK the man and take the loot you see in the box.")
-player_choice()
+    print("===PLAINS OF KARMA==")
+    print("You see a caravan that has been attacked, around it lay many dead bodies both goblins and bodies of men. One man still lives, he is resting against a box, his sword lay by him and his back turned to you. You can see arrows, potions and money in the boxes.")
+    print()
+    print("You can:")
+    print(">GIVE the man a potion and bandage his wounds.")
+    print(">LEAVE the man be and return west.")
+    print(">ATTACK the man and take the loot you see in the box.")
+    player_choice()
