@@ -5,6 +5,7 @@ from introduction import *
 from LakeRandomEvent import lakeRandomEvent
 from plainsRandomEvent import plainsRandomEvent
 from gameparser import *
+from re_forest import *
 
 
 x=1
@@ -45,20 +46,17 @@ world = {'01':{'type':'3','name':'DARK TAVERN CORNER','FD':['west','south','nort
          '30':{'type':'0','name':''},
          #------------------------plains zone--------------------------------
          '24':{'type':'3','name':'RUINED FARM','FD':['east','north'],'event':True},
-         '14':{'type':'1','name':'ERYN VANWË','FD':['south','west']},
+         '14':{'type':'3','name':'ERYN VANWË','FD':['south','west'],'event':False},
          '15':{'type':'1','name':'GOBLIN LAIR','FD':['west','east','north']}
          #------------------------Goblin's territory-------------------------
          }
 #type 0 objects dubbed 'wall' are inaccesible areas and will bounce player back to previous area
 #type 1 objects are accesible areas
 #type 2 objects are shop areas. Key 'inventory' refers to another list of items that store owns
-items = {'000':{'id':'000','type':'0','name':'HPPotion','cost':100,'fx':'000','pow':'1'},#type 0 items are potions
-         '001':{'id':'001','type':'0','name':'MPPotion','cost':100,'fx':'001','pow':'1'},
-         '100':{'type':'1','name':'Poisoned Dagger','cost':1250,'fx':'100'},#type 1 items are equippable
-         '900':{'type':'9','name':'Adventurer\'s license','cost':0}#type 9 items are quest         
-         }
+
+
 shopkeeper = {'Stella':{'intro':'Welcome to Stella\'s potion store ! How may I help you \nI can get you a list of item in stock you could \'buy\' or can I help you with something\'else\'.',
-                        'inventory':['000','000','000']},
+                        'inventory':['health_potion','mana_potion','arrows']},
                         'else':'beep boop im a robot'
                        }
 def compass(loc): #some form of debugging tool (maybe have this in the game as well ?)
@@ -105,7 +103,7 @@ def shop(loc):
         if buy not in shopkeeper[keeper]['inventory']:
             print('item not in stock')
         elif buy in shopkeeper[keeper]['inventory']:
-            player_inventory.append(shopkeeper[keeper]['inventory'].pop(shopkeeper[keeper]['inventory'].index(buy)))
+            player_inventory.append((index(buy)))
             # x.appends() adds item to list x.pop(i) removes items of index i from list and return that value x.index returns the index of that item in list
             player['gold'] = player['gold'] - items[buy]['cost']
             print(player['gold'])
@@ -145,8 +143,21 @@ def event(loc):
         else:
             pass
     
-    elif loc == '14':
-        re_forest_encounter_1()
+    elif loc == '14':#EVENT 14 ==================================================================
+        print(player_stats["forestCounter"])
+        if player_stats["forestCounter"] == 0:
+            re_forest_encounter_1()
+            
+        elif player_stats["forestCounter"] == 1:
+            if "pail" in player_inventory:
+                re_forest_encounter_2()
+            else:
+                print("The old man leans against the tree with closed eyes, breathing weakly. You should get him that water soon.")
+        elif player_stats["forestCounter"] == 2:
+            pass
+        else:
+            pass
+        
     else:
         pass
     world[loc]['event'] = False #This kills the event trigger so that an event may only happen once unless made happen again.
