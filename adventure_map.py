@@ -42,7 +42,7 @@ world = {'01':{'type':'3','name':'DARK TAVERN CORNER','FD':['west','south','nort
          '21':{'type':'3','name':'THE ANCIENT LAKE','FD':['west','south'],'event':False},
          '22':{'type':'3','name':'PLAINS OF LITHLAD','FD':['east'],'desc':'','event':False},
          '23':{'type':'1','name':'MOORS OF THE NIBIN-NOEG','FD':['west', 'east'],'desc':''},
-         '31':{'type':'1','name':'ARTIFACT CHAMBER','FD':['east','north','south']},
+         '31':{'type':'6','name':'ARTIFACT CHAMBER','FD':['east','north','south']},
          '30':{'type':'0','name':''},
          #------------------------plains zone--------------------------------
          '24':{'type':'5','name':'RUINED FARM','FD':['east','north'],'event':True},
@@ -183,15 +183,28 @@ while True:
                 elif command == ['where','am','i']:
                     print('at',world[str(x)+str(y)]['name'])
                     is_valid_command = False
+                elif 'take' in command and x == 3 and y == 1 and questCounter == 4:
+                    print("You take the artifact.")
+                    player_inventory.append("artifact")
+                    questCounter = 5
                 else:
                     is_valid_command = False
+                    print('invalid command')
         else:
             if command[0] == 'compass':
                 compass(str(x)+str(y))
                 is_valid_command = False
-            elif command[0] == 'fill':
+            elif command[0] == 'fill' and x == 2 and y == 4 and player_stats["forestCounter"] == 1:
                 print("You fill the bucket.")
                 player_inventory.append("pail")
+            elif command[0] == 'take' and x == 3 and y == 1 and questCounter == 4:
+                print("You take the artifact.")
+                player_inventory.append("artifact")
+                questCounter = 5
+            elif command[0] == 'inventory':
+                print(player_inventory)
+            elif command[0] == 'stats':
+                print(player_stats)
             else:
                 is_valid_command = False
                 print('invalid command')
@@ -200,7 +213,7 @@ while True:
 #determining the new location^
 #determining actions after reaching new location v
     
-    
+    print()
     if world[newloc]['type'] == '1':#if type is 1 print location
         print("===",world[newloc]['name'],"===")
         print(desc[newloc])        
@@ -226,10 +239,12 @@ while True:
         else:
             print('Apart from that there is nothing out of ordinary now.')    
     elif world[newloc]['type'] == '4':
-        counter_dialogue() #go to counter, get some drink bla bla bla 
-        x=oldloc[0]
-        y=oldloc[1]#OH look, you're back at the tavern ! MAGIC 
-        print('you are back at',world[oldloc]['name'])
+        counter_dialogue() #go to counter, get some drink bla bla bla
+        newloc = "11"
+        x = 1
+        y = 1
+        print("=== THE PRANCING PONY TAVERN ===")
+        print(desc["11"])
     elif world[newloc]['type'] == '5':
         print("=== RUINED FARM ===")
         print(desc["24"])
@@ -241,6 +256,11 @@ while True:
             print("FILL the bucket")
         else:
             pass
+    elif world[newloc]['type'] == '6':
+        print("===",world[newloc]['name'],"===")
+        print(desc[newloc]) 
+        if questCounter == 4:
+            print("TAKE the artifact")
     compass(newloc)
         
     oldloc=str(x)+str(y)#old location
