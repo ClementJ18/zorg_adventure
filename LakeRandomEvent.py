@@ -17,20 +17,15 @@ def lakeRandomEvent():
             karmaCounter = karmaCounter - 1
             #Return to Lake
         elif player_input == "do nothing":
-            #return to lake
+            print('you simply ignored it')
         else:
             print("Sorry, what?")
             player_choice2()
-    print("===The Ancient Lake===")
-    print("You investigate the source of the light and notice an item in the lake. You are not sure what it could be. However, there appears to be an amphibious creature of some sort resting peacefully beside it.")
+    print("As you arrive on the lake you noticed a shining item, one you had not seen before. As you approach the shore you can see a jewel laying at the bottom of the lake but there is also a menacing shadow.")
     print()
     print("You can:")
     print(">KILL the creature and take the item.")
     print(">TAKE the item without killing the creature.")
-    print(">Do Nothing.")
+    print(">DO Nothing.")
     player_choice2()
-
-lakeRandomEvent()
-
-
 
