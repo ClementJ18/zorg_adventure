@@ -121,7 +121,7 @@ def shop():
             break
         else:
             print("Either you don't have enough money or the command was not recognized.")
-            shop_input()
+            shop()
 
                                           
 def event(loc):
