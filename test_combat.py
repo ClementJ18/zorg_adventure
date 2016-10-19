@@ -41,25 +41,7 @@ foe ={'goblin':{'hp':30,
                      'frozen':False,
                      'poison_active':False,
                      'poison_counter':0,
-                     },
-      'unkillable_boss':{'hp':999999999999999999999,
-                         'mhp':999999999999999999999,
-                         'dmg':35,
-                         'guard':False,
-                         'frozen':False,
-                         'poison_active':False,
-                         'poison_counter':0,
-                         },
-      'final_boss':{'hp':10000000,
-                         'mhp':10000000,
-                         'dmg':200,
-                         'guard':False,
-                         'frozen':False,
-                         'poison_active':False,
-                         'poison_counter':0,
-                         },
-
-
+                     }
       }
 Fround = 1      
 player_inventory.append('health_potion')
@@ -84,26 +66,10 @@ def poisoning(poison_active):
             print('inflicted poison')
             subjects['player']['poison_active'] = True
             subjects['player']['poison_counter'] = Fround + 3
-
-def level_up():
-  global exp_before_next_level
-
-  while player_stats["experience"] >= exp_before_next_level:
-      
-      player_stats["experience"] = player_stats["experience"] - exp_before_next_level
-      
-      player_stats["level"] = player_stats["level"] + 1
-      
-      player_stats["max_health"] = player_stats["max_health"] + 25
-      player_stats["health"] = player_stats["health"] + 25
-      player_stats["max_mana"] = player_stats["max_mana"] + 10
-      player_stats["mana"] = player_stats["mana"] + 10
-      
-      exp_before_next_level = int(1.2 * exp_before_next_level)
-
-      print("You have leveled up! You are now level " + str(player_stats["level"]) + ".")
     
     
+
+
 def poison_damage(poison_active):
 
     if subjects['player']['poison_active'] == True:
@@ -129,10 +95,20 @@ def playerstat_update():#Update playerstat to the local dictionary
 
 def turn(subject):#Function which determines the action that a subjects is going to perform, do not use
     mag=0
-    if player_stats['class'] == 'rogue' and len(bteam)>0:
+    print('Your turn !')
+    if player_stats['class'] == 'warrior':
+        print('You have',subjects['player']['rage'],'rage')
+    elif player_stats['class'] == 'mage':
+        print('You have',subjects['player']['mp'],'mp')
+        
+    elif player_stats['class'] == 'rogue' and len(bteam)>0:
         fire_at=bteam[random.randint(0,len(bteam)-1)]
         act('RAF',subject,fire_at,5+player_stats["level"]*5)
+        print(player_stats["arrows"])
+    
     if subject == 'player':#If the subject is the player, player choose his action. He can use any action with anyone even if it makes no sense
+        print('It is your turn !')
+        
         #eg. attack himself/heal his enemies maybe to allow strategic advantage such as rage build up in warrior
         is_valid_command = False
         while is_valid_command == False:
@@ -174,14 +150,14 @@ def turn(subject):#Function which determines the action that a subjects is going
                     print('something goes wrong')
                     is_valid_command = False
             #CASTER==CASTER==CASTER==CASTER==CASTER==CASTER==CASTER==CASTER==CASTER==
-            elif subject_input[0] == 'cast':
+            elif subject_input[0] == 'cast' and player_stats['class'] == 'mage':
                 try:
                     if subject_input[1] == 'fireball':
                         action = 'fireball'
                         
                         target = subject_input[3]
                         mag = 50
-                    elif subject_input[1] == 'freeze':
+                    elif subject_input[1] == 'freeze' and player_stats['class'] == 'mage':
                         action = 'freeze'
                         
                         target = subject_input[3]
@@ -195,11 +171,11 @@ def turn(subject):#Function which determines the action that a subjects is going
                 mag = 20
         
             #FIGHTER==FIGHTER==FIGHTER==FIGHTER==FIGHTER==FIGHTER==FIGHTER==FIGHTER==
-            elif subject_input[0] == 'guard':
+            elif subject_input[0] == 'guard' and player_stats['class'] == 'warrior':
                 action = 'guard'
                 target = subject
                 mag = player_stats['level']+1
-            elif subject_input[0] == 'strike':
+            elif subject_input[0] == 'strike' and player_stats['class'] == 'warrior':
                 try:
                     action = 'strike'
                     target = subject_input[1]
@@ -255,17 +231,16 @@ def act(act,subject,target,mag):#do not use
     
     if act == 'atk':#IF action is attack, will deal X damage target
         if subjects[target]['guard'] == True:
-
-
             subjects[target]['hp'] -= int(mag*(player_stats['level']/(player_stats['level']+3)))#x-=... and x+=... are equivalent to x=x+... or x=x-... they're just shorter
             subjects[target]['charge'] += mag*player_stats['level']
         else:
             subjects[target]['hp'] -= mag
+        subjects['player']['rage'] += 1
+        print('gained rage !')
     elif act == 'RAF':
         subjects[target]['hp'] -= mag
         print('Fired arrows at',target)
     
-        
         print(target,'lost', mag, 'health',subjects[target]['hp'],'remain')
     elif act == 'strike':
         subjects[target]['hp'] -= mag
@@ -311,7 +286,6 @@ def set_foe(f1,f2,f3,f4,f5):#Update enemies to local dictionary
 def clear_dict():#Very important, delete every single terms in local dictionary, do not use
     delete =[]
     for i in subjects:
-        print(i)
         delete.append(i)
     for i in delete:
         del subjects[i]
@@ -367,13 +341,14 @@ def fight():#Fight module
         player_defeat()
     else:
         print('u win')
-        clear_dict()
         player_stats['health'] = subjects['player']['hp'] 
-        level_up()
+        clear_dict()
+        
+        #givexp
         #give stuff
         
 
             
 
-set_foe(0,0,0,0,'goblin')
+set_foe(0,0,0,'hypergoblin','goblin')
 playerstat_update()
