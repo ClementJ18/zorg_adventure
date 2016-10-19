@@ -1,4 +1,6 @@
 from player import *
+import sys
+
 
 def player_defeat():                                                                                                 
                                                                                                    
@@ -18,3 +20,7 @@ def player_defeat():
     print('It seems you have been defeated. Quite a shame, whether it is true your own choice or the blade of some evil does not change the fact that you have failed. The World of Men burns, Evils unspoken run rampid through the land killing and terrorizing everything. ')
     print("You  were a level " + str(player_stats["level"]), str(player_stats["class"]) + " named " + str(player_stats["name"]) + ".")
     print("You had " + ', '.join(player_inventory) + ".")
+    print()
+    input("Press ENTER to exit.")
+    sys.exit()
+    
