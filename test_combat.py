@@ -41,7 +41,25 @@ foe ={'goblin':{'hp':30,
                      'frozen':False,
                      'poison_active':False,
                      'poison_counter':0,
-                     }
+                     },
+      'unkillable_boss':{'hp':999999999999999999999,
+                         'mhp':999999999999999999999,
+                         'dmg':35,
+                         'guard':False,
+                         'frozen':False,
+                         'poison_active':False,
+                         'poison_counter':0,
+                         },
+      'final_boss':{'hp':10000000,
+                         'mhp':10000000,
+                         'dmg':200,
+                         'guard':False,
+                         'frozen':False,
+                         'poison_active':False,
+                         'poison_counter':0,
+                         },
+
+
       }
 Fround = 1      
 player_inventory.append('health_potion')
