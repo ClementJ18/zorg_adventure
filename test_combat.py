@@ -5,6 +5,7 @@ subjects_list = ['player']
 foe ={'goblin':{'hp':30,'dmg':5},
       'hypergoblin':{'hp':15,'dmg':30},
       'guardian':{'hp':70,'dmg':8},
+      'kirill_the_planet_destroyer':{'hp':99999999,'dmg':99999999}
       }
       
 
@@ -27,6 +28,7 @@ def turn(subject):#Function which determines the action that a subjects is going
     mag=0
     if subject == 'player':#If the subject is the player, player choose his action. He can use any action with anyone even if it makes no sense
         #eg. attack himself/heal his enemies maybe to allow strategic advantage such as rage build up in warrior
+        is_valid_command = False
         while is_valid_command == False:
             is_valid_command = True
             subject_input = (input('(combat)>')).split()#takes a sentence, separate to action - target
@@ -60,8 +62,9 @@ def turn(subject):#Function which determines the action that a subjects is going
                     target = subject_input[1]
                 except:
                     print('no bully program >:(')
+                    is_valid_command = False
 
-            print('use',action,'on',target)#debugging 
+        print('use',action,'on',target)#debugging 
         
         
     elif subject in bteam: #If the subject is the enemies, action also determined by random numbers
@@ -147,10 +150,9 @@ def fight():#Fight module
     else:
         print('u win')
         clear_dict()
+        #givexp
+        #give stuff
             
-playerstat_update()
-set_foe('guardian','goblin','hypergoblin',0,0)
-fight()
                     
                 
             
