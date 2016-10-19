@@ -1,35 +1,68 @@
 import random
-subjects_list = ['player','goblin','mark','gobking']
-rteam = ['player','mark']
-bteam = ['goblin','gobking']
-subjects = {'player':{'hp':100},'goblin':{'hp':30},'mark':{'hp':100},'gobking':{'hp':30}}
-dead=[]
+from player import *
+from player_defeat import player_defeat
+subjects_list = ['player']
+foe ={'goblin':{'hp':30,'dmg':5},
+      'hypergoblin':{'hp':15,'dmg':30},
+      'guardian':{'hp':70,'dmg':8},
+      }
+      
+
+
+bteam = []
+subjects = {'player':{},}
+
+#no need to modify this variable
 global dead
+dead=[]
+
 com_list=['atk','heal']
 sup_com=['heal']
 atk_com=['atk']
+rteam = ['player']
+def playerstat_update():#Update playerstat to the local dictionary
+    subjects['player'].update({'hp':player_stats["health"]+player_stats["level"]*70,'dmg':5+player_stats["level"]*3})
 
-
-def turn(subject):#Function which determines the action that a subjects is going to perform
+def turn(subject):#Function which determines the action that a subjects is going to perform, do not use
+    mag=0
     if subject == 'player':#If the subject is the player, player choose his action. He can use any action with anyone even if it makes no sense
-        #eg. attack his teammates or himself/heal his enemies maybe to allow strategic advantage such as rage build up in warrior
-        subject_input = (input('(combat)>')).split()#takes a sentence, separate to action - target
-        action = subject_input[0]
-        target = subject_input[1]
+        #eg. attack himself/heal his enemies maybe to allow strategic advantage such as rage build up in warrior
+        while is_valid_command == False:
+            is_valid_command = True
+            subject_input = (input('(combat)>')).split()#takes a sentence, separate to action - target
+            if subject_input[0] == 'null':
+                action = 'null'
+                target = 'player'
+            elif subject_input[0] == 'use':
+                try:
+                    potion_use=player_inventory.pop(player_inventory.index(subject_input[1]))
+                    print(potion_use)
+                    if potion_use == 'health_potion':
+                        mag = 50
+                        action = 'heal'
+                        target = 'player'
+                        
+                except:
+                    print('THAT POTION DOES NOT EXIST')
+                    is_valid_command = False
 
-        print('use',action,'on',target)#debugging 
+            elif subject_input[0] == 'atk':
+                try:
+                    action = 'atk'
+                    target = subject_input[1]
+                    mag = subjects[subject]['dmg']
+                except:
+                    print('something goes wrong')
+                    is_valid_command = False
+            else:
+                try:
+                    action = subject_input[0]
+                    target = subject_input[1]
+                except:
+                    print('no bully program >:(')
+
+            print('use',action,'on',target)#debugging 
         
-    elif subject in rteam and subject != 'player':#IF the subject is in your team but not you, the action is determined by random numbers
-        
-        if len(bteam)>0:
-            action = com_list[random.randint(0,1)] #Your teammates determined which skill to use randomly
-        else:
-            action = 'heal'
-        if action in atk_com:#IF the action he uses is a form of attack. . . 
-            target = bteam[random.randint(0,len(bteam)-1)]#He will aim at enemies 
-        elif action in sup_com:#IF the action he uses is a support skill. . .
-            target = rteam[random.randint(0,len(rteam)-1)]#He will use it on his team
-        print('use',action,'on',target)#debugging
         
     elif subject in bteam: #If the subject is the enemies, action also determined by random numbers
         if len(rteam)>0:
@@ -37,29 +70,50 @@ def turn(subject):#Function which determines the action that a subjects is going
         else:
             action = 'heal'
         if action in atk_com:
-            target = rteam[random.randint(0,len(rteam)-1)]
+            mag = subjects[subject]['dmg']
+            target = 'player'
         elif action in sup_com:
+            mag = 5
             target = bteam[random.randint(0,len(bteam)-1)]#Essentially the same as your teammate's behaviour except the enemies will harm you and heal their 
 
         print('use',action,'on',target)#debugging 
     
         
-    act(action,subject,target)#Takes 3 parameters : action(what to do) subject(who do it) and target(do to who ?)
+    act(action,subject,target,mag)#Takes 3 parameters : action(what to do) subject(who do it) and target(do to who ?)
 
 
 
-def act(act,subject,target):
+def act(act,subject,target,mag):#do not use
     
     if act == 'atk':#IF action is attack, will deal X damage target
-        subjects[target]['hp'] -= 5#x-=... and x+=... are equivalent to x=x+... or x=x-... they're just shorter
+        subjects[target]['hp'] -= mag#x-=... and x+=... are equivalent to x=x+... or x=x-... they're just shorter
         print(target,'lost 5 health',subjects[target]['hp'],'remain')
         
     elif act == 'heal':#IF action is heal, will deal X damage target
-        subjects[target]['hp'] += 3
-        print(target,'gain 3 health',subjects[target]['hp'],'remain')
-
-    
+        subjects[target]['hp'] += mag
+        print(target,'gain',mag,'health',subjects[target]['hp'],'remain')
+    if act == 'null':
+        pass
+    else:
+        pass
+def set_foe(f1,f2,f3,f4,f5):#Update enemies to local dictionary
+    foelist=[f1,f2,f3,f4,f5]
+    for i in foelist:
+        if i != 0:
+            subjects.update({i:foe[i]})
+            subjects_list.append(i)
+            bteam.append(i)
+        
+def clear_dict():#Very important, delete every single terms in local dictionary, do not use
+    delete =[]
+    for i in subjects:
+        print(i)
+        delete.append(i)
+    for i in delete:
+        del subjects[i]
+    delete=[]
 def fight():#Fight module
+    
     global dead
     while len(rteam) > 0 and len(bteam) >0:
         
@@ -89,10 +143,14 @@ def fight():#Fight module
             print('rteam',rteam,'bteam',bteam,'subjects',subjects,'subjlist',subjects_list)
     if len(bteam) > 0:
         print('enemies wins')
+        player_defeat()
     else:
         print('u win')
+        clear_dict()
             
-            
+playerstat_update()
+set_foe('guardian','goblin','hypergoblin',0,0)
+fight()
                     
                 
             
