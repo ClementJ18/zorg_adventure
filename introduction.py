@@ -1,4 +1,5 @@
 from player import *
+from name import *
 
 def pick_player_class():
     player_class = input("I want to be a: ").strip().lower()
@@ -75,6 +76,9 @@ def player_ready():
     else:
         print("Sorry, what?")
         player_ready()
+
+intro_screen()
+print()
 
 print("Welcome to Group 20's text adventure. This is a test of skill, wit and strenght through the land of Zorg. You are young adventurer and have just arrived in this country, you have nothing but your courage and brains and will, to battle monsters, rescue citizens in distress and oppose all evil. But be weary, for evil breeds evil and deeds unworthy of heroes will be punished.")
 print("Before we start, what's your name mighty hero?")
