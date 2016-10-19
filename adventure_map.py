@@ -88,6 +88,7 @@ def show_stats():
     print("You are level", str(player_stats["level"]) + ".")
     print("You have",player_stats["health"],"/",player_stats["max_health"],"health.")
     print("You have",player_stats["experience"],"experience points.")
+    print("You have",str(player_stats['money'])+".")
     if player_stats["class"] == "rogue":
         print("You have",player_stats["arrows"],"arrows remaining.")
     elif player_stats["class"] == "mage":
