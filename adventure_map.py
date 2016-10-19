@@ -17,8 +17,8 @@ event = False
 import random
 a = 8
 
-desc={'13':'A small sign hanging above a building made of bricks as opposed to wooden house besides it. \nOne can barely makes out the writing on the sign to read \"Stella\'s potion store\" \nInside there\'s a counter similar to a bar but instead of liquor on the shelf, \nit is filled with numerous bottles of coloured liquids. \n\nBehind the counter stood one girl... ',
-     '11':'You are in the Prancing Pony Tavern. The atmosphere is what you\'d expect; loud, lively and with a sense of familiarity. You observe the area and see people drinking in one corner. In another area there are a couple of men who look as if they\'re about to fight. You see a picture of creature on the wall, it appears the townfolk want it dead as its eating their cattle. You see the barman south of you at the counter having a drink himself. You notice a dark corner west of you, where there is a hooded figure with his head down.  What would you like to do?',
+desc={'13':'A small sign hanging above a building made of bricks as opposed to wooden house besides it. \nOne can barely makes out the writing on the sign to read \"Stella\'s potion store\" \nInside there\'s a counter similar to a bar but instead of liquor on the shelf, \nit is filled with numerous bottles of coloured liquids. \nBehind the counter stood one girl... ',
+     '11':'You are in the Prancing Pony Tavern. The atmosphere is what you\'d expect: loud, lively and with a sense of familiarity. You observe the area and see \npeople drinking in one corner. In another area there are a couple of men who look as if they\'re about to fight. You see a picture of a creature on the \nwall; it appears that the townsfolk want it dead as it\'s eating their cattle. You see the barman at the counter SOUTH of you having a drink himself. \nYou notice a dark corner WEST of you, where there is a hooded figure with his head down.  What would you like to do?',
      '12':'The Town is embellished with cobbled and paved streets, there are also a number of natural baths. There are a mixture of victorian townhouses and there are a mix of semi-detached and detached houses. The shop is located in the North, the Plains of Lithlad in the East and the Tavern in the South. What would you like to do?',
      '10':'You stand in front of the table where the hooded figures is looking upon an ancient book. He doesn’t seem to have noticed you. What would you like to do?',
      '01':'It\'s just an empty table that smells of beer.',
@@ -188,6 +188,7 @@ while True:
         
     while is_valid_command == False:
         command=normalise_input(input('> '))#ask what direction
+        print()
         is_valid_command = True
         if len(command) > 1:
             if command[0] == 'go' and command[1] in world[oldloc]['FD']:
@@ -217,7 +218,7 @@ while True:
                 compass(str(x)+str(y))
                 is_valid_command = False
             elif command[0] == 'talk' and x == 0 and y == 1 and questCounter == 0:
-                print("Before you even open your mouth, the hooded figure looks up. 'I have been waiting for you,' he says. 'And we have much to discuss. An Evil threatens this land, you must save it for it is the only things that still stands between it and the rest of the world, if this land were to fall evil would run afoul everywhere. Take this money and go prepare yourself for the many bettles to come, then you should make your way EAST of the town for many trials await you. As he finishes you can feel the world spin around you and you faint.")
+                print("Before you even open your mouth, the hooded figure looks up. 'I have been waiting for you,' he says. 'And we have much to discuss. An Evil threatens \nthis land; you must save it, for it is the only thing that still stands between it and the rest of the world... if this land were to fall, evil would \nrun afoul everywhere. Take this money and go prepare yourself for the many battles to come. Then you should make your way EAST of the town, where \nyour trials will begin. As he finishes, you can feel the world spin around you and you faint.")
                 input("Press Enter to continue...")
                 player_stats["money"] = 9999999
                 questCounter = 1
@@ -226,7 +227,7 @@ while True:
                 y = 1
                 world['12']['FD'].remove('east')
             elif command[0] == 'steal' and x == 0 and y == 1 and questCounter == 0:
-                print("Before you can even reach for the book the hooded figure look straight at you and a voice sounds off in your head 'YOU FOOL! YOU ARE UNWORTHY OF BEING A HERO, DIE NOW AND CURSE IN VAIN! The old man stands up and you can see his eyes radiating with power as he sends you to the afterlife.")
+                print("Before you can even reach for the book, the hooded figure look straight at you and a voice sounds in your head, 'YOU FOOL! YOU ARE UNWORTHY OF BEING \nA HERO; DIE NOW AND CURSE IN VAIN! The old man stands up and you can see his eyes radiating with power as he sends you to the afterlife.")
                 player_defeat()
             elif command[0] == 'fill' and x == 2 and y == 4 and player_stats["forestCounter"] == 1 and "pail" not in player_inventory:
                 print("You fill the bucket.")
