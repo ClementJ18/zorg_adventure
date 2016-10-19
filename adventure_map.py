@@ -32,13 +32,13 @@ desc={'13':'A small sign hanging above a building made of bricks as opposed to w
 world = {'01':{'type':'7','name':'DARK TAVERN CORNER','FD':['west','south','north'],'event':True},         
          '10':{'type':'4','name':'TAVERN COUNTER','FD':['east','south','west']},         
          '11':{'type':'1','name':'THE PRANCING PONY TAVERN','FD':['east']},
-         '12':{'type':'1','name':'TOWN CENTER','FD':['west'],'desc':''},
+         '12':{'type':'1','name':'TOWN CENTER','FD':['west','east'],'desc':''},
          '13':{'type':'2','name':'STELLA\'S SHOP', 'FD':['east','north','west']},
          '00':{'type':'0','name':'Guard wall'},
          '02':{'type':'0','name':'Guard wall'},
          '03':{'type':'0','name':'Guard wall'},
          #------------------------town zone----------------------------------
-         '21':{'type':'3','name':'THE ANCIENT LAKE','FD':['west','south'],'event':False},
+         '21':{'type':'3','name':'THE ANCIENT LAKE','FD':['west','south','east'],'event':False},
          '22':{'type':'3','name':'PLAINS OF LITHLAD','FD':['east'],'desc':'','event':False},
          '23':{'type':'1','name':'MOORS OF THE NIBIN-NOEG','FD':['west', 'east'],'desc':''},
          '31':{'type':'6','name':'ARTIFACT CHAMBER','FD':['east','north','south']},
@@ -172,7 +172,7 @@ while True:
         if len(command) > 1:
             if command[0] == 'go' and command[1] in world[oldloc]['FD']:
                 is_valid_command = False
-                print('Sorry, wrong direction')         
+                print('Sorry, you can\'t go that way.')         
             else:
                 if command[1] == 'north':
                     y=int(y)+1
@@ -204,6 +204,7 @@ while True:
                 newloc = "01"
                 x = 0
                 y = 1
+                world['12']['FD'].remove('east')
             elif command[0] == 'steal' and x == 0 and y == 1 and questCounter == 0:
                 print("Before you can even reach for the book the hooded figure look straight at you and a voice sounds off in your head 'YOU FOOL! YOU ARE UNWORTHY OF BEING A HERO, DIE NOW AND CURSE IN VAIN! The old man stands up and you can see his eyes radiating with power as he sends you to the afterlife.")
                 player_defeat()
