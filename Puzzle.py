@@ -1,7 +1,6 @@
 from player import *
 from test_combat import *
 from Player_Win import *
-import system
 my_Puzzle = " drop golden coin"
 
 def negative_ending():
