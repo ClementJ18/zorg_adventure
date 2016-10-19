@@ -19,7 +19,7 @@ def player_defeat():
     print('     LOSEY       YOU LO        SEYO            SEYOU LOSEY     SEYOU     YOU LOSEY    LOSEYOU LOSE  ')
     print()
     print()
-    print('It seems you have been defeated. Quite a shame, whether it is through your own choices or the blade of some evil,it does not change the fact that you have failed. The World of Men burns, Evils unspoken run rampid through the land killing and terrorizing everything. ')
+    print('It seems you have been defeated. Quite a shame... whether through your own choices or the blade of some evil, it does not change the fact that you \nhave failed. The World of Men burns, and evils unspoken run rampant through the land, killing and terrorising everything. ')
     print("You  were a level " + str(player_stats["level"]), str(player_stats["class"]) + " named " + str(player_stats["name"]) + ".")
     print("You had " + ', '.join(player_inventory) + ".")
     print()

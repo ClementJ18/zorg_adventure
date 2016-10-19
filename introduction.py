@@ -82,7 +82,7 @@ def player_ready():
 
 intro_screen()
 print()
-input("                                  --- PRESS ANY KEY TO START ---")
+input("                                   --- PRESS ENTER TO START ---")
 print()
 
 print("Welcome to Group 20's text adventure. This is a test of skill, wit and strength through the land of Zorg. You are a young adventurer and have just \narrived in this country; you have nothing but your courage and brains and will to battle monsters, rescue citizens in distress and oppose all evil. \nBut be weary, for evil breeds evil and deeds unworthy of heroes will be punished.")
