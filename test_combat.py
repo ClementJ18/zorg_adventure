@@ -132,22 +132,20 @@ def playerstat_update():#Update playerstat to the local dictionary
 
 
 def turn(subject):#Function which determines the action that a subjects is going to perform, do not use
-    mag=0
+    mag=0        
 
-    
-    
     if subject == 'player':#If the subject is the player, player choose his action. He can use any action with anyone even if it makes no sense
-        #=========================================================
+
         if player_stats['class'] == 'warrior':
             print('You have',subjects['player']['rage'],'rage')
         elif player_stats['class'] == 'mage':
-            print('You have',subjects['player']['mp'],'mp')
+           print('You have',subjects['player']['mp'],'mp')
         
-        elif player_stats['class'] == 'rogue' and len(bteam)>0:
+        elif player_stats['class'] == 'rogue' and len(bteam)>0 and player_stats["arrows"] > 0:
             fire_at=bteam[random.randint(0,len(bteam)-1)]
+            player_stats["arrows"] -= 1
             act('RAF',subject,fire_at,5+player_stats["level"]*5)
-            print(player_stats["arrows"])
-        #==========================================================
+
         #eg. attack himself/heal his enemies maybe to allow strategic advantage such as rage build up in warrior
         is_valid_command = False
         while is_valid_command == False:
