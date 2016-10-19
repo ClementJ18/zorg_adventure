@@ -42,7 +42,7 @@ foe ={'goblin':{'hp':30,
                      'poison_active':False,
                      'poison_counter':0,
                      },
-      'apparition_1':{'hp':40,
+      'apparition':{'hp':40,
                      'mhp':40,
                      'dmg':8,
                      'guard':False,
@@ -288,8 +288,8 @@ def act(act,subject,target,mag):#do not use
     
         print(target,'lost', mag, 'health',subjects[target]['hp'],'remain')
     elif act == 'strike':
-        subjects[target]['hp'] -= mag
-        print(target,'lost',mag,'health',subjects[target]['hp'],'remain')
+        subjects[target]['hp'] -= mag * player_stats["level"]
+        print(target,'lost',mag* player_stats["level"],'health',subjects[target]['hp'],'remain')
     elif act == 'guard':
         subjects[subject]['guard'] = True
     elif act == 'fireball':

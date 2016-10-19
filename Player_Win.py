@@ -17,6 +17,7 @@ def player_win():
     print("      nYo      ou W  You    You WinYo                Wi  ou W       inYo   inY   WinYo  ")   
     print("     inYou      u WinYou     ou WinY                 W   ou W      WinYou WinYo  WinYo  ")   
     print("     inYou        WinYo         Win                  W    u        WinYou WinYo   inYo  ")
+    print(karmaCounter)
     input("Press ENTER to exit")
     sys.exit()   
     

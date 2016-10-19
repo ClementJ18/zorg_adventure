@@ -132,11 +132,11 @@ def shop():
         print("You can:")
         print("BUY a health potion for 15 coins or an arrow for 5 coins.")
         print("GO SOUTH to the town.")
-    if player_stats["class"] == "warrior":
+    elif player_stats["class"] == "warrior":
         print("You can:")
         print("BUY a health potion for 15 coins.")
         print("GO SOUTH to the town.")
-    if player_stats["class"] == "mage":
+    elif player_stats["class"] == "mage":
         print("You can:")
         print("BUY a health potion for 15 coins or a mana potion for 25 coins.")
         print("GO SOUTH to the town.")
