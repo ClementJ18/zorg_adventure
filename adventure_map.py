@@ -6,7 +6,7 @@ from LakeRandomEvent import lakeRandomEvent
 from plainsRandomEvent import plainsRandomEvent
 from gameparser import *
 from re_forest import *
-
+from player_defeat import player_defeat
 
 x=1
 y=2
@@ -201,6 +201,9 @@ while True:
                 newloc = "11"
                 x = 1
                 y = 1
+            elif command[0] == 'steal' and x == 0 and y == 1 and questCounter == 0:
+                print("Before you can even reach for the book the hooded figure look straight at you and a voice sounds off in your head 'YOU FOOL! YOU ARE UNWORTHY OF BEING A HERO, DIE NOW AND CURSE IN VAIN!")
+                player_defeat()
             elif command[0] == 'fill' and x == 2 and y == 4 and player_stats["forestCounter"] == 1:
                 print("You fill the bucket.")
                 player_inventory.append("pail")
