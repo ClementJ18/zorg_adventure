@@ -2,35 +2,41 @@ from player import *
 
 def pick_player_class():
     player_class = input("I want to be a: ").strip().lower()
-    if player_class == "warrior":
+    if player_class in ["warrior","a warrior"]:
         player_inventory.append("Sword of Azeroth")
         player_inventory.append("Light Armor")
         player_stats["health"]=150
         player_stats["max_health"]=150
         player_stats["class"]="warrior"
         player_stats["rage"]=0
-        player_stats["mana"]=15
-        player_stats["max_mana"]=15
+        player_stats["max_rage"]=10
+        del player_stats['arrows']
+        del player_stats['mana']
+        del player_stats['max_mana']
         player_stats["evasion"]=10
         player_stats["level"]=0
         player_stats_show()
-    elif player_class == "mage":
+    elif player_class in ["mage","a mage"]:
         player_inventory.append("Magic Staff of Varda")
         player_inventory.append("Robe of Valinor")
         player_stats["health"]=100
         player_stats["max_health"]=100
         player_stats["class"]="mage"
         player_stats["mana"]=50
+        del player_stats['arrows']
+        player_stats["max_mana"]=50
         player_stats["evasion"]=10
         player_stats["level"]=0
         player_stats_show()
-    elif player_class == "rogue":
+    elif player_class in ["rogue", "a rogue"]:
         player_inventory.append("Bow of the Galadhrim")
         player_inventory.append("Ranger Cloak")
         player_stats["health"]=100
         player_stats["max_health"]=100
         player_stats["class"]="rogue"
         player_stats["mana"]=15
+        del player_stats['mana']
+        del player_stats['max_mana']
         player_stats["max_mana"]=15
         player_stats["evasion"]=40
         player_stats["arrows"]=2
@@ -39,7 +45,7 @@ def pick_player_class():
     elif player_class == "game master":
         player_input =input("? ")
         if player_input == "Gandalf":
-            print("Welcome, Game Master.")
+            print("Welcome, Game Master")
             player_inventory.append("Grond the Hammer of the Underworld")
             player_inventory.append("Black Armor of Morgoth")
             player_stats_show()
@@ -53,24 +59,25 @@ def player_stats_show():
     print("You are now a", player_stats["class"])
     print("Your name is",player_stats["name"])
     print("You are level", player_stats["level"])
-    print("You have",player_stats["health"],"health points remaining.")
-    print("You have",player_stats["mana"],"mana points remaining.")
+    print("You have",player_stats["health"],"/",player_stats["max_health"],"health.")
     print("You have",player_stats["experience"],"experience points.")
-    print("You have", ', '.join(player_inventory))
     if player_stats["class"] == "rogue":
         print("You have",player_stats["arrows"],"arrows remaining.")
+    elif player_stats["class"] == "mage":
+        print("You have",player_stats["mana"],"/",player_stats["max_mana"],"mana.")
+    elif player_stats["class"] == "warrior":
+        print("You have",player_stats["rage"],"/",player_stats["max_rage"],"rage.")
+    else:
+        pass
+    print("You have", ', '.join(player_inventory))
 
 def player_ready():
 
     player_input = input("You are about to enter a world of adventure. Are you ready, brave warrior? ").strip().lower()
     if player_input == "yes":
         print("Well then, onwards. --- INITIATING ADVENTURE ---")
-        #move to town
-        pass
     elif player_input == "no":
-        #what would you like to do?
         print("Hahaha, cute. You thought you had a choice. Anyways: --- INITIATING AVENTURE ---")
-        pass
     else:
         print("Sorry, what?")
         player_ready()
@@ -97,6 +104,8 @@ print()
 print("===TOWN===")
 print("The Town is embellished with cobbled and paved streets, there are also a number of natural baths. There are a mixture of victorian townhouses and there are a mix of semi-detached and detached houses. The shop is located in the North, the Plains of Lithlad in the East and the Tavern in the South. What would you like to do?")
 print("You can:")
+print("SHOW INVENTORY")
+print("SHOW STATS")
 print("GO SOUTH to the tavern.")
 print("GO NORTH to the shop.")
 print("GO EAST to the Plains of Lithlad.")
