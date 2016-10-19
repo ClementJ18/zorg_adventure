@@ -10,6 +10,23 @@ foe ={'goblin':{'hp':30,'mhp':30,'dmg':5},
       'goblin_king':{'hp':100,'mhp':100,'dmg':15}
       }
       
+player_inventory.append('health_potion')
+player_inventory.append('health_potion')
+player_inventory.append('health_potion')
+player_inventory.append('health_potion')
+
+items =['health_potion', 'mana_potion']
+bteam = []
+subjects = {}
+
+#no need to modify this variable
+global dead
+dead=[]
+
+com_list=['atk','heal']
+sup_com=['heal']
+atk_com=['atk']
+rteam = ['player']
 def poisoning(poison_active):
     print(poison_active)
     if subjects['player']['poison_active'] == False:
@@ -25,19 +42,7 @@ def poison_damage(poison_active):
         poison_damage = int(0.01 * player_stats["max_health"])
         subjects['player']["hp"] = subjects['player']["hp"] - poison_damage
         print("You have taken " + str(poison_damage) + " damage due to poisoning!")
-
-
-bteam = []
-subjects = {}
-
-#no need to modify this variable
-global dead
-dead=[]
-
-com_list=['atk','heal']
-sup_com=['heal']
-atk_com=['atk']
-rteam = ['player']
+        
 def playerstat_update():#Update playerstat to the local dictionary
     subjects.update({'player':{}})
     playerparameter = {'hp':player_stats["health"]+player_stats["level"]*70,
@@ -46,9 +51,12 @@ def playerstat_update():#Update playerstat to the local dictionary
                        'mp':player_stats["mana"]+player_stats["level"]*70,
                        'mmp':player_stats["mana"]+player_stats["level"]*70,
                        'poison_active':False,
-                       'poison_counter':0}
+                       'poison_counter':0,
+                       'guard':False,
+                       'charge':0,
+                       'rage':0}
     subjects['player'].update(playerparameter)
-    
+
 
 def turn(subject):#Function which determines the action that a subjects is going to perform, do not use
     mag=0
@@ -58,21 +66,29 @@ def turn(subject):#Function which determines the action that a subjects is going
         while is_valid_command == False:
             is_valid_command = True
             subject_input = (input('(combat)>')).split()#takes a sentence, separate to action - target
-            if subject_input[0] == 'null':
+            if subject_input == []:
+                is_valid_command = False
+            elif subject_input[0] == 'null': #null 
                 action = 'null'
-                target = 'player'
+                target = subject
             elif subject_input[0] == 'use':
                 try:
-                    potion_use=player_inventory.pop(player_inventory.index(subject_input[1]))
-                    print(potion_use)
-                    if potion_use == 'health_potion' and subjects['player']['hp'] < subjects['player']['mhp']:
+                    if subject_input[1] in ['health_potion','health'] and subjects[subject]['hp'] < subjects[subject]['mhp']:
                         mag = 300
                         action = 'heal'
-                        target = 'player'
+                        target = subject
+                        potion_use = 'health_potion'
+                    elif subject_input[1] == 'mana_potion' and subjects[subject]['mp'] < subjects[subject]['mmp']:
+                        mag = 300
+                        action = 'restore_mana'
+                        target = subject
+                    
+                    
+                    
                     else:
                         print('you cannot use that')
                     
-                        
+                    print('use',player_inventory.pop(player_inventory.index(potion_use)))  
                 except:
                     print('THAT POTION DOES NOT EXIST')
                     is_valid_command = False
@@ -85,6 +101,7 @@ def turn(subject):#Function which determines the action that a subjects is going
                 except:
                     print('something goes wrong')
                     is_valid_command = False
+            #CASTER==CASTER==CASTER==CASTER==CASTER==CASTER==CASTER==CASTER==CASTER==
             elif subject_input[0] == 'cast':
                 try:
                     if subject_input[1] == 'fireball':
@@ -94,17 +111,37 @@ def turn(subject):#Function which determines the action that a subjects is going
                 except:
                     print('wrong spell')
                     is_valid_command = False
+            elif subject_input[0] == 'heal':
+                action = subject_input[0]
+                target = subject_input[1]
+                mag = 20
+            #FIGHTER==FIGHTER==FIGHTER==FIGHTER==FIGHTER==FIGHTER==FIGHTER==FIGHTER==
+            elif subject_input[0] == 'guard':
+                action = 'guard'
+                target = subject
+                mag = player_stats['level']+1
+            elif subject_input[0] == 'strike':
+                try:
+                    action = 'strike'
+                    target = subject_input[1]
+                    mag = subjects[subject]['dmg'] + subjects[subject]['charge']
+                except:
+                    print('something goes wrong')
+                    is_valid_command = False
+
+            
             else:
                 try:
-                    action = subject_input[0]
-                    target = subject_input[1]
+                    is_valid_command = False
                 except:
                     print('no bully program >:(')
                     is_valid_command = False
+        
+                
             
                         
 
-        print('use',action,'on',target)#debugging 
+        #debugging 
         
         
     elif subject in bteam: #If the subject is the enemies, action also determined by random numbers
@@ -121,18 +158,33 @@ def turn(subject):#Function which determines the action that a subjects is going
             mag = 5
             target = bteam[random.randint(0,len(bteam)-1)]#Essentially the same as your teammate's behaviour except the enemies will harm you and heal their 
 
-        print('use',action,'on',target)#debugging 
+        print(subject,'use',action,'on',target)#debugging 
     
+    try:    
+        act(action,subject,target,mag)#Takes 3 parameters : action(what to do) subject(who do it) and target(do to who ?)
+    except:
+        print('Wrong action or target')
+        turn(subject)
         
-    act(action,subject,target,mag)#Takes 3 parameters : action(what to do) subject(who do it) and target(do to who ?)
-
 
 
 def act(act,subject,target,mag):#do not use
     
     if act == 'atk':#IF action is attack, will deal X damage target
-        subjects[target]['hp'] -= mag#x-=... and x+=... are equivalent to x=x+... or x=x-... they're just shorter
-        print(target,'lost 5 health',subjects[target]['hp'],'remain')
+        if subjects[target]['guard'] == True:
+
+
+            subjects[target]['hp'] -= int(mag*(player_stats['level']/(player_stats['level']+3)))#x-=... and x+=... are equivalent to x=x+... or x=x-... they're just shorter
+            subjects[target]['charge'] += mag*player_stats['level']
+        else:
+            subjects[target]['hp'] -= mag
+        
+        print(target,'lost', mag, 'health',subjects[target]['hp'],'remain')
+    elif act == 'strike':
+        subjects[target]['hp'] -= mag
+        print(target,'lost',mag,'health',subjects[target]['hp'],'remain')
+    elif act == 'guard':
+        subjects[subject]['guard'] = True
     elif act == 'fireball':
         subjects[target]['hp'] -= mag
         print('fireball hits',target,'for',mag,'damage !')
@@ -144,6 +196,11 @@ def act(act,subject,target,mag):#do not use
         if subjects[target]['hp']>subjects[target]['mhp']:
             subjects[target]['hp'] = subjects[target]['mhp']
         print(target,'gain',mag,'health',subjects[target]['hp'],'remain')
+    elif act == 'mana_restore':
+        subjects[target]['mp'] += mag
+        if subjects[target]['mp']>subjects[target]['mmp']:
+            subjects[target]['mp'] = subjects[target]['mmp']
+        print(target,'gain',mag,'mana',subjects[target]['mp'],'remain')
     if act == 'null':
         pass
     else:
@@ -188,7 +245,7 @@ def fight():#Fight module
                 
         for i in subjects:
             print(i,'have',subjects[i]['hp'],'left')
-            if subjects[i]['hp']<0:
+            if subjects[i]['hp']<=0:
                 dead.append(i)
                 print('=======',i,'dead','=======')
         if len(dead) > 0:
@@ -214,5 +271,5 @@ def fight():#Fight module
         
 
             
-
-    
+playerstat_update()
+set_foe(0,0,0,0,'goblin')
