@@ -39,14 +39,6 @@ def boss_fight():
   if player_input == "fight":
     print("YOU: THE LIGHT SHALL TRIUMPH! You cannot corrupt me servant of Chaos, I will vanquish you.")
     print("EVIL BOSS: And I'm the cliché one? SO BE IT, DIE!!")
-    set_foe('unkillable_boss',0,0,0,0)
-    playerstat_update()
-    fight()
-    print()
-    print("You lay on the ground, bleeding from many injuries. Your weapon feels heavy in your hand, your clothes weigh you down. Despair is near, after all, why not give in, it would be much easier to give in, to just shut your eyes and let the darkness consume everything... Suddenly you can feel a light shining and the artifact floats out of your pocket and embeds itself in your sword. You hear a voice in your head \"Fight. Fight! FIGHT!\" You body is filled with renewed strength, you grab your weapon and strike the Dark Lord. The strike weakens him badly, and your strength is renewed once again. Now, the true battle may begin.")
-    player_stats['health'] = 1000000000
-    player_stats['max_health'] = 1000000000
-    player_stats['level'] = 500
     set_foe('final_boss',0,0,0,0)
     playerstat_update()
     fight()

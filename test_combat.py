@@ -50,14 +50,6 @@ foe ={'goblin':{'hp':30,
                      'poison_active':False,
                      'poison_counter':0,
                      },
-      'unkillable_boss':{'hp':99999999,
-                         'mhp':99999999,
-                         'dmg':99999999,
-                         'guard':False,
-                         'frozen':False,
-                         'poison_active':False,
-                         'poison_counter':0,
-                                  },
       'final_boss':{'hp':1000000000,
                     'mhp':1000000000,
                     'dmg':200,
@@ -133,21 +125,38 @@ def playerstat_update():#Update playerstat to the local dictionary
 def turn(subject):#Function which determines the action that a subjects is going to perform, do not use
     mag=0
 
-    if player_stats['class'] == 'warrior':
-        print('You have',subjects['player']['rage'],'rage')
-    elif player_stats['class'] == 'mage':
-        print('You have',subjects['player']['mp'],'mp')
-        
-    elif player_stats['class'] == 'rogue' and len(bteam)>0:
-        fire_at=bteam[random.randint(0,len(bteam)-1)]
-        act('RAF',subject,fire_at,5+player_stats["level"]*5)
-        print(player_stats["arrows"])
+
     
     if subject == 'player':#If the subject is the player, player choose his action. He can use any action with anyone even if it makes no sense
-
+        if player_stats['class'] == 'warrior':
+            print('You have',subjects['player']['rage'],'rage')
+        elif player_stats['class'] == 'mage':
+            print('You have',subjects['player']['mp'],'mp')
+            
+        elif player_stats['class'] == 'rogue' and len(bteam)>0:
+            fire_at=bteam[random.randint(0,len(bteam)-1)]
+            act('RAF',subject,fire_at,5+player_stats["level"]*5)
         
         #eg. attack himself/heal his enemies maybe to allow strategic advantage such as rage build up in warrior
         is_valid_command = False
+        print("List of possible targets:",str(", ".join(bteam))+", player.")
+        print("Type atk [target] to attack a unit.")
+        print("Type use health potion to restore health (as long as you have a health potion, buy at shop)")
+        if player_stats["class"] == "warrior":
+            print("Type guard to protect yourself and build up rage.")
+            print("Type strike [target] once rage is built up to attack the [target].")
+        elif player_stats["class"] == "mage":
+            print("Type use mana potion to restore your mana (must have mana potion, buy at shop)")
+            print("Type heal [target] to heal the [target]")
+            print("Type cast [spell] at [unit] to cast a spell")
+            print("List of Spells:")
+            print("fireball")
+            print("freeze")
+        elif player_stats["class"] == "rogue":
+            pass
+        else:
+            pass
+
         while is_valid_command == False:
             is_valid_command = True
             subject_input = (input('(combat)>')).split()#takes a sentence, separate to action - target
@@ -335,7 +344,7 @@ def fight():#Fight module
         print('===================Round',Fround,'=======================')
         
         for unit in subjects:#Rotate through dictionary for each subjects to be the 'subjects' of the turn
-            if subjects[unit]['hp']<0:
+            if subjects[unit]['hp']<=0:
                 pass
             elif subjects[unit]['frozen'] == True:
                 print('Target frozen ! Turn skipped !')
@@ -384,7 +393,3 @@ def fight():#Fight module
         level_up()
         #givexp
         #give stuff
-
-set_foe('final_boss',0,0,0,0)
-playerstat_update()
-fight()
