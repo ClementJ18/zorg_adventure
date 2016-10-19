@@ -12,7 +12,7 @@ def lakeRandomEvent():
             karmaCounter = karmaCounter + 1
             #Return to Lake
         elif player_input == "take":
-            print("You've managed to take the item, the Coin of Pesh, but at a cost. The creature attacked you when you tried taking it and you have lost some health.")   
+            print("You've managed to take the item, the Coin of Pesh, but at a cost. The creature attacked you when you tried taking it and you have lost some \nhealth.")   
             player_stats["health"] = player_stats["health"] - 10
             player_inventory.append("Coin of Pesh")
             karmaCounter = karmaCounter - 1
