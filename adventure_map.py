@@ -164,12 +164,12 @@ def event(loc):
         set_foe('goblin','hypergoblin',0,0,0)
         playerstat_update()
         fight()
-        print('The goblin king is angered by your action and taunt you into a fight')
+        print('The goblin king is angered by your action and taunts you into a fight')
         playerstat_update()
         set_foe('goblin_king',0,0,0,0)
         fight()
-        print('you raid his stash and find cool looking map about cool sutff in the lake')
-        print('coooooooooooooooooooooooooooool')
+        print('You have killed the goblin king! You raid his stash and find a tattered map. An \'X\' has been drawn over the Ancient Lake to the SOUTH.')
+        print('A note scribbled on the map reads, \'sekrut caev at EAST of laek\'.')
         world['21']['FD'].remove('east')
         questCounter=4
         
