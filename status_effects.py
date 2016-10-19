@@ -1,10 +1,10 @@
 import random
 from player import *
 
-# poison reduces health by 1% of max health for 3 turns
+# poison reduces health by 1% of max health each turn
 
 def poisoning():
-    if random.randint(0, 9) >= 5:
+    if random.randint(0, 2) >= 5:
         poison_active = True
     return poison_active
 
