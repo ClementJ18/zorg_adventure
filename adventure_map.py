@@ -82,6 +82,22 @@ def compass(loc): #some form of debugging tool (maybe have this in the game as w
     if west in world and 'west' not in world[loc]['FD']:
         print('GO WEST to',world[west]['name'])
 
+def show_stats():
+    print("You are now a", str(player_stats["class"]) + ".")
+    print("Your name is", str(player_stats["name"]) + ".")
+    print("You are level", str(player_stats["level"]) + ".")
+    print("You have",player_stats["health"],"/",player_stats["max_health"],"health.")
+    print("You have",player_stats["experience"],"experience points.")
+    if player_stats["class"] == "rogue":
+        print("You have",player_stats["arrows"],"arrows remaining.")
+    elif player_stats["class"] == "mage":
+        print("You have",player_stats["mana"],"/",player_stats["max_mana"],"mana.")
+    elif player_stats["class"] == "warrior":
+        print("You have",player_stats["rage"],"/",player_stats["max_rage"],"rage.")
+    else:
+        pass
+
+
 def shop():
     def shop_input():
         player_input = input(">").lower().strip()
@@ -223,7 +239,7 @@ while True:
             elif command[0] == 'talk' and x == 0 and y == 1 and questCounter == 0:
                 print("Before you even open your mouth, the hooded figure looks up. 'I have been waiting for you,' he says. 'And we have much to discuss. An Evil threatens \nthis land; you must save it, for it is the only thing that still stands between it and the rest of the world... if this land were to fall, evil would \nrun afoul everywhere. Take this money and go prepare yourself for the many battles to come. Then you should make your way EAST of the town, where \nyour trials will begin. As he finishes, you can feel the world spin around you and you faint.")
                 input("Press Enter to continue...")
-                player_stats["money"] = 9999999
+                player_stats["money"] = 50
                 questCounter = 1
                 newloc = "01"
                 x = 0
@@ -241,11 +257,11 @@ while True:
                 player_inventory.append("artifact")
                 questCounter = 5
                 world['23']['FD'].remove('east')
-            elif command[0] == 'inventory':
-                print(player_inventory)
+            elif command[0] in ['inventory','show inventory']:
+                print("You have", ', '.join(player_inventory) + ".")
                 is_valid_command = False
-            elif command[0] == 'stats':
-                print(player_stats)
+            elif command[0] in ['stats','show stats']:
+                show_stats()
                 is_valid_command = False
             else:
                 is_valid_command = False
