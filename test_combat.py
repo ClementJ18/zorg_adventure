@@ -102,6 +102,7 @@ def level_up():
         player_stats["mana"] = player_stats["mana"] + 25
         # increase experience necessary to level up
         exp_before_next_level = 1.2 * exp_before_next_level
+        print('leveled up!')
 
     
     
@@ -133,19 +134,20 @@ def playerstat_update():#Update playerstat to the local dictionary
 def turn(subject):#Function which determines the action that a subjects is going to perform, do not use
     mag=0
 
-    if player_stats['class'] == 'warrior':
-        print('You have',subjects['player']['rage'],'rage')
-    elif player_stats['class'] == 'mage':
-        print('You have',subjects['player']['mp'],'mp')
-        
-    elif player_stats['class'] == 'rogue' and len(bteam)>0:
-        fire_at=bteam[random.randint(0,len(bteam)-1)]
-        act('RAF',subject,fire_at,5+player_stats["level"]*5)
-        print(player_stats["arrows"])
+    
     
     if subject == 'player':#If the subject is the player, player choose his action. He can use any action with anyone even if it makes no sense
-
+        #=========================================================
+        if player_stats['class'] == 'warrior':
+            print('You have',subjects['player']['rage'],'rage')
+        elif player_stats['class'] == 'mage':
+            print('You have',subjects['player']['mp'],'mp')
         
+        elif player_stats['class'] == 'rogue' and len(bteam)>0:
+            fire_at=bteam[random.randint(0,len(bteam)-1)]
+            act('RAF',subject,fire_at,5+player_stats["level"]*5)
+            print(player_stats["arrows"])
+        #==========================================================
         #eg. attack himself/heal his enemies maybe to allow strategic advantage such as rage build up in warrior
         is_valid_command = False
         while is_valid_command == False:
@@ -203,9 +205,12 @@ def turn(subject):#Function which determines the action that a subjects is going
                     print('Wrong spell')
                     is_valid_command = False
             elif subject_input[0] == 'heal':
-                action = subject_input[0]
-                target = subject_input[1]
-                mag = 20
+                try:
+                    action = subject_input[0]
+                    target = subject_input[1]
+                    mag = 20
+                except:
+                    print('invalid target or invalid spell use')
         
             #FIGHTER==FIGHTER==FIGHTER==FIGHTER==FIGHTER==FIGHTER==FIGHTER==FIGHTER==
             elif subject_input[0] == 'guard' and player_stats['class'] == 'warrior':
@@ -266,9 +271,18 @@ def turn(subject):#Function which determines the action that a subjects is going
 def act(act,subject,target,mag):#do not use
     
     if act == 'atk':#IF action is attack, will deal X damage target
-        if subjects[target]['guard'] == True:
+        #============================================
+        if subjects[target]['class'] == 'rogue':
+            if random.randint(0,9) <3:
+                print('You evade the attack !')
+            else:
+                subjects[target]['hp'] -= mag
+                print(target,'lost',mag,'health')
+        #==============================================
+        elif subjects[target]['guard'] == True:
             subjects[target]['hp'] -= int(mag*(player_stats['level']/(player_stats['level']+3)))#x-=... and x+=... are equivalent to x=x+... or x=x-... they're just shorter
             subjects[target]['charge'] += mag*player_stats['level']
+            print(target,'gain',mag,'charge')
         else:
             subjects[target]['hp'] -= mag
         subjects['player']['rage'] += 1
@@ -276,6 +290,7 @@ def act(act,subject,target,mag):#do not use
     elif act == 'RAF':
         subjects[target]['hp'] -= mag
         print('Fired arrows at',target)
+        
     
         print(target,'lost', mag, 'health',subjects[target]['hp'],'remain')
     elif act == 'strike':
@@ -374,7 +389,13 @@ def fight():#Fight module
             dead = []
     if len(bteam) > 0:
         print('Enemies win !')
-        player_defeat()
+        if bteam[0] == 'unkillable_boss':
+            clear_dict()
+            
+            pass
+        else:
+            player_defeat()
+
     else:
         print('You win')
         player_stats['health'] = subjects['player']['hp']
