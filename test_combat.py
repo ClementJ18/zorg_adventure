@@ -19,9 +19,9 @@ subjects = {}
 global dead
 dead=[]
 
-com_list=['atk','heal']
+com_list=['atk','heal','poisoning']
 sup_com=['heal']
-atk_com=['atk']
+atk_com=['atk','poisoning']
 rteam = ['player']
 def playerstat_update():#Update playerstat to the local dictionary
     subjects.update({'player':{}})
@@ -29,7 +29,8 @@ def playerstat_update():#Update playerstat to the local dictionary
                        'mhp':player_stats["health"]+player_stats["level"]*70,
                        'dmg':5+player_stats["level"]*3,
                        'mp':player_stats["mana"]+player_stats["level"]*70,
-                       'mmp':player_stats["mana"]+player_stats["level"]*70}
+                       'mmp':player_stats["mana"]+player_stats["level"]*70,
+                       'poison_active':False}
     subjects['player'].update(playerparameter)
     
 
@@ -159,6 +160,15 @@ def fight():#Fight module
                 turn(unit)#It is now unit's turn. 
         print('END round')#When everyone has a go at a turn once the round ends and the fights starts again.
         for i in subjects:
+            if subjects[i]['poison_active'] == True:
+                poison_damage(True)
+                subjects[i]['poison_counter'] += 1
+                if subjects[i]['poison_counter'] = 3:
+                    subjects[i]['poison_active'] = False
+                    subjects[i]['poison_counter'] = 0:
+                
+                
+        for i in subjects:
             print(i,'have',subjects[i]['hp'],'left')
             if subjects[i]['hp']<0:
                 dead.append(i)
@@ -181,22 +191,7 @@ def fight():#Fight module
     else:
         print('u win')
         clear_dict()
-        if player_stats["experience"] >= exp_before_next_level:
-            
-            player_stats["experience"] = player_stats["experience"] - exp_before_next_level
-            
-            player_stats["level"] = player_stats["level"] + 1
-            
-            player_stats["max_health"] = player_stats["max_health"] + 25
-            player_stats["health"] = player_stats["health"] + 25
-            player_stats["max_mana"] = player_stats["max_mana"] + 10
-            player_stats["mana"] = player_stats["mana"] + 10
-            
-            exp_before_next_level = int(1.2 * exp_before_next_level)
-
-            print("You have leveled up! You are now level " + str(player_stats["level"]) + ".")
-        else:
-            pass
+        #givexp
         #give stuff
         
             
