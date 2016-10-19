@@ -3,10 +3,15 @@ from player import *
 
 # poison reduces health by 1% of max health each turn
 
-def poisoning():
-    if random.randint(0, 2) >= 5:
+def poisoning(poison_active):
+    if random.randint(0, 9) <= 7:
         poison_active = True
+    elif poison_active = True:
+        pass
+    else:
+        poison_active = False
     return poison_active
+
 
 def poison_damage(poison_active):
     if poison_active == True:

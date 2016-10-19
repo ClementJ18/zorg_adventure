@@ -76,7 +76,7 @@ def player_ready():
         print("Sorry, what?")
         player_ready()
 
-print("Welcome to Group 20's text adventure. This is a test of skill, wit and strenght through the land of country_name. You are young adventurer and have just arrived in this country, you have nothing but your courage and brains and will, to battle monsters, rescue citizens in distress and oppose all evil. But be weary, for evil breeds evil and deeds unworthy of heroes will be punished.")
+print("Welcome to Group 20's text adventure. This is a test of skill, wit and strenght through the land of Zorg. You are young adventurer and have just arrived in this country, you have nothing but your courage and brains and will, to battle monsters, rescue citizens in distress and oppose all evil. But be weary, for evil breeds evil and deeds unworthy of heroes will be punished.")
 print("Before we start, what's your name mighty hero?")
 player_stats["name"] = input("My name is: ").strip()
 
