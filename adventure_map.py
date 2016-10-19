@@ -90,16 +90,19 @@ def shop():
             player_stats["arrows"] = player_stats["arrows"] + 1
             print("Bought an arrow.")
             print("Would you like to buy anything else?")
+            shop_input()
         elif player_input in ["mana", "mana potion", "buy mana potion", "a mana potion"] and player_stats["class"] == "mage" and player_stats["money"] >= 25:
             player_stats["money"] = player_stats["money"] - 25
             player_inventory.append("mana_potion")
             print("Bought a mana potion")
             print("Would you like to buy anything else?")
+            shop_input()
         elif player_input in ["health", "health potion", "buy health potion", "a health potion", "buy a health potion"] and player_stats["money"] >= 15:
             player_stats["money"] = player_stats["money"] - 15
             player_inventory.append("health_potion")
             print("Bought a health potion")
             print("Would you like to buy anything else?")
+            shop_input()
         elif player_input == "go south":
             pass
         else:
