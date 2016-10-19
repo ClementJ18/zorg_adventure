@@ -41,9 +41,10 @@ world = {'01':{'type':'7','name':'DARK TAVERN CORNER','FD':['west','south','nort
          #------------------------town zone----------------------------------
          '21':{'type':'3','name':'THE ANCIENT LAKE','FD':['west','south','east'],'event':False},
          '22':{'type':'3','name':'PLAINS OF LITHLAD','FD':['east'],'desc':'','event':False},
-         '23':{'type':'1','name':'MOORS OF THE NIBIN-NOEG','FD':['west', 'east'],'desc':''},
+         '23':{'type':'8','name':'MOORS OF THE NIBIN-NOEG','FD':['west', 'east'],'desc':''},
          '31':{'type':'6','name':'ARTIFACT CHAMBER','FD':['east','north','south']},
          '30':{'type':'0','name':''},
+         '33':{'type':'9','name':'EVIL CASTLE'},
          #------------------------plains zone--------------------------------
          '24':{'type':'5','name':'RUINED FARM','FD':['east','north'],'event':True},
          '14':{'type':'3','name':'ERYN VANWË','FD':['south','west'],'event':False},
@@ -126,6 +127,7 @@ def event(loc):
     global plainCounter
     global lakeCounter
     global forestCounter
+    global questCounter
     #This is literally a sample set of event to demonstrate how you can manipulates event triggers by having some action ( like accessing some place ) triggers the other event so it could happen when otherwise nothing will
     #Delete this shit later
     if loc == '22': #accessing plains after visiting the dark tavern corner will made the old man showed up
@@ -156,7 +158,7 @@ def event(loc):
                 print("The old man leans against the tree with closed eyes, breathing weakly. You should get him that water soon.")
         else:
             pass
-    elif loc == '15':
+    elif loc == '15' and questCounter == 3:
         print('you see 2 goblin')
         set_foe('goblin','hypergoblin',0,0,0)
         playerstat_update()
@@ -168,7 +170,7 @@ def event(loc):
         print('you raid his stash and find cool looking map about cool sutff in the lake')
         print('coooooooooooooooooooooooooooool')
         world['21']['FD'].remove('east')
-        questCounter=5
+        questCounter=4
         
     else:
         pass
@@ -229,10 +231,13 @@ while True:
                 print("You take the artifact.")
                 player_inventory.append("artifact")
                 questCounter = 5
+                world['23']['FD'].remove('east')
             elif command[0] == 'inventory':
                 print(player_inventory)
+                is_valid_command = False
             elif command[0] == 'stats':
                 print(player_stats)
+                is_valid_command = False
             else:
                 is_valid_command = False
                 print('invalid command')
@@ -276,7 +281,7 @@ while True:
     elif world[newloc]['type'] == '5':
         print("=== RUINED FARM ===")
         print(desc["24"])
-        if questCounter == 2:
+        if questCounter == 1:
             print("You are filled with rage and swear to make the goblins pay for their cruelty. You have heard of a lair in the forest to the West.")
             questCounter = 3
         elif player_stats["forestCounter"] == 1 and "pail" not in player_inventory:
@@ -288,6 +293,10 @@ while True:
         print("===",world[newloc]['name'],"===")
         print(desc[newloc]) 
         if questCounter == 4:
+            set_foe('apparition_1',0,0,0,0)
+            playerstat_update()
+            fight()
+            print("You slay the apparition and it disappears.")
             print("TAKE the artifact")
     elif world[newloc]['type'] == '7':
         print("===",world[newloc]['name'],"===")
@@ -297,6 +306,13 @@ while True:
             print("STEAL his book")
         else:
             print(desc[newloc])
+    elif world[newloc]['type'] == '8':
+        print("===",world[newloc]['name'],"===")
+        print(desc[newloc])
+        if questCounter == 5:
+            print("You feel the artifact resonating in your pocket as you approach the castle.")
+    elif world[newloc]['type'] == '9':
+        from Puzzle import *
     compass(newloc)
         
     oldloc=str(x)+str(y)#old location

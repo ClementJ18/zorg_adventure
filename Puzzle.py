@@ -9,6 +9,7 @@ def puzzle():
        playerstat_update()
        fight()
        print("You defeat the two apparitions, as they disappear into nothingness you hear a great voice inviting you upstairs")
+       from boss_fight import *
     elif player_input == "investigate ritual circle":
         print("There is a stone table in the middle of the ritual circle. The answer for the riddle on the tablet will break the barrier")
         puzzle()
