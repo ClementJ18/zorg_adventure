@@ -1,6 +1,7 @@
 import random
 from player import *
 from player_defeat import player_defeat
+from status_effect import *
 subjects_list = ['player']
 foe ={'goblin':{'hp':30,'mhp':30,'dmg':5},
       'hypergoblin':{'hp':15,'mhp':15,'dmg':7},
