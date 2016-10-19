@@ -1,9 +1,9 @@
 from player import *
 
-my_Puzzle = " drop gold coin"
+my_Puzzle = " drop golden coin"
 def puzzle():
     player_input=input(">").strip().lower()
-    if player_input == "drop gold coin":
+    if player_input == "drop golden coin":
        print("You threw a piece of gold into the ritual circle, the ground shook and the magic barrier disappeared. A couple of goblins came to investiage") 
     elif player_input == "investigate ritual circle":
         print("There is a stone table in the middle of the ritual circle. The answer for the riddle on the tablet will break the barrier")
@@ -24,4 +24,11 @@ print("")
 print("You can:")
 print("Investigate the ritual circle")
 print("Investigate the magic barrier")
+print("  ____ ___   __ __   ___ ____  ______ __ __ ____    ___       ____  ____ ___ ___   ___ ")
+print(" /    |   \ |  |  | /  _]    \|      |  |  |    \  /  _]     /    |/    |   |   | /  _]")
+print("|  o  |    \|  |  |/  [_|  _  |      |  |  |  D  )/  [_     |   __|  o  | _   _ |/  [_ ")
+print("|     |  D  |  |  |    _]  |  |_|  |_|  |  |    /|    _]    |  |  |     |  \_/  |    _]")
+print("|  _  |     |  :  |   [_|  |  | |  | |  :  |    \|   [_     |  |_ |  _  |   |   |   [_ ")
+print("|  |  |     |\   /|     |  |  | |  | |     |  .  \     |    |     |  |  |   |   |     |")
+print("|__|__|_____| \_/ |_____|__|__| |__|  \__,_|__|\_|_____|    |___,_|__|__|___|___|_____|")
 puzzle()
