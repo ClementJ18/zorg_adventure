@@ -114,7 +114,8 @@ def playerstat_update():#Update playerstat to the local dictionary
 def turn(subject):#Function which determines the action that a subjects is going to perform, do not use
     mag=0
     if player_stats['class'] == 'rogue' and len(bteam)>0:
-        act('RAF',subject,bteam[random.randint(0,len(bteam)-1)],5+player_stats["level"]*5)
+        fire_at=bteam[random.randint(0,len(bteam)-1)]
+        act('RAF',subject,fire_at,5+player_stats["level"]*5)
     if subject == 'player':#If the subject is the player, player choose his action. He can use any action with anyone even if it makes no sense
         #eg. attack himself/heal his enemies maybe to allow strategic advantage such as rage build up in warrior
         is_valid_command = False
@@ -244,6 +245,10 @@ def act(act,subject,target,mag):#do not use
             subjects[target]['charge'] += mag*player_stats['level']
         else:
             subjects[target]['hp'] -= mag
+    elif act == 'RAF':
+        subjects[target]['hp'] -= mag
+        print('Fired arrows at',target)
+    
         
         print(target,'lost', mag, 'health',subjects[target]['hp'],'remain')
     elif act == 'strike':
@@ -347,6 +352,7 @@ def fight():#Fight module
     else:
         print('u win')
         clear_dict()
+        player_stats['health'] = subjects['player']['hp'] 
         #givexp
         #give stuff
         
