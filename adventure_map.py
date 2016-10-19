@@ -225,7 +225,7 @@ while True:
             elif command[0] == 'fill' and x == 2 and y == 4 and player_stats["forestCounter"] == 1 and "pail" not in player_inventory:
                 print("You fill the bucket.")
                 player_inventory.append("pail")
-            elif command[0] == 'take' and x == 3 and y == 1 and questCounter == 4:
+            elif command[0] == 'take' and x == 3 and y == 1 and questCounter == 4 and "artifact" not in player_inventory:
                 print("You take the artifact.")
                 player_inventory.append("artifact")
                 questCounter = 5
