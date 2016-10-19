@@ -150,7 +150,25 @@ def turn(subject):#Function which determines the action that a subjects is going
         is_valid_command = False
         while is_valid_command == False:
             is_valid_command = True
-            subject_input = (input('(combat)>')).split()#takes a sentence, separate to action - target
+            print("List of possible targets:",str(", ".join(bteam))+", player.")
+            print("Type atk [target] to attack a unit.")
+            print("Type use health potion to restore health (as long as you have a health potion, buy at shop)")
+            if player_stats["class"] == "warrior":
+                print("Type guard to protect yourself and build up rage.")
+                print("Type strike [target] once rage is built up to attack the [target].")
+            elif player_stats["class"] == "mage":
+                print("Type use mana potion to restore your mana (must have mana potion, buy at shop)")
+                print("Type heal [target] to heal the [target]")
+                print("Type cast [spell] at [unit] to cast a spell")
+                print("List of Spells:")
+                print("fireball")
+                print("freeze")
+            elif player_stats["class"] == "rogue":
+                pass
+            else:
+                pass
+
+            subject_input = (input('(Combat)>')).split()#takes a sentence, separate to action - target
             if subject_input == []:
                 is_valid_command = False
             elif subject_input[0] == 'null': #null 
@@ -305,7 +323,7 @@ def act(act,subject,target,mag):#do not use
     elif act == 'freeze':
         subjects[target]['frozen'] = True
         subjects[target]['frozenex'] = Fround + 1
-        subjects[subject]['mp'] -= mag*2
+        subjects[subject]['mp'] -= 15
         print('mana :',str(subjects[subject]['mp'])+'/'+str(subjects[subject]['mmp']))
         
         
@@ -339,6 +357,7 @@ def clear_dict():#Very important, delete every single terms in local dictionary,
     for i in delete:
         del subjects[i]
     delete=[]
+
 def fight():#Fight module
     foenum = len(bteam)
     
