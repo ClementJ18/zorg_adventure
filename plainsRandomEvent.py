@@ -21,7 +21,7 @@ def plainsRandomEvent():
             
         #return to plains 2
         elif player_input == "attack":
-            print("You kill the man and loot his box... You monster")
+            print("You kill the man and loot his box... You monster.")
             print("You gain a health potion and 25 coins.")
             karmaCounter = karmaCounter - 1
             player_stats["money"]= player_stats["money"] +25
@@ -35,11 +35,11 @@ def plainsRandomEvent():
             player_choice()
         print()
 
-    print("===PLAINS OF KARMA==")
-    print("You see a caravan that has been attacked, around it lay many dead bodies both goblins and bodies of men. One man still lives, he is resting against a box, his sword lay by him and his back turned to you. You can see arrows, potions and money in the boxes.")
+    print("You see a caravan that has been attacked; around it lie many dead bodies, of both goblins and men. One man still lives; he is resting against a box, \nhis sword lying beside him and his back turned to you. You can see arrows, potions and money in the boxes.")
     print()
     print("You can:")
     print("GIVE the man a potion and bandage his wounds.")
     print("LEAVE the man be.")
     print("ATTACK the man and take the loot you see in the box.")
     player_choice()
+    print()
