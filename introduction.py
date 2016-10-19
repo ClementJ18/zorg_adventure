@@ -10,9 +10,6 @@ def pick_player_class():
         player_stats["class"]="warrior"
         player_stats["rage"]=0
         player_stats["max_rage"]=10
-        del player_stats['arrows']
-        del player_stats['mana']
-        del player_stats['max_mana']
         player_stats["evasion"]=10
         player_stats["level"]=0
         player_stats_show()
@@ -23,7 +20,6 @@ def pick_player_class():
         player_stats["max_health"]=100
         player_stats["class"]="mage"
         player_stats["mana"]=50
-        del player_stats['arrows']
         player_stats["max_mana"]=50
         player_stats["evasion"]=10
         player_stats["level"]=0
@@ -35,8 +31,6 @@ def pick_player_class():
         player_stats["max_health"]=100
         player_stats["class"]="rogue"
         player_stats["mana"]=15
-        del player_stats['mana']
-        del player_stats['max_mana']
         player_stats["max_mana"]=15
         player_stats["evasion"]=40
         player_stats["arrows"]=2
