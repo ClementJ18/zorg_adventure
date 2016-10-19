@@ -15,6 +15,7 @@ command=0
 newloc='12'
 event = False
 import random
+a = 8
 
 desc={'13':'A small sign hanging above a building made of bricks as opposed to wooden house besides it. \nOne can barely makes out the writing on the sign to read \"Stella\'s potion store\" \nInside there\'s a counter similar to a bar but instead of liquor on the shelf, \nit is filled with numerous bottles of coloured liquids. \n\nBehind the counter stood one girl... ',
      '11':'You are in the Prancing Pony Tavern. The atmosphere is what you\'d expect; loud, lively and with a sense of familiarity. You observe the area and see people drinking in one corner. In another area there are a couple of men who look as if they\'re about to fight. You see a picture of creature on the wall, it appears the townfolk want it dead as its eating their cattle. You see the barman south of you at the counter having a drink himself. You notice a dark corner west of you, where there is a hooded figure with his head down.  What would you like to do?',
@@ -128,6 +129,7 @@ def event(loc):
     global lakeCounter
     global forestCounter
     global questCounter
+    global a
     #This is literally a sample set of event to demonstrate how you can manipulates event triggers by having some action ( like accessing some place ) triggers the other event so it could happen when otherwise nothing will
     #Delete this shit later
     if loc == '22': #accessing plains after visiting the dark tavern corner will made the old man showed up
@@ -137,8 +139,7 @@ def event(loc):
             print('=== THE PLAINS OF LITHLAD ===')
             print(desc['22'])
         else:
-            
-            print(desc['22'])
+            pass
     
     elif loc == '21': #ancient lake trigger
         if lakeCounter == 0:
@@ -227,6 +228,7 @@ while True:
             elif command[0] == 'fill' and x == 2 and y == 4 and player_stats["forestCounter"] == 1 and "pail" not in player_inventory:
                 print("You fill the bucket.")
                 player_inventory.append("pail")
+                a = 10
             elif command[0] == 'take' and x == 3 and y == 1 and questCounter == 4 and "artifact" not in player_inventory:
                 print("You take the artifact.")
                 player_inventory.append("artifact")
@@ -263,7 +265,7 @@ while True:
         x = 1
         y = 2 
     elif world[newloc]['type'] == '3':
-        if random.randint(0,10) < 8:
+        if random.randint(0,10) < a:
             world[newloc]['event'] = True
         print("===",world[newloc]['name'],"===")
         print(desc[newloc])
