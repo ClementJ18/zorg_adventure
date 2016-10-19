@@ -6,6 +6,7 @@ from plainsRandomEvent import plainsRandomEvent
 from gameparser import *
 from re_forest import *
 from player_defeat import player_defeat
+from test_combat import *
 
 x=1
 y=2
@@ -46,7 +47,7 @@ world = {'01':{'type':'7','name':'DARK TAVERN CORNER','FD':['west','south','nort
          #------------------------plains zone--------------------------------
          '24':{'type':'5','name':'RUINED FARM','FD':['east','north'],'event':True},
          '14':{'type':'3','name':'ERYN VANWË','FD':['south','west'],'event':False},
-         '15':{'type':'1','name':'GOBLIN LAIR','FD':['west','east','north']}
+         '15':{'type':'3','name':'GOBLIN LAIR','FD':['west','east','north'],'event':True}
          #------------------------Goblin's territory-------------------------
          }
 #type 0 objects dubbed 'wall' are inaccesible areas and will bounce player back to previous area
@@ -155,6 +156,19 @@ def event(loc):
                 print("The old man leans against the tree with closed eyes, breathing weakly. You should get him that water soon.")
         else:
             pass
+    elif loc == '15':
+        print('you see 2 goblin')
+        set_foe('goblin','hypergoblin',0,0,0)
+        playerstat_update()
+        fight()
+        print('The goblin king is angered by your action and taunt you into a fight')
+        playerstat_update()
+        set_foe('goblin_king',0,0,0,0)
+        fight()
+        print('you raid his stash and find cool looking map about cool sutff in the lake')
+        print('coooooooooooooooooooooooooooool')
+        world['21']['FD'].remove('east')
+        questCounter=5
         
     else:
         pass
@@ -199,7 +213,7 @@ while True:
             elif command[0] == 'talk' and x == 0 and y == 1 and questCounter == 0:
                 print("Before you even open your mouth, the hooded figure looks up. 'I have been waiting for you,' he says. 'And we have much to discuss. An Evil threatens this land, you must save it for it is the only things that still stands between it and the rest of the world, if this land were to fall evil would run afoul everywhere. Take this money and go prepare yourself for the many bettles to come, then you should make your way EAST of the town for many trials await you. As he finishes you can feel the world spin around you and you faint.")
                 input("Press Enter to continue...")
-                player_stats["money"] = 50
+                player_stats["money"] = 9999999
                 questCounter = 1
                 newloc = "01"
                 x = 0

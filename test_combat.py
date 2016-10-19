@@ -1,7 +1,7 @@
 import random
 from player import *
 from player_defeat import player_defeat
-from status_effect import *
+
 subjects_list = ['player']
 foe ={'goblin':{'hp':30,'mhp':30,'dmg':5},
       'hypergoblin':{'hp':15,'mhp':15,'dmg':7},
@@ -10,6 +10,21 @@ foe ={'goblin':{'hp':30,'mhp':30,'dmg':5},
       'goblin_king':{'hp':100,'mhp':100,'dmg':15}
       }
       
+def poisoning(poison_active):
+    print(poison_active)
+    if subjects['player']['poison_active'] == False:
+        if random.randint(0, 9) <= 7:
+            subjects['player']['poison_active'] = True
+            print('poison activated')
+    
+
+
+def poison_damage(poison_active):
+    print(subjects['player']['poison_active'])
+    if subjects['player']['poison_active'] == True:
+        poison_damage = int(0.01 * player_stats["max_health"])
+        subjects['player']["hp"] = subjects['player']["hp"] - poison_damage
+        print("You have taken " + str(poison_damage) + " damage due to poisoning!")
 
 
 bteam = []
@@ -19,9 +34,9 @@ subjects = {}
 global dead
 dead=[]
 
-com_list=['atk','heal','poisoning']
+com_list=['atk','heal']
 sup_com=['heal']
-atk_com=['atk','poisoning']
+atk_com=['atk']
 rteam = ['player']
 def playerstat_update():#Update playerstat to the local dictionary
     subjects.update({'player':{}})
@@ -30,7 +45,8 @@ def playerstat_update():#Update playerstat to the local dictionary
                        'dmg':5+player_stats["level"]*3,
                        'mp':player_stats["mana"]+player_stats["level"]*70,
                        'mmp':player_stats["mana"]+player_stats["level"]*70,
-                       'poison_active':False}
+                       'poison_active':False,
+                       'poison_counter':0}
     subjects['player'].update(playerparameter)
     
 
@@ -99,6 +115,8 @@ def turn(subject):#Function which determines the action that a subjects is going
         if action in atk_com:
             mag = subjects[subject]['dmg']
             target = 'player'
+            print('poisoning')
+            poisoning(subjects['player']['poison_active'])
         elif action in sup_com:
             mag = 5
             target = bteam[random.randint(0,len(bteam)-1)]#Essentially the same as your teammate's behaviour except the enemies will harm you and heal their 
@@ -158,14 +176,14 @@ def fight():#Fight module
             else:
                 print('turn',unit)#debugging 
                 turn(unit)#It is now unit's turn. 
-        print('END round')#When everyone has a go at a turn once the round ends and the fights starts again.
-        for i in subjects:
-            if subjects[i]['poison_active'] == True:
-                poison_damage(True)
-                subjects[i]['poison_counter'] += 1
-                if subjects[i]['poison_counter'] = 3:
-                    subjects[i]['poison_active'] = False
-                    subjects[i]['poison_counter'] = 0:
+        print('=======================END round===========================')#When everyone has a go at a turn once the round ends and the fights starts again.
+        print(subjects['player']['poison_active'])
+        if subjects['player']['poison_active'] == True:
+            poison_damage(True)
+            subjects['player']['poison_counter'] += 1
+            if subjects['player']['poison_counter'] == 3:
+                subjects['player']['poison_active'] = False
+                subjects['player']['poison_counter'] = 0
                 
                 
         for i in subjects:
@@ -194,9 +212,7 @@ def fight():#Fight module
         #givexp
         #give stuff
         
-            
-                    
-                
+
             
 
     
