@@ -83,24 +83,7 @@ def compass(loc): #some form of debugging tool (maybe have this in the game as w
         print('GO WEST to',world[west]['name'])
 
 def shop():
-
-    print("As you enter the shop owner greets you: \"Welcome to my shop traveller, what can I do for you?\" You look around, on the shelves you can see many items for daily life and food. You can also see many phials of different color but only a couple items truly catch your eye.")
-
-    while True:
-        if player_stats["class"] == "rogue":
-            print("You can:")
-            print("BUY a health potion for 15 coins or an arrow for 5 coins.")
-            print("GO SOUTH to the town.")
-        if player_stats["class"] == "warrior":
-            print("You can:")
-            print("BUY a health potion for 15 coins.")
-            print("GO SOUTH to the town.")
-        if player_stats["class"] == "mage":
-            print("You can:")
-            print("BUY a health potion for 15 coins or a mana potion for 25 coins.")
-            print("GO SOUTH to the town.")
-        else:
-            pass
+    def shop_input():
         player_input = input(">").lower().strip()
         if player_input in ["arrow", "buy an arrow", "buy arrow", "an arrow"] and player_stats["class"] == "rogue" and player_stats["money"] >= 3:
             player_stats["money"] = player_stats["money"] - 3
@@ -118,10 +101,30 @@ def shop():
             print("Bought a health potion")
             print("Would you like to buy anything else?")
         elif player_input == "go south":
-            break
+            pass
         else:
             print("Either you don't have enough money or the command was not recognized.")
-            shop()
+            shop_input()
+    print("As you enter the shop owner greets you: \"Welcome to my shop traveller, what can I do for you?\" You look around, on the shelves you can see many items for daily life and food. You can also see many phials of different color but only a couple items truly catch your eye.")
+
+    
+    if player_stats["class"] == "rogue":
+        print("You can:")
+        print("BUY a health potion for 15 coins or an arrow for 5 coins.")
+        print("GO SOUTH to the town.")
+    if player_stats["class"] == "warrior":
+        print("You can:")
+        print("BUY a health potion for 15 coins.")
+        print("GO SOUTH to the town.")
+    if player_stats["class"] == "mage":
+        print("You can:")
+        print("BUY a health potion for 15 coins or a mana potion for 25 coins.")
+        print("GO SOUTH to the town.")
+    else:
+        pass
+    shop_input()
+        
+
 
                                           
 def event(loc):
