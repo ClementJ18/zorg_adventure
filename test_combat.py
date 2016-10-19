@@ -3,11 +3,45 @@ from player import *
 from player_defeat import player_defeat
 
 subjects_list = ['player']
-foe ={'goblin':{'hp':30,'mhp':30,'dmg':5,'guard':False,'frozen':False},
-      'hypergoblin':{'hp':15,'mhp':15,'dmg':7,'guard':False,'frozen':False},
-      'guardian':{'hp':70,'mhp':70,'dmg':8,'guard':False,'frozen':False},
-      'kirill_the_star_kiriller':{'hp':99999999,'mhp':99999999,'dmg':99999999,'guard':False,'frozen':False},
-      'goblin_king':{'hp':100,'mhp':100,'dmg':15,'guard':False,'frozen':False}
+foe ={'goblin':{'hp':30,
+                'mhp':30,
+                'dmg':5,
+                'guard':False,
+                'frozen':False,
+                'poison_active':False,
+                'poison_counter':0,
+                },
+      'hypergoblin':{'hp':15,
+                     'mhp':15,
+                     'dmg':7,
+                     'guard':False,
+                     'frozen':False,
+                     'poison_active':False,
+                     'poison_counter':0,
+                     },
+      'guardian':{'hp':70,
+                  'mhp':70,
+                  'dmg':8,
+                  'guard':False,
+                  'frozen':False,
+                  'poison_active':False,
+                  'poison_counter':0,
+                  },
+      'kirill_the_star_kiriller':{'hp':99999999,
+                                  'mhp':99999999,
+                                  'dmg':99999999,'guard':False,
+                                  'frozen':False,
+                                  'poison_active':False,
+                                  'poison_counter':0,
+                                  },
+      'goblin_king':{'hp':100,
+                     'mhp':100,
+                     'dmg':15,
+                     'guard':False,
+                     'frozen':False,
+                     'poison_active':False,
+                     'poison_counter':0,
+                     }
       }
 Fround = 1      
 player_inventory.append('health_potion')
@@ -18,8 +52,6 @@ player_inventory.append('health_potion')
 items =['health_potion', 'mana_potion']
 bteam = []
 subjects = {}
-
-#no need to modify this variable
 global dead
 dead=[]
 
@@ -30,9 +62,10 @@ rteam = ['player']
 def poisoning(poison_active):
 
     if subjects['player']['poison_active'] == False:
-        if random.randint(0, 9) <= 3:
+        if random.randint(0, 9) <= 1:
             print('inflicted poison')
             subjects['player']['poison_active'] = True
+            subjects['player']['poison_counter'] = Fround + 3
     
     
 
@@ -62,6 +95,8 @@ def playerstat_update():#Update playerstat to the local dictionary
 
 def turn(subject):#Function which determines the action that a subjects is going to perform, do not use
     mag=0
+    if player_stats['class'] == 'rogue' and len(bteam)>0:
+        act('RAF',subject,bteam[random.randint(0,len(bteam)-1)],5+player_stats["level"]*5)
     if subject == 'player':#If the subject is the player, player choose his action. He can use any action with anyone even if it makes no sense
         #eg. attack himself/heal his enemies maybe to allow strategic advantage such as rage build up in warrior
         is_valid_command = False
@@ -140,15 +175,17 @@ def turn(subject):#Function which determines the action that a subjects is going
             
 
             
+            
+        
+                
+            #ROGUE==ROGUE==ROGUE==ROGUE==ROGUE==ROGUE==ROGUE==ROGUE==ROGUE==ROGUE==
+
             else:
                 try:
                     is_valid_command = False
                 except:
                     print('no bully program >:(')
                     is_valid_command = False
-        
-                
-            
                         
 
         #debugging 
@@ -164,6 +201,7 @@ def turn(subject):#Function which determines the action that a subjects is going
             target = 'player'
             print('poisoning')
             poisoning(subjects['player']['poison_active'])
+            
         elif action in sup_com:
             mag = 5
             target = bteam[random.randint(0,len(bteam)-1)]#Essentially the same as your teammate's behaviour except the enemies will harm you and heal their 
@@ -253,6 +291,8 @@ def fight():#Fight module
                 print('Target frozen ! Turn skipped !')
                 if subjects[unit]['frozenex'] == Fround:
                     subjects[unit]['frozen'] = False
+                if subjects[unit]['poison_counter'] == Fround:
+                    subjects[unit]['poison_active'] = False
             else:
                 print('turn',unit)#debugging 
                 turn(unit)#It is now unit's turn. 
@@ -261,7 +301,6 @@ def fight():#Fight module
         
         if subjects['player']['poison_active'] == True:
             poison_damage(True)
-            subjects['player']['poison_counter'] += 1
             if subjects['player']['poison_counter'] == 3:
                 subjects['player']['poison_active'] = False
                 subjects['player']['poison_counter'] = 0
