@@ -44,10 +44,6 @@ foe ={'goblin':{'hp':30,
                      }
       }
 Fround = 1      
-player_inventory.append('health_potion')
-player_inventory.append('health_potion')
-player_inventory.append('health_potion')
-player_inventory.append('health_potion')
 
 items =['health_potion', 'mana_potion']
 bteam = []
@@ -82,6 +78,8 @@ def level_up():
 	player_stats["mana"] = player_stats["mana"] + 25
 	# increase experience necessary to level up
 	exp_before_next_level = 1.2 * exp_before_next_level
+	print('EXP :',player_stats["experience"],'/',exp_before_next_level)
+	print('You are now level :',player_stats["experience"])
 
     
     
