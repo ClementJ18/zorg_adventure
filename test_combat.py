@@ -138,11 +138,11 @@ def turn(subject):#Function which determines the action that a subjects is going
     elif player_stats['class'] == 'mage':
         print('You have',subjects['player']['mp'],'mp')
         
-    elif player_stats['class'] == 'rogue' and len(bteam)>0:
+    elif player_stats['class'] == 'rogue' and len(bteam)>0 and player_stats["arrows"] > 0:
         fire_at=bteam[random.randint(0,len(bteam)-1)]
+        player_stats["arrows"] -= 1
         act('RAF',subject,fire_at,5+player_stats["level"]*5)
-        print(player_stats["arrows"])
-    
+            
     if subject == 'player':#If the subject is the player, player choose his action. He can use any action with anyone even if it makes no sense
 
         
