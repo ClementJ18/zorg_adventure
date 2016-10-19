@@ -164,7 +164,7 @@ def event(loc):
         set_foe('goblin','hypergoblin',0,0,0)
         playerstat_update()
         fight()
-        print('The goblin king is angered by your action and taunts you into a fight')
+        print('The goblin king is angered by your action and taunts you into a fight.')
         playerstat_update()
         set_foe('goblin_king',0,0,0,0)
         fight()
