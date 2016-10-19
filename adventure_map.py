@@ -105,7 +105,7 @@ def shop():
         else:
             print("Either you don't have enough money or the command was not recognized.")
             shop_input()
-    print("As you enter the shop owner greets you: \"Welcome to my shop traveller, what can I do for you?\" You look around, on the shelves you can see many items for daily life and food. You can also see many phials of different color but only a couple items truly catch your eye.")
+    print("As you enter the shop owner greets you: \"Welcome to my shop, traveller, what can I do for you?\" You look around; on the shelves you can see \nmany items for daily life and food. You can also see many phials of different colours but only a couple items truly catch your eye.")
 
     
     if player_stats["class"] == "rogue":
