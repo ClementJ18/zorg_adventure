@@ -63,9 +63,26 @@ def poisoning(poison_active):
 
     if subjects['player']['poison_active'] == False:
         if random.randint(0, 9) <= 1:
-            print('inflicted poison')
+            print('You have been poisoned')
             subjects['player']['poison_active'] = True
             subjects['player']['poison_counter'] = Fround + 3
+exp_before_next_level = 50
+
+def level_up():
+    global exp_before_next_level
+    while player_stats["experience"] >= exp_before_next_level:
+	# reset exp counter
+	player_stats["experience"] = player_stats["experience"] - exp_before_next_level
+	# level up the player
+	player_stats["level"] = player_stats["level"] + 1
+	# add health and mana
+	player_stats["max_health"] = player_stats["max_health"] + 10
+	player_stats["health"] = player_stats["health"] + 10
+	player_stats["max_mana"] = player_stats["max_mana"] + 25
+	player_stats["mana"] = player_stats["mana"] + 25
+	# increase experience necessary to level up
+	exp_before_next_level = 1.2 * exp_before_next_level
+
     
     
 
@@ -95,7 +112,7 @@ def playerstat_update():#Update playerstat to the local dictionary
 
 def turn(subject):#Function which determines the action that a subjects is going to perform, do not use
     mag=0
-    print('Your turn !')
+
     if player_stats['class'] == 'warrior':
         print('You have',subjects['player']['rage'],'rage')
     elif player_stats['class'] == 'mage':
@@ -107,7 +124,7 @@ def turn(subject):#Function which determines the action that a subjects is going
         print(player_stats["arrows"])
     
     if subject == 'player':#If the subject is the player, player choose his action. He can use any action with anyone even if it makes no sense
-        print('It is your turn !')
+
         
         #eg. attack himself/heal his enemies maybe to allow strategic advantage such as rage build up in warrior
         is_valid_command = False
@@ -134,7 +151,7 @@ def turn(subject):#Function which determines the action that a subjects is going
                     
                     
                     else:
-                        print('you cannot use that')
+                        print('You cannot use that')
                     
                     print('use',player_inventory.pop(player_inventory.index(potion_use)))  
                 except:
@@ -147,7 +164,7 @@ def turn(subject):#Function which determines the action that a subjects is going
                     target = subject_input[1]
                     mag = subjects[subject]['dmg']
                 except:
-                    print('something goes wrong')
+                    print('Target does not exist')
                     is_valid_command = False
             #CASTER==CASTER==CASTER==CASTER==CASTER==CASTER==CASTER==CASTER==CASTER==
             elif subject_input[0] == 'cast' and player_stats['class'] == 'mage':
@@ -163,7 +180,7 @@ def turn(subject):#Function which determines the action that a subjects is going
                         target = subject_input[3]
                         mag = 40
                 except:
-                    print('wrong spell')
+                    print('Wrong spell')
                     is_valid_command = False
             elif subject_input[0] == 'heal':
                 action = subject_input[0]
@@ -181,7 +198,7 @@ def turn(subject):#Function which determines the action that a subjects is going
                     target = subject_input[1]
                     mag = subjects[subject]['dmg'] + subjects[subject]['charge']
                 except:
-                    print('something goes wrong')
+                    print('Target does not exist')
                     is_valid_command = False
             
 
@@ -195,7 +212,7 @@ def turn(subject):#Function which determines the action that a subjects is going
                 try:
                     is_valid_command = False
                 except:
-                    print('no bully program >:(')
+                    print('Your commands makes no sense !')
                     is_valid_command = False
                         
 
@@ -210,14 +227,13 @@ def turn(subject):#Function which determines the action that a subjects is going
         if action in atk_com:
             mag = subjects[subject]['dmg']
             target = 'player'
-            print('poisoning')
             poisoning(subjects['player']['poison_active'])
             
         elif action in sup_com:
             mag = 5
             target = bteam[random.randint(0,len(bteam)-1)]#Essentially the same as your teammate's behaviour except the enemies will harm you and heal their 
 
-        print(subject,'use',action,'on',target)#debugging 
+        print(subject,'use',action,'on',target)
     
     try:    
         act(action,subject,target,mag)#Takes 3 parameters : action(what to do) subject(who do it) and target(do to who ?)
@@ -236,7 +252,7 @@ def act(act,subject,target,mag):#do not use
         else:
             subjects[target]['hp'] -= mag
         subjects['player']['rage'] += 1
-        print('gained rage !')
+        print('Gained rage !')
     elif act == 'RAF':
         subjects[target]['hp'] -= mag
         print('Fired arrows at',target)
@@ -250,7 +266,7 @@ def act(act,subject,target,mag):#do not use
     elif act == 'fireball':
         subjects[target]['hp'] -= mag
         subjects[subject]['mp'] -= mag/2
-        print('fireball hits',target,'for',mag,'damage !')
+        print('Fireball hits',target,'for',mag,'damage !')
         
         print('mana :',str(subjects[subject]['mp'])+'/'+str(subjects[subject]['mmp']))
     elif act == 'freeze':
@@ -291,11 +307,12 @@ def clear_dict():#Very important, delete every single terms in local dictionary,
         del subjects[i]
     delete=[]
 def fight():#Fight module
+    foenum = len(bteam)
     
     global dead
     global Fround
     while len(rteam) != 0 and len(bteam) != 0:
-        print('=======================round',Fround,'===========================')
+        print('===================Round',Fround,'=======================')
         
         for unit in subjects:#Rotate through dictionary for each subjects to be the 'subjects' of the turn
             if subjects[unit]['hp']<0:
@@ -309,7 +326,7 @@ def fight():#Fight module
             else:
                 print('turn',unit)#debugging 
                 turn(unit)#It is now unit's turn. 
-        print('=======================END round===========================')#When everyone has a go at a turn once the round ends and the fights starts again.
+        print('===================END Round=======================')#When everyone has a go at a turn once the round ends and the fights starts again.
         Fround=Fround+1
         
         if subjects['player']['poison_active'] == True:
@@ -320,10 +337,10 @@ def fight():#Fight module
                 
                 
         for i in subjects:
-            print(i,'have',subjects[i]['hp'],'left')
+            print(i,'have',subjects[i]['hp'],'left.')
             if subjects[i]['hp']<=0:
                 dead.append(i)
-                print('=======',i,'dead','=======')
+                print('=======',i,'Dead','=======')
         if len(dead) > 0:
             for i in dead:
                 if i in rteam:
@@ -335,15 +352,16 @@ def fight():#Fight module
                 if i in subjects:
                     del subjects[i]
             dead = []
-            print('rteam',rteam,'bteam',bteam,'subjects',subjects,'subjlist',subjects_list)
     if len(bteam) > 0:
-        print('enemies wins')
+        print('Enemies win !')
         player_defeat()
     else:
-        print('u win')
-        player_stats['health'] = subjects['player']['hp'] 
+        print('You win')
+        player_stats['health'] = subjects['player']['hp']
+        player_stats['experience'] += foenum*50
+        print(foenum*50)
         clear_dict()
-        
+        level_up()
         #givexp
         #give stuff
         
