@@ -1,4 +1,3 @@
-
 from counter_dialogue import counter_dialogue
 from player import *
 from introduction import *
@@ -6,7 +5,7 @@ from LakeRandomEvent import lakeRandomEvent
 from plainsRandomEvent import plainsRandomEvent
 from gameparser import *
 from re_forest import *
-
+from player_defeat import player_defeat
 
 x=1
 y=2
@@ -33,13 +32,13 @@ desc={'13':'A small sign hanging above a building made of bricks as opposed to w
 world = {'01':{'type':'7','name':'DARK TAVERN CORNER','FD':['west','south','north'],'event':True},         
          '10':{'type':'4','name':'TAVERN COUNTER','FD':['east','south','west']},         
          '11':{'type':'1','name':'THE PRANCING PONY TAVERN','FD':['east']},
-         '12':{'type':'1','name':'TOWN CENTER','FD':['west'],'desc':''},
+         '12':{'type':'1','name':'TOWN CENTER','FD':['west','east'],'desc':''},
          '13':{'type':'2','name':'STELLA\'S SHOP', 'FD':['east','north','west']},
          '00':{'type':'0','name':'Guard wall'},
          '02':{'type':'0','name':'Guard wall'},
          '03':{'type':'0','name':'Guard wall'},
          #------------------------town zone----------------------------------
-         '21':{'type':'3','name':'THE ANCIENT LAKE','FD':['west','south'],'event':False},
+         '21':{'type':'3','name':'THE ANCIENT LAKE','FD':['west','south','east'],'event':False},
          '22':{'type':'3','name':'PLAINS OF LITHLAD','FD':['east'],'desc':'','event':False},
          '23':{'type':'1','name':'MOORS OF THE NIBIN-NOEG','FD':['west', 'east'],'desc':''},
          '31':{'type':'6','name':'ARTIFACT CHAMBER','FD':['east','north','south']},
@@ -67,6 +66,9 @@ def compass(loc): #some form of debugging tool (maybe have this in the game as w
     south = str(cx)+str(cy-1)
     east = str(cx+1)+str(cy)
     west =str(cx-1)+str(cy)
+    
+    print("SHOW INVENTORY")
+    print("SHOW STATS")
 
     if north in world and 'north' not in world[loc]['FD']:
         print('GO NORTH to',world[north]['name'])
@@ -170,7 +172,7 @@ while True:
         if len(command) > 1:
             if command[0] == 'go' and command[1] in world[oldloc]['FD']:
                 is_valid_command = False
-                print('Sorry, wrong direction')         
+                print('Sorry, you can\'t go that way.')         
             else:
                 if command[1] == 'north':
                     y=int(y)+1
@@ -195,12 +197,17 @@ while True:
                 compass(str(x)+str(y))
                 is_valid_command = False
             elif command[0] == 'talk' and x == 0 and y == 1 and questCounter == 0:
-                print("Before you even open your mouth, the hooded figure looks up. 'I have been waiting for you,' he says. 'And we have much to discuss. But first, you must slay the evil that threatens this land. Here is some money. Make for the Plains of Lithlad to the EAST.")
+                print("Before you even open your mouth, the hooded figure looks up. 'I have been waiting for you,' he says. 'And we have much to discuss. An Evil threatens this land, you must save it for it is the only things that still stands between it and the rest of the world, if this land were to fall evil would run afoul everywhere. Take this money and go prepare yourself for the many bettles to come, then you should make your way EAST of the town for many trials await you. As he finishes you can feel the world spin around you and you faint.")
+                input("Press Enter to continue...")
                 player_stats["money"] = 50
                 questCounter = 1
-                newloc = "11"
-                x = 1
+                newloc = "01"
+                x = 0
                 y = 1
+                world['12']['FD'].remove('east')
+            elif command[0] == 'steal' and x == 0 and y == 1 and questCounter == 0:
+                print("Before you can even reach for the book the hooded figure look straight at you and a voice sounds off in your head 'YOU FOOL! YOU ARE UNWORTHY OF BEING A HERO, DIE NOW AND CURSE IN VAIN! The old man stands up and you can see his eyes radiating with power as he sends you to the afterlife.")
+                player_defeat()
             elif command[0] == 'fill' and x == 2 and y == 4 and player_stats["forestCounter"] == 1:
                 print("You fill the bucket.")
                 player_inventory.append("pail")

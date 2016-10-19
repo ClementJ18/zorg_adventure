@@ -14,6 +14,6 @@ def level_up():
 			player_stats["max_mana"] = player_stats["max_mana"] + 10
 			player_stats["mana"] = player_stats["mana"] + 10
 			
-			exp_before_next_level = 2 * exp_before_next_level
+			exp_before_next_level = int(1.2 * exp_before_next_level)
 
 			print("You have leveled up! You are now level " + str(player_stats["level"]) + ".")
