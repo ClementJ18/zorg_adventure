@@ -1,5 +1,6 @@
 from player import *
 from test_combat import *
+from Player_Win import *
 my_Puzzle = " drop golden coin"
 
 def negative_ending():
@@ -21,9 +22,10 @@ def postive_ending():
     player_input = input(">").strip().lower()
     if player_input == "leave":
         print("You leave the gem behind, uninterested by the promise of fake power it offers. As you exit the castle you can hear a terrible scream of agony as it crumbles behind you. You return to the village victorious and are greeted by a great banquet in your honour. Remeber today, for today life is good.")
-    if player_input == "destroy":
+        player_win()
+    elif player_input == "destroy":
        print("You brandish your sword and strike at the gem. Your sword shatters upon it and one of the projectiles wounds you. You decide to smash the gem with your bear hands but the moment you cease the gem, it tries to take control of you. For what seems an eternity you fight for your survival and, helped by the prayers of those you have helped along the way to emerge victorious, dispelling the magic in a ray of dark magic that lights the sky. As you leave the palace you see the people of the town running towards the temple, eager to see if you are okay. They arrive just in time to catch you as you collapse from exhaustion. Later you awaken and are invited to a great banquet prepared in your honour. Remember today, for today life is good.") 
-
+       player_win()
     else:
         print("Sorry, what?")
         postive_ending()
