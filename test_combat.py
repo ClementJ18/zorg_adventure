@@ -3,13 +3,13 @@ from player import *
 from player_defeat import player_defeat
 
 subjects_list = ['player']
-foe ={'goblin':{'hp':30,'mhp':30,'dmg':5},
-      'hypergoblin':{'hp':15,'mhp':15,'dmg':7},
-      'guardian':{'hp':70,'mhp':70,'dmg':8},
-      'kirill_the_star_kiriller':{'hp':99999999,'mhp':99999999,'dmg':99999999},
-      'goblin_king':{'hp':100,'mhp':100,'dmg':15}
+foe ={'goblin':{'hp':30,'mhp':30,'dmg':5,'guard':False,'frozen':False},
+      'hypergoblin':{'hp':15,'mhp':15,'dmg':7,'guard':False,'frozen':False},
+      'guardian':{'hp':70,'mhp':70,'dmg':8,'guard':False,'frozen':False},
+      'kirill_the_star_kiriller':{'hp':99999999,'mhp':99999999,'dmg':99999999,'guard':False,'frozen':False},
+      'goblin_king':{'hp':100,'mhp':100,'dmg':15,'guard':False,'frozen':False}
       }
-      
+Fround = 1      
 player_inventory.append('health_potion')
 player_inventory.append('health_potion')
 player_inventory.append('health_potion')
@@ -28,16 +28,17 @@ sup_com=['heal']
 atk_com=['atk']
 rteam = ['player']
 def poisoning(poison_active):
-    print(poison_active)
+
     if subjects['player']['poison_active'] == False:
-        if random.randint(0, 9) <= 7:
+        if random.randint(0, 9) <= 3:
+            print('inflicted poison')
             subjects['player']['poison_active'] = True
-            print('poison activated')
+    
     
 
 
 def poison_damage(poison_active):
-    print(subjects['player']['poison_active'])
+
     if subjects['player']['poison_active'] == True:
         poison_damage = int(0.01 * player_stats["max_health"])
         subjects['player']["hp"] = subjects['player']["hp"] - poison_damage
@@ -54,7 +55,8 @@ def playerstat_update():#Update playerstat to the local dictionary
                        'poison_counter':0,
                        'guard':False,
                        'charge':0,
-                       'rage':0}
+                       'rage':0,
+                       'frozen':False}
     subjects['player'].update(playerparameter)
 
 
@@ -106,8 +108,14 @@ def turn(subject):#Function which determines the action that a subjects is going
                 try:
                     if subject_input[1] == 'fireball':
                         action = 'fireball'
+                        
                         target = subject_input[3]
                         mag = 50
+                    elif subject_input[1] == 'freeze':
+                        action = 'freeze'
+                        
+                        target = subject_input[3]
+                        mag = 40
                 except:
                     print('wrong spell')
                     is_valid_command = False
@@ -115,6 +123,7 @@ def turn(subject):#Function which determines the action that a subjects is going
                 action = subject_input[0]
                 target = subject_input[1]
                 mag = 20
+        
             #FIGHTER==FIGHTER==FIGHTER==FIGHTER==FIGHTER==FIGHTER==FIGHTER==FIGHTER==
             elif subject_input[0] == 'guard':
                 action = 'guard'
@@ -128,6 +137,7 @@ def turn(subject):#Function which determines the action that a subjects is going
                 except:
                     print('something goes wrong')
                     is_valid_command = False
+            
 
             
             else:
@@ -187,9 +197,16 @@ def act(act,subject,target,mag):#do not use
         subjects[subject]['guard'] = True
     elif act == 'fireball':
         subjects[target]['hp'] -= mag
-        print('fireball hits',target,'for',mag,'damage !')
         subjects[subject]['mp'] -= mag/2
+        print('fireball hits',target,'for',mag,'damage !')
+        
         print('mana :',str(subjects[subject]['mp'])+'/'+str(subjects[subject]['mmp']))
+    elif act == 'freeze':
+        subjects[target]['frozen'] = True
+        subjects[target]['frozenex'] = Fround + 1
+        subjects[subject]['mp'] -= mag*2
+        print('mana :',str(subjects[subject]['mp'])+'/'+str(subjects[subject]['mmp']))
+        
         
     elif act == 'heal':#IF action is heal, will deal X damage target
         subjects[target]['hp'] += mag
@@ -225,16 +242,23 @@ def clear_dict():#Very important, delete every single terms in local dictionary,
 def fight():#Fight module
     
     global dead
-    while len(rteam) > 0 and len(bteam) >0:
+    global Fround
+    while len(rteam) != 0 and len(bteam) != 0:
+        print('=======================round',Fround,'===========================')
         
         for unit in subjects:#Rotate through dictionary for each subjects to be the 'subjects' of the turn
             if subjects[unit]['hp']<0:
                 pass
+            elif subjects[unit]['frozen'] == True:
+                print('Target frozen ! Turn skipped !')
+                if subjects[unit]['frozenex'] == Fround:
+                    subjects[unit]['frozen'] = False
             else:
                 print('turn',unit)#debugging 
                 turn(unit)#It is now unit's turn. 
         print('=======================END round===========================')#When everyone has a go at a turn once the round ends and the fights starts again.
-        print(subjects['player']['poison_active'])
+        Fround=Fround+1
+        
         if subjects['player']['poison_active'] == True:
             poison_damage(True)
             subjects['player']['poison_counter'] += 1
@@ -271,5 +295,6 @@ def fight():#Fight module
         
 
             
-playerstat_update()
+
 set_foe(0,0,0,0,'goblin')
+playerstat_update()
