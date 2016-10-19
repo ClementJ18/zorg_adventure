@@ -1,4 +1,6 @@
 from player import *
+a = 10
+
 
 def re_forest_encounter_1():
     global karmaCounter
@@ -31,6 +33,7 @@ def re_forest_encounter_1():
 
 def re_forest_encounter_2():
     global karmaCounter
+    global a
     
     print("The old man leans against the tree with closed eyes, breathing weakly.")
     print()
@@ -68,3 +71,6 @@ def re_forest_encounter_2():
 
         else:
             print("Sorry, what?")
+
+    
+    a = 8

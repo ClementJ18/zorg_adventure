@@ -7,7 +7,8 @@ foe ={'goblin':{'hp':30,'mhp':30,'dmg':5},
       'hypergoblin':{'hp':15,'mhp':15,'dmg':7},
       'guardian':{'hp':70,'mhp':70,'dmg':8},
       'kirill_the_star_kiriller':{'hp':99999999,'mhp':99999999,'dmg':99999999},
-      'goblin_king':{'hp':100,'mhp':100,'dmg':15}
+      'goblin_king':{'hp':100,'mhp':100,'dmg':15},
+      'apparition_1':{'hp':30,'mhp':30,'dmg':8}
       }
       
 player_inventory.append('health_potion')

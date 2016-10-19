@@ -15,6 +15,7 @@ command=0
 newloc='12'
 event = False
 import random
+a = 8
 
 desc={'13':'A small sign hanging above a building made of bricks as opposed to wooden house besides it. \nOne can barely makes out the writing on the sign to read \"Stella\'s potion store\" \nInside there\'s a counter similar to a bar but instead of liquor on the shelf, \nit is filled with numerous bottles of coloured liquids. \n\nBehind the counter stood one girl... ',
      '11':'You are in the Prancing Pony Tavern. The atmosphere is what you\'d expect; loud, lively and with a sense of familiarity. You observe the area and see people drinking in one corner. In another area there are a couple of men who look as if they\'re about to fight. You see a picture of creature on the wall, it appears the townfolk want it dead as its eating their cattle. You see the barman south of you at the counter having a drink himself. You notice a dark corner west of you, where there is a hooded figure with his head down.  What would you like to do?',
@@ -41,9 +42,10 @@ world = {'01':{'type':'7','name':'DARK TAVERN CORNER','FD':['west','south','nort
          #------------------------town zone----------------------------------
          '21':{'type':'3','name':'THE ANCIENT LAKE','FD':['west','south','east'],'event':False},
          '22':{'type':'3','name':'PLAINS OF LITHLAD','FD':['east'],'desc':'','event':False},
-         '23':{'type':'1','name':'MOORS OF THE NIBIN-NOEG','FD':['west', 'east'],'desc':''},
+         '23':{'type':'8','name':'MOORS OF THE NIBIN-NOEG','FD':['west', 'east'],'desc':''},
          '31':{'type':'6','name':'ARTIFACT CHAMBER','FD':['east','north','south']},
          '30':{'type':'0','name':''},
+         '33':{'type':'9','name':'EVIL CASTLE'},
          #------------------------plains zone--------------------------------
          '24':{'type':'5','name':'RUINED FARM','FD':['east','north'],'event':True},
          '14':{'type':'3','name':'ERYN VANWË','FD':['south','west'],'event':False},
@@ -119,13 +121,15 @@ def shop():
             break
         else:
             print("Either you don't have enough money or the command was not recognized.")
-            shop_input()
+            shop()
 
                                           
 def event(loc):
     global plainCounter
     global lakeCounter
     global forestCounter
+    global questCounter
+    global a
     #This is literally a sample set of event to demonstrate how you can manipulates event triggers by having some action ( like accessing some place ) triggers the other event so it could happen when otherwise nothing will
     #Delete this shit later
     if loc == '22': #accessing plains after visiting the dark tavern corner will made the old man showed up
@@ -135,8 +139,7 @@ def event(loc):
             print('=== THE PLAINS OF LITHLAD ===')
             print(desc['22'])
         else:
-            
-            print(desc['22'])
+            pass
     
     elif loc == '21': #ancient lake trigger
         if lakeCounter == 0:
@@ -156,19 +159,19 @@ def event(loc):
                 print("The old man leans against the tree with closed eyes, breathing weakly. You should get him that water soon.")
         else:
             pass
-    elif loc == '15':
+    elif loc == '15' and questCounter == 3:
         print('you see 2 goblin')
         set_foe('goblin','hypergoblin',0,0,0)
         playerstat_update()
         fight()
-        print('The goblin king is angered by your action and taunt you into a fight')
+        print('The goblin king is angered by your action and taunts you into a fight.')
         playerstat_update()
         set_foe('goblin_king',0,0,0,0)
         fight()
-        print('you raid his stash and find cool looking map about cool sutff in the lake')
-        print('coooooooooooooooooooooooooooool')
+        print('You have killed the goblin king! You raid his stash and find a tattered map. An \'X\' has been drawn over the Ancient Lake to the SOUTH.')
+        print('A note scribbled on the map reads, \'sekrut caev at EAST of laek\'.')
         world['21']['FD'].remove('east')
-        questCounter=5
+        questCounter=4
         
     else:
         pass
@@ -222,17 +225,21 @@ while True:
             elif command[0] == 'steal' and x == 0 and y == 1 and questCounter == 0:
                 print("Before you can even reach for the book the hooded figure look straight at you and a voice sounds off in your head 'YOU FOOL! YOU ARE UNWORTHY OF BEING A HERO, DIE NOW AND CURSE IN VAIN! The old man stands up and you can see his eyes radiating with power as he sends you to the afterlife.")
                 player_defeat()
-            elif command[0] == 'fill' and x == 2 and y == 4 and player_stats["forestCounter"] == 1:
+            elif command[0] == 'fill' and x == 2 and y == 4 and player_stats["forestCounter"] == 1 and "pail" not in player_inventory:
                 print("You fill the bucket.")
                 player_inventory.append("pail")
-            elif command[0] == 'take' and x == 3 and y == 1 and questCounter == 4:
+                a = 10
+            elif command[0] == 'take' and x == 3 and y == 1 and questCounter == 4 and "artifact" not in player_inventory:
                 print("You take the artifact.")
                 player_inventory.append("artifact")
                 questCounter = 5
+                world['23']['FD'].remove('east')
             elif command[0] == 'inventory':
                 print(player_inventory)
+                is_valid_command = False
             elif command[0] == 'stats':
                 print(player_stats)
+                is_valid_command = False
             else:
                 is_valid_command = False
                 print('invalid command')
@@ -258,7 +265,7 @@ while True:
         x = 1
         y = 2 
     elif world[newloc]['type'] == '3':
-        if random.randint(0,10) < 8:
+        if random.randint(0,10) < a:
             world[newloc]['event'] = True
         print("===",world[newloc]['name'],"===")
         print(desc[newloc])
@@ -276,7 +283,7 @@ while True:
     elif world[newloc]['type'] == '5':
         print("=== RUINED FARM ===")
         print(desc["24"])
-        if questCounter == 2:
+        if questCounter == 1:
             print("You are filled with rage and swear to make the goblins pay for their cruelty. You have heard of a lair in the forest to the West.")
             questCounter = 3
         elif player_stats["forestCounter"] == 1 and "pail" not in player_inventory:
@@ -288,6 +295,10 @@ while True:
         print("===",world[newloc]['name'],"===")
         print(desc[newloc]) 
         if questCounter == 4:
+            set_foe('apparition_1',0,0,0,0)
+            playerstat_update()
+            fight()
+            print("You slay the apparition and it disappears.")
             print("TAKE the artifact")
     elif world[newloc]['type'] == '7':
         print("===",world[newloc]['name'],"===")
@@ -297,6 +308,13 @@ while True:
             print("STEAL his book")
         else:
             print(desc[newloc])
+    elif world[newloc]['type'] == '8':
+        print("===",world[newloc]['name'],"===")
+        print(desc[newloc])
+        if questCounter == 5:
+            print("You feel the artifact resonating in your pocket as you approach the castle.")
+    elif world[newloc]['type'] == '9':
+        from Puzzle import *
     compass(newloc)
         
     oldloc=str(x)+str(y)#old location
